@@ -1,0 +1,8 @@
+# Python 3.10, macOS Apple Silicon
+mujoco==3.1.1
+robosuite==1.5.2
+numpy==1.26.4
+torch==2.13.0
+torchvision==0.28.0
+transformers==4.57.6
+opencv-python==4.11.0.86

@@ -17,8 +17,12 @@ env/
 .vscode/
 .idea/
 
-# Project Specific (忽略每次生成的日志和巨大数据，保持代码库干净)
-results/*.csv
-results/*.mp4
-results/*.png
+# Local Codex artifacts and unrelated personal documents
+.codex-resume-work/
+/output/
+/tmp/
+/JACK-CV-*.docx
+
+# Generated datasets, checkpoints, reports, videos, and logs
+results/*
 !results/.gitkeep
