@@ -43,3 +43,7 @@ python -m pip install -r requirements.txt
 
 See [docs/V2_CLEAN_RUNBOOK.md](docs/V2_CLEAN_RUNBOOK.md) for the complete
 collection, training, resume, postflight, and evaluation commands.
+
+The full engineering history, including failed V2.3 experiments and the
+evidence used to freeze V2 Clean, is recorded in
+[docs/V2_EVOLUTION.md](docs/V2_EVOLUTION.md).
