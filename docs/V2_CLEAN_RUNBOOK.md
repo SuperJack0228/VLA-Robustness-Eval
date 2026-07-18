@@ -123,3 +123,38 @@ python scripts/evaluate_policy_v2.py \
 Add `--render` for an OpenCV live view. Robustness perturbations are `bright`,
 `dark`, `gaussian_noise`, `camera_shift`, and `center_occlusion`; use a unique
 output prefix for every run.
+
+## 6. Dynamic-Displacement Robustness Sweep
+
+The robustness runner evaluates identical scene seeds at every displacement
+level and runs both temporal ensembling and latest-prediction-only execution.
+Distances are specified in meters. External target displacement is removed
+from Push scoring, so teleportation cannot count as policy progress.
+
+```bash
+set -o pipefail
+
+caffeinate -dimsu env \
+  PYTHONUNBUFFERED=1 \
+  NUMBA_CACHE_DIR=/tmp/robosuite_numba_cache \
+  conda run --no-capture-output -n mujoco310 \
+  python scripts/benchmark_robustness_v2.py \
+    --policy results/v2_clean/mini_vla_v2_clean_policy.pth \
+    --perturbation target-displacement \
+    --levels 0 0.02 0.04 0.06 0.08 \
+    --episodes-per-level 120 \
+    --max-steps 200 \
+    --seed 20261101 \
+    --ensemble-modes temporal latest-only \
+    --replan-interval 1 \
+    --log-every 20 \
+    --local-files-only \
+    --output-dir results/robustness/target_displacement \
+  2>&1 | tee results/robustness/target_displacement_console.log
+```
+
+Primary outputs:
+
+- `benchmark_episodes.csv`: per-episode perturbation, recovery, and failure data.
+- `benchmark_summary.json`: success-decay curves and per-task failure counts.
+- `runs/*.csv` and `runs/*.json`: independently inspectable level/mode runs.
