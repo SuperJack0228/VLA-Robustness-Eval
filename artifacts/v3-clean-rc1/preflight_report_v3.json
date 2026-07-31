@@ -1,0 +1,617 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "language_catalog_and_split",
+      "passed": true,
+      "details": {
+        "catalog_version": "v3.language.1",
+        "sha256": "6df56508a130611f5447627379b6b0e757dcaec4bf981cbbb40367b76f87a91d",
+        "tasks": {
+          "pick_A": {
+            "train": 60,
+            "eval": 30,
+            "total": 90
+          },
+          "pick_B": {
+            "train": 60,
+            "eval": 30,
+            "total": 90
+          },
+          "pick_C": {
+            "train": 60,
+            "eval": 30,
+            "total": 90
+          },
+          "push_A": {
+            "train": 60,
+            "eval": 30,
+            "total": 90
+          },
+          "push_B": {
+            "train": 60,
+            "eval": 30,
+            "total": 90
+          },
+          "push_C": {
+            "train": 60,
+            "eval": 30,
+            "total": 90
+          }
+        },
+        "global_train_expressions": 360,
+        "global_eval_expressions": 180
+      }
+    },
+    {
+      "name": "frozen_v2_clean_archives",
+      "passed": true,
+      "details": {
+        "episodes": 1200,
+        "task_counts": {
+          "pick_A": 200,
+          "pick_B": 200,
+          "pick_C": 200,
+          "push_A": 200,
+          "push_B": 200,
+          "push_C": 200
+        },
+        "split_counts": {
+          "pick_A": {
+            "train": 160,
+            "val": 20,
+            "test": 20
+          },
+          "pick_B": {
+            "train": 160,
+            "val": 20,
+            "test": 20
+          },
+          "pick_C": {
+            "train": 160,
+            "val": 20,
+            "test": 20
+          },
+          "push_A": {
+            "train": 160,
+            "val": 20,
+            "test": 20
+          },
+          "push_B": {
+            "train": 160,
+            "val": 20,
+            "test": 20
+          },
+          "push_C": {
+            "train": 160,
+            "val": 20,
+            "test": 20
+          }
+        },
+        "mean_lengths": {
+          "push_C": 83.845,
+          "pick_A": 91.81,
+          "push_A": 85.49,
+          "pick_C": 88.06,
+          "pick_B": 88.455,
+          "push_B": 102.36
+        },
+        "phase_sets": {
+          "push": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "pick": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        "gripper_values": {
+          "push": [
+            1.0
+          ],
+          "pick": [
+            -1.0,
+            1.0
+          ]
+        },
+        "action_saturation_rate": 0.0,
+        "minimum_image_std": 55.92692565917969,
+        "minimum_view_difference": 60.66796875,
+        "maximum_quaternion_error": 3.5762786865234375e-07,
+        "minimum_stable_success_steps": {
+          "push": 5,
+          "pick": 10
+        },
+        "pick_open_while_grasped_steps": 0,
+        "maximum_push_recovery_forward_m": 0.00841998215764761,
+        "minimum_final_push_forward_m": 0.06689277291297913,
+        "blue_push_relative_height_p90_m": 0.005387890338897705,
+        "maximum_grasp_to_lift_delay_steps": 2,
+        "minimum_lift_transition_z_action": 0.701719343662262,
+        "blue_recovery_episodes": 42,
+        "dataset_version": "v2.clean",
+        "unique_scene_seeds": 1200,
+        "retry_histograms": {
+          "push_C": {
+            "0": 200
+          },
+          "pick_A": {
+            "0": 200
+          },
+          "push_A": {
+            "0": 200
+          },
+          "pick_C": {
+            "0": 200
+          },
+          "pick_B": {
+            "0": 200
+          },
+          "push_B": {
+            "0": 139,
+            "1": 61
+          }
+        }
+      }
+    },
+    {
+      "name": "balanced_v3_recovery_archives",
+      "passed": true,
+      "details": {
+        "episodes": 600,
+        "task_counts": {
+          "pick_A": 100,
+          "pick_B": 100,
+          "pick_C": 100,
+          "push_A": 100,
+          "push_B": 100,
+          "push_C": 100
+        },
+        "split_counts": {
+          "pick_A": {
+            "train": 80,
+            "val": 10,
+            "test": 10
+          },
+          "pick_B": {
+            "train": 80,
+            "val": 10,
+            "test": 10
+          },
+          "pick_C": {
+            "train": 80,
+            "val": 10,
+            "test": 10
+          },
+          "push_A": {
+            "train": 80,
+            "val": 10,
+            "test": 10
+          },
+          "push_B": {
+            "train": 80,
+            "val": 10,
+            "test": 10
+          },
+          "push_C": {
+            "train": 80,
+            "val": 10,
+            "test": 10
+          }
+        },
+        "mean_lengths": {
+          "pick_B": 132.56,
+          "pick_C": 134.26,
+          "pick_A": 136.42,
+          "push_A": 125.46,
+          "push_B": 135.99,
+          "push_C": 123.94
+        },
+        "phase_sets": {
+          "pick": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "push": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        "gripper_values": {
+          "pick": [
+            -1.0,
+            1.0
+          ],
+          "push": [
+            1.0
+          ]
+        },
+        "action_saturation_rate": 0.0,
+        "minimum_image_std": 54.63427734375,
+        "minimum_view_difference": 57.66015625,
+        "maximum_quaternion_error": 4.172325134277344e-07,
+        "minimum_stable_success_steps": {
+          "pick": 10,
+          "push": 5
+        },
+        "pick_open_while_grasped_steps": 0,
+        "maximum_push_recovery_forward_m": 0.009795627556741238,
+        "minimum_final_push_forward_m": 0.06638680398464203,
+        "blue_push_relative_height_p90_m": 0.005290526151657105,
+        "maximum_grasp_to_lift_delay_steps": 2,
+        "minimum_lift_transition_z_action": 0.6840524077415466,
+        "blue_recovery_episodes": 32,
+        "dataset_version": "v2.clean",
+        "unique_scene_seeds": 600,
+        "retry_histograms": {
+          "pick_B": {
+            "0": 50,
+            "1": 50
+          },
+          "pick_C": {
+            "0": 48,
+            "1": 52
+          },
+          "pick_A": {
+            "0": 50,
+            "1": 50
+          },
+          "push_A": {
+            "0": 50,
+            "1": 50
+          },
+          "push_B": {
+            "0": 36,
+            "1": 64
+          },
+          "push_C": {
+            "0": 50,
+            "1": 50
+          }
+        }
+      }
+    },
+    {
+      "name": "interleaved_multitask_language_loader",
+      "passed": true,
+      "details": {
+        "train_episodes": 1440,
+        "train_windows": 92160,
+        "checked_batches": 12,
+        "episodes_per_batch": 16,
+        "first_batch_unique_instructions": 30
+      }
+    },
+    {
+      "name": "v2_to_v3_full_warmstart",
+      "passed": true,
+      "details": {
+        "device": "cuda",
+        "input_batch_size": 2,
+        "pose_shape": [
+          2,
+          20,
+          6
+        ],
+        "phase_shape": [
+          2,
+          20,
+          10
+        ],
+        "loss": 0.20645417273044586,
+        "phase_family_accuracy": 1.0,
+        "v3_checkpoint_format": 8,
+        "v3_dataset_version": "v3.robust-language"
+      }
+    }
+  ],
+  "details": {
+    "language": {
+      "catalog_version": "v3.language.1",
+      "sha256": "6df56508a130611f5447627379b6b0e757dcaec4bf981cbbb40367b76f87a91d",
+      "tasks": {
+        "pick_A": {
+          "train": 60,
+          "eval": 30,
+          "total": 90
+        },
+        "pick_B": {
+          "train": 60,
+          "eval": 30,
+          "total": 90
+        },
+        "pick_C": {
+          "train": 60,
+          "eval": 30,
+          "total": 90
+        },
+        "push_A": {
+          "train": 60,
+          "eval": 30,
+          "total": 90
+        },
+        "push_B": {
+          "train": 60,
+          "eval": 30,
+          "total": 90
+        },
+        "push_C": {
+          "train": 60,
+          "eval": 30,
+          "total": 90
+        }
+      },
+      "global_train_expressions": 360,
+      "global_eval_expressions": 180
+    },
+    "base_archives": {
+      "episodes": 1200,
+      "task_counts": {
+        "pick_A": 200,
+        "pick_B": 200,
+        "pick_C": 200,
+        "push_A": 200,
+        "push_B": 200,
+        "push_C": 200
+      },
+      "split_counts": {
+        "pick_A": {
+          "train": 160,
+          "val": 20,
+          "test": 20
+        },
+        "pick_B": {
+          "train": 160,
+          "val": 20,
+          "test": 20
+        },
+        "pick_C": {
+          "train": 160,
+          "val": 20,
+          "test": 20
+        },
+        "push_A": {
+          "train": 160,
+          "val": 20,
+          "test": 20
+        },
+        "push_B": {
+          "train": 160,
+          "val": 20,
+          "test": 20
+        },
+        "push_C": {
+          "train": 160,
+          "val": 20,
+          "test": 20
+        }
+      },
+      "mean_lengths": {
+        "push_C": 83.845,
+        "pick_A": 91.81,
+        "push_A": 85.49,
+        "pick_C": 88.06,
+        "pick_B": 88.455,
+        "push_B": 102.36
+      },
+      "phase_sets": {
+        "push": [
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "pick": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "gripper_values": {
+        "push": [
+          1.0
+        ],
+        "pick": [
+          -1.0,
+          1.0
+        ]
+      },
+      "action_saturation_rate": 0.0,
+      "minimum_image_std": 55.92692565917969,
+      "minimum_view_difference": 60.66796875,
+      "maximum_quaternion_error": 3.5762786865234375e-07,
+      "minimum_stable_success_steps": {
+        "push": 5,
+        "pick": 10
+      },
+      "pick_open_while_grasped_steps": 0,
+      "maximum_push_recovery_forward_m": 0.00841998215764761,
+      "minimum_final_push_forward_m": 0.06689277291297913,
+      "blue_push_relative_height_p90_m": 0.005387890338897705,
+      "maximum_grasp_to_lift_delay_steps": 2,
+      "minimum_lift_transition_z_action": 0.701719343662262,
+      "blue_recovery_episodes": 42,
+      "dataset_version": "v2.clean",
+      "unique_scene_seeds": 1200,
+      "retry_histograms": {
+        "push_C": {
+          "0": 200
+        },
+        "pick_A": {
+          "0": 200
+        },
+        "push_A": {
+          "0": 200
+        },
+        "pick_C": {
+          "0": 200
+        },
+        "pick_B": {
+          "0": 200
+        },
+        "push_B": {
+          "0": 139,
+          "1": 61
+        }
+      }
+    },
+    "recovery_archives": {
+      "episodes": 600,
+      "task_counts": {
+        "pick_A": 100,
+        "pick_B": 100,
+        "pick_C": 100,
+        "push_A": 100,
+        "push_B": 100,
+        "push_C": 100
+      },
+      "split_counts": {
+        "pick_A": {
+          "train": 80,
+          "val": 10,
+          "test": 10
+        },
+        "pick_B": {
+          "train": 80,
+          "val": 10,
+          "test": 10
+        },
+        "pick_C": {
+          "train": 80,
+          "val": 10,
+          "test": 10
+        },
+        "push_A": {
+          "train": 80,
+          "val": 10,
+          "test": 10
+        },
+        "push_B": {
+          "train": 80,
+          "val": 10,
+          "test": 10
+        },
+        "push_C": {
+          "train": 80,
+          "val": 10,
+          "test": 10
+        }
+      },
+      "mean_lengths": {
+        "pick_B": 132.56,
+        "pick_C": 134.26,
+        "pick_A": 136.42,
+        "push_A": 125.46,
+        "push_B": 135.99,
+        "push_C": 123.94
+      },
+      "phase_sets": {
+        "pick": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "push": [
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "gripper_values": {
+        "pick": [
+          -1.0,
+          1.0
+        ],
+        "push": [
+          1.0
+        ]
+      },
+      "action_saturation_rate": 0.0,
+      "minimum_image_std": 54.63427734375,
+      "minimum_view_difference": 57.66015625,
+      "maximum_quaternion_error": 4.172325134277344e-07,
+      "minimum_stable_success_steps": {
+        "pick": 10,
+        "push": 5
+      },
+      "pick_open_while_grasped_steps": 0,
+      "maximum_push_recovery_forward_m": 0.009795627556741238,
+      "minimum_final_push_forward_m": 0.06638680398464203,
+      "blue_push_relative_height_p90_m": 0.005290526151657105,
+      "maximum_grasp_to_lift_delay_steps": 2,
+      "minimum_lift_transition_z_action": 0.6840524077415466,
+      "blue_recovery_episodes": 32,
+      "dataset_version": "v2.clean",
+      "unique_scene_seeds": 600,
+      "retry_histograms": {
+        "pick_B": {
+          "0": 50,
+          "1": 50
+        },
+        "pick_C": {
+          "0": 48,
+          "1": 52
+        },
+        "pick_A": {
+          "0": 50,
+          "1": 50
+        },
+        "push_A": {
+          "0": 50,
+          "1": 50
+        },
+        "push_B": {
+          "0": 36,
+          "1": 64
+        },
+        "push_C": {
+          "0": 50,
+          "1": 50
+        }
+      }
+    },
+    "mixed_loader": {
+      "train_episodes": 1440,
+      "train_windows": 92160,
+      "checked_batches": 12,
+      "episodes_per_batch": 16,
+      "first_batch_unique_instructions": 30
+    },
+    "model": {
+      "device": "cuda",
+      "input_batch_size": 2,
+      "pose_shape": [
+        2,
+        20,
+        6
+      ],
+      "phase_shape": [
+        2,
+        20,
+        10
+      ],
+      "loss": 0.20645417273044586,
+      "phase_family_accuracy": 1.0,
+      "v3_checkpoint_format": 8,
+      "v3_dataset_version": "v3.robust-language"
+    }
+  }
+}

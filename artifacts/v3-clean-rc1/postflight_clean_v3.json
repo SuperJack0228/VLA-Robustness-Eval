@@ -1,0 +1,153 @@
+{
+  "episodes": 6,
+  "visual_perturbation": "clean",
+  "perturbation": "clean",
+  "ensemble_mode": "temporal",
+  "temporal_profile": "robust",
+  "execution_mode": "raw",
+  "uses_privileged_execution_assistance": false,
+  "uses_privileged_perturbation_oracle": false,
+  "score_scope": "policy_with_workspace_safety_only",
+  "buckets": {
+    "pick_A": {
+      "episodes": 1,
+      "task_success_rate": 1.0,
+      "clean_success_rate": 1.0,
+      "wrong_contact_rate": 0.0,
+      "mean_steps": 83.0,
+      "mean_grounding_error_cm": 0.6847983104365785,
+      "mean_target_class_accuracy": 1.0,
+      "mean_action_clip_rate": 0.0,
+      "mean_safety_intervention_rate": 0.0,
+      "mean_latest_only_rate": 0.6506024096385542,
+      "strict_target_contact_rate": 1.0,
+      "collateral_contact_rate": 0.0,
+      "mean_oldest_prediction_age": 0.9759036144578314,
+      "mean_grounding_shift_resets": 6.0,
+      "minimum_target_uprightness": 0.9999758566909804,
+      "failure_counts": {
+        "success": 1
+      }
+    },
+    "pick_B": {
+      "episodes": 1,
+      "task_success_rate": 1.0,
+      "clean_success_rate": 1.0,
+      "wrong_contact_rate": 0.0,
+      "mean_steps": 73.0,
+      "mean_grounding_error_cm": 0.7117513906527649,
+      "mean_target_class_accuracy": 1.0,
+      "mean_action_clip_rate": 0.0,
+      "mean_safety_intervention_rate": 0.0,
+      "mean_latest_only_rate": 0.7534246575342466,
+      "strict_target_contact_rate": 1.0,
+      "collateral_contact_rate": 0.0,
+      "mean_oldest_prediction_age": 0.6575342465753424,
+      "mean_grounding_shift_resets": 4.0,
+      "minimum_target_uprightness": 1.0,
+      "failure_counts": {
+        "success": 1
+      }
+    },
+    "pick_C": {
+      "episodes": 1,
+      "task_success_rate": 1.0,
+      "clean_success_rate": 1.0,
+      "wrong_contact_rate": 0.0,
+      "mean_steps": 84.0,
+      "mean_grounding_error_cm": 1.0029239873748814,
+      "mean_target_class_accuracy": 1.0,
+      "mean_action_clip_rate": 0.011904761904761904,
+      "mean_safety_intervention_rate": 0.0,
+      "mean_latest_only_rate": 0.6428571428571429,
+      "strict_target_contact_rate": 1.0,
+      "collateral_contact_rate": 0.0,
+      "mean_oldest_prediction_age": 1.0,
+      "mean_grounding_shift_resets": 3.0,
+      "minimum_target_uprightness": 0.9999334077854201,
+      "failure_counts": {
+        "success": 1
+      }
+    },
+    "push_A": {
+      "episodes": 1,
+      "task_success_rate": 1.0,
+      "clean_success_rate": 1.0,
+      "wrong_contact_rate": 0.0,
+      "mean_steps": 97.0,
+      "mean_grounding_error_cm": 0.6611929745741475,
+      "mean_target_class_accuracy": 1.0,
+      "mean_action_clip_rate": 0.13402061855670103,
+      "mean_safety_intervention_rate": 0.0,
+      "mean_latest_only_rate": 0.5360824742268041,
+      "strict_target_contact_rate": 1.0,
+      "collateral_contact_rate": 0.0,
+      "mean_oldest_prediction_age": 1.3298969072164948,
+      "mean_grounding_shift_resets": 2.0,
+      "minimum_target_uprightness": 0.9998611186747439,
+      "failure_counts": {
+        "success": 1
+      }
+    },
+    "push_B": {
+      "episodes": 1,
+      "task_success_rate": 1.0,
+      "clean_success_rate": 1.0,
+      "wrong_contact_rate": 0.0,
+      "mean_steps": 159.0,
+      "mean_grounding_error_cm": 0.6474934591456943,
+      "mean_target_class_accuracy": 1.0,
+      "mean_action_clip_rate": 0.18867924528301888,
+      "mean_safety_intervention_rate": 0.0,
+      "mean_latest_only_rate": 0.7861635220125787,
+      "strict_target_contact_rate": 1.0,
+      "collateral_contact_rate": 0.0,
+      "mean_oldest_prediction_age": 0.6037735849056604,
+      "mean_grounding_shift_resets": 1.0,
+      "minimum_target_uprightness": 1.0,
+      "failure_counts": {
+        "success": 1
+      }
+    },
+    "push_C": {
+      "episodes": 1,
+      "task_success_rate": 1.0,
+      "clean_success_rate": 1.0,
+      "wrong_contact_rate": 0.0,
+      "mean_steps": 87.0,
+      "mean_grounding_error_cm": 0.9134290441078476,
+      "mean_target_class_accuracy": 1.0,
+      "mean_action_clip_rate": 0.1839080459770115,
+      "mean_safety_intervention_rate": 0.19540229885057472,
+      "mean_latest_only_rate": 0.5747126436781609,
+      "strict_target_contact_rate": 1.0,
+      "collateral_contact_rate": 0.0,
+      "mean_oldest_prediction_age": 1.206896551724138,
+      "mean_grounding_shift_resets": 3.0,
+      "minimum_target_uprightness": 0.9999618521919729,
+      "failure_counts": {
+        "success": 1
+      }
+    }
+  },
+  "overall": {
+    "task_success_rate": 1.0,
+    "clean_success_rate": 1.0,
+    "wrong_contact_rate": 0.0,
+    "mean_steps": 97.16666666666667,
+    "mean_action_clip_rate": 0.08641877862024888,
+    "mean_target_class_accuracy": 1.0,
+    "mean_safety_intervention_rate": 0.03256704980842912,
+    "mean_latest_only_rate": 0.6573071416579145,
+    "strict_target_contact_rate": 1.0,
+    "collateral_contact_rate": 0.0,
+    "mean_oldest_prediction_age": 0.9623341508132445,
+    "mean_grounding_shift_resets": 3.1666666666666665,
+    "failure_counts": {
+      "success": 6
+    },
+    "passed_80_percent_task_gate": true,
+    "passed_80_percent_clean_gate": true,
+    "passed_80_percent_gate": true
+  }
+}

@@ -21,12 +21,14 @@ perturbation curves and closed-loop held-out-language tests remain outstanding.
 
 ## Frozen Artifacts
 
-Generated datasets and checkpoints are intentionally excluded from Git.
+The final policy is stored in GitHub through Git LFS. Raw demonstration
+datasets remain excluded because they occupy several gigabytes and are not
+appropriate for a source repository.
 
 | Artifact | Repository-relative location | SHA256 |
 | --- | --- | --- |
-| V3 policy | `results/hpc/v3_hpc_1349625/mini_vla_v3_policy.pth` | `9fc20e1587472dbe9b78bb635f747c9edfb69d98bc4d03f8185ebadc85ff6429` |
-| V3 normalization | `results/hpc/v3_hpc_1349625/dataset_stats_v3.npz` | `429663756f8a0921e3b9ff9c9d4516155f85b43c19dcd221b2af103baa3809dd` |
+| V3 policy | `artifacts/v3-clean-rc1/mini_vla_v3_policy.pth` | `9fc20e1587472dbe9b78bb635f747c9edfb69d98bc4d03f8185ebadc85ff6429` |
+| V3 normalization | `artifacts/v3-clean-rc1/dataset_stats_v3.npz` | `429663756f8a0921e3b9ff9c9d4516155f85b43c19dcd221b2af103baa3809dd` |
 | Language catalog | `configs/language_augmentations_v3.json` | `90e45afedc008511389b27337a001e441b5e0af3380ea5977ad2673f29d57ca2` |
 
 The frozen DistilBERT weights are not embedded in the policy checkpoint. The
@@ -51,8 +53,8 @@ Two paired seeds produced 240 episodes per policy:
 - V3 task totals: Pick A/B/C 40/40 each, Push A 40/40, Push B 37/40,
   Push C 38/40
 
-The source results are stored locally under
-`results/v3_tests/clean_comparison/` and are excluded from Git.
+The source CSV, JSON, and console logs are stored under
+`artifacts/v3-clean-rc1/clean_comparison/`.
 
 ## Verification
 

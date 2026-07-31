@@ -47,6 +47,8 @@ python -m pip install -r requirements.txt
 - `scripts/train_v3.py`: V2 Clean plus V3 recovery training pipeline.
 - `scripts/evaluate_policy_v2.py`: raw-policy closed-loop evaluator.
 - `scripts/benchmark_robustness_v2.py`: paired perturbation benchmark driver.
+- `artifacts/v3-clean-rc1/`: frozen V3 policy, normalization, training
+  metadata, and paired Clean evaluation evidence.
 - `hpc/HPC_RUNBOOK.md`: Cognition HPC migration, Slurm, and storage workflow.
 - `scripts/preflight_v3.py`: V3 data, language, loader, and warm-start gates.
 - `scripts/postflight_v2.py`: full-trajectory checkpoint gate.
@@ -65,3 +67,11 @@ evidence used to freeze V2 Clean, is recorded in
 The V3 checkpoint identity, dataset counts, verification commands, and current
 evidence boundary are recorded in
 [docs/V3_RELEASE_MANIFEST.md](docs/V3_RELEASE_MANIFEST.md).
+
+The 135 MB V3 policy is versioned with Git LFS. Install Git LFS before cloning
+or pulling the release artifacts:
+
+```bash
+brew install git-lfs
+git lfs install
+```

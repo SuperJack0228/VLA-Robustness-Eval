@@ -1,0 +1,161 @@
+{
+  "episodes": 120,
+  "visual_perturbation": "clean",
+  "perturbation": "clean",
+  "ensemble_mode": "temporal",
+  "temporal_profile": "robust",
+  "execution_mode": "raw",
+  "uses_privileged_execution_assistance": false,
+  "uses_privileged_perturbation_oracle": false,
+  "score_scope": "policy_with_workspace_safety_only",
+  "buckets": {
+    "pick_A": {
+      "episodes": 20,
+      "task_success_rate": 0.9,
+      "clean_success_rate": 0.9,
+      "wrong_contact_rate": 0.0,
+      "mean_steps": 99.05,
+      "mean_grounding_error_cm": 0.9289355635949498,
+      "mean_target_class_accuracy": 1.0,
+      "mean_action_clip_rate": 0.023556948675032784,
+      "mean_safety_intervention_rate": 0.00583139534883721,
+      "mean_latest_only_rate": 0.6413143580917396,
+      "strict_target_contact_rate": 1.0,
+      "collateral_contact_rate": 0.0,
+      "mean_oldest_prediction_age": 1.0010311365276554,
+      "mean_grounding_shift_resets": 6.7,
+      "minimum_target_uprightness": 0.9977191406069323,
+      "failure_counts": {
+        "success": 18,
+        "grasp_failed_after_contact": 2
+      }
+    },
+    "pick_B": {
+      "episodes": 20,
+      "task_success_rate": 1.0,
+      "clean_success_rate": 1.0,
+      "wrong_contact_rate": 0.0,
+      "mean_steps": 85.25,
+      "mean_grounding_error_cm": 0.8437490712210047,
+      "mean_target_class_accuracy": 1.0,
+      "mean_action_clip_rate": 0.03300679901588738,
+      "mean_safety_intervention_rate": 0.0,
+      "mean_latest_only_rate": 0.6423459610633373,
+      "strict_target_contact_rate": 1.0,
+      "collateral_contact_rate": 0.0,
+      "mean_oldest_prediction_age": 1.0023986935292206,
+      "mean_grounding_shift_resets": 4.25,
+      "minimum_target_uprightness": 1.0,
+      "failure_counts": {
+        "success": 20
+      }
+    },
+    "pick_C": {
+      "episodes": 20,
+      "task_success_rate": 0.95,
+      "clean_success_rate": 0.95,
+      "wrong_contact_rate": 0.0,
+      "mean_steps": 89.7,
+      "mean_grounding_error_cm": 0.8075161775047863,
+      "mean_target_class_accuracy": 1.0,
+      "mean_action_clip_rate": 0.019158445943917593,
+      "mean_safety_intervention_rate": 0.0,
+      "mean_latest_only_rate": 0.6474641122382268,
+      "strict_target_contact_rate": 1.0,
+      "collateral_contact_rate": 0.0,
+      "mean_oldest_prediction_age": 0.9880266378280702,
+      "mean_grounding_shift_resets": 4.9,
+      "minimum_target_uprightness": 0.8412599414587021,
+      "failure_counts": {
+        "success": 19,
+        "grasp_failed_after_contact": 1
+      }
+    },
+    "push_A": {
+      "episodes": 20,
+      "task_success_rate": 0.75,
+      "clean_success_rate": 0.75,
+      "wrong_contact_rate": 0.05,
+      "mean_steps": 112.85,
+      "mean_grounding_error_cm": 0.8674737632995264,
+      "mean_target_class_accuracy": 1.0,
+      "mean_action_clip_rate": 0.06490866034175405,
+      "mean_safety_intervention_rate": 0.08276109496722903,
+      "mean_latest_only_rate": 0.555823928370816,
+      "strict_target_contact_rate": 1.0,
+      "collateral_contact_rate": 0.0,
+      "mean_oldest_prediction_age": 1.2606299239512575,
+      "mean_grounding_shift_resets": 1.45,
+      "minimum_target_uprightness": 0.9139980191830546,
+      "failure_counts": {
+        "insufficient_push_distance": 4,
+        "success": 15,
+        "wrong_object_contact": 1
+      }
+    },
+    "push_B": {
+      "episodes": 20,
+      "task_success_rate": 1.0,
+      "clean_success_rate": 1.0,
+      "wrong_contact_rate": 0.0,
+      "mean_steps": 82.45,
+      "mean_grounding_error_cm": 0.6518339984222702,
+      "mean_target_class_accuracy": 1.0,
+      "mean_action_clip_rate": 0.13630108738703434,
+      "mean_safety_intervention_rate": 0.008636297345922436,
+      "mean_latest_only_rate": 0.540695967729907,
+      "strict_target_contact_rate": 1.0,
+      "collateral_contact_rate": 0.0,
+      "mean_oldest_prediction_age": 1.218909675450866,
+      "mean_grounding_shift_resets": 4.2,
+      "minimum_target_uprightness": 1.0,
+      "failure_counts": {
+        "success": 20
+      }
+    },
+    "push_C": {
+      "episodes": 20,
+      "task_success_rate": 0.85,
+      "clean_success_rate": 0.85,
+      "wrong_contact_rate": 0.0,
+      "mean_steps": 110.1,
+      "mean_grounding_error_cm": 0.9951283077323818,
+      "mean_target_class_accuracy": 1.0,
+      "mean_action_clip_rate": 0.1054276014724644,
+      "mean_safety_intervention_rate": 0.19510028042325364,
+      "mean_latest_only_rate": 0.5609730968957792,
+      "strict_target_contact_rate": 1.0,
+      "collateral_contact_rate": 0.0,
+      "mean_oldest_prediction_age": 1.2418262390697095,
+      "mean_grounding_shift_resets": 1.85,
+      "minimum_target_uprightness": 0.9428524654358625,
+      "failure_counts": {
+        "success": 17,
+        "insufficient_push_distance": 3
+      }
+    }
+  },
+  "overall": {
+    "task_success_rate": 0.9083333333333333,
+    "clean_success_rate": 0.9083333333333333,
+    "wrong_contact_rate": 0.008333333333333333,
+    "mean_steps": 96.56666666666666,
+    "mean_action_clip_rate": 0.06372659047268175,
+    "mean_target_class_accuracy": 1.0,
+    "mean_safety_intervention_rate": 0.04872151134754039,
+    "mean_latest_only_rate": 0.5981029040649676,
+    "strict_target_contact_rate": 1.0,
+    "collateral_contact_rate": 0.0,
+    "mean_oldest_prediction_age": 1.1188037177261299,
+    "mean_grounding_shift_resets": 3.8916666666666666,
+    "failure_counts": {
+      "insufficient_push_distance": 7,
+      "success": 109,
+      "grasp_failed_after_contact": 3,
+      "wrong_object_contact": 1
+    },
+    "passed_80_percent_task_gate": true,
+    "passed_80_percent_clean_gate": true,
+    "passed_80_percent_gate": true
+  }
+}
