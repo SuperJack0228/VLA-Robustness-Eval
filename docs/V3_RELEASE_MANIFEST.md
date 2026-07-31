@@ -43,6 +43,10 @@ exact pretrained model must be available in the Hugging Face cache when using
   target-displacement episodes
 - Language: 60 training and 30 disjoint evaluation expressions per task
 
+The corresponding manifests and collection summaries are versioned under
+`artifacts/v3-clean-rc1/dataset_manifests/`. Raw `.npz` episodes remain in the
+external dataset archive.
+
 ## Verified Clean Result
 
 Two paired seeds produced 240 episodes per policy:

@@ -1,0 +1,95 @@
+{
+  "schema_version": 5,
+  "dataset_version": "v2.clean",
+  "episode_steps": 200,
+  "image_shape": [
+    200,
+    112,
+    112,
+    3
+  ],
+  "image_dtype": "uint8",
+  "camera_order": [
+    "agentview",
+    "robot0_eye_in_hand"
+  ],
+  "state_dim": 17,
+  "state_layout": {
+    "eef_position_xyz": [
+      0,
+      3
+    ],
+    "eef_quaternion_xyzw": [
+      3,
+      7
+    ],
+    "gripper_qpos": [
+      7,
+      9
+    ],
+    "gripper_qvel": [
+      9,
+      11
+    ],
+    "eef_linear_velocity": [
+      11,
+      14
+    ],
+    "eef_angular_velocity": [
+      14,
+      17
+    ]
+  },
+  "action_dim": 7,
+  "action_layout": {
+    "delta_position_xyz": [
+      0,
+      3
+    ],
+    "delta_orientation_rpy": [
+      3,
+      6
+    ],
+    "gripper": [
+      6,
+      7
+    ]
+  },
+  "object_order": [
+    "A",
+    "B",
+    "C"
+  ],
+  "object_labels": {
+    "A": "red cube",
+    "B": "blue ball",
+    "C": "green cylinder"
+  },
+  "task_buckets": [
+    [
+      "pick",
+      "A"
+    ],
+    [
+      "pick",
+      "B"
+    ],
+    [
+      "pick",
+      "C"
+    ],
+    [
+      "push",
+      "A"
+    ],
+    [
+      "push",
+      "B"
+    ],
+    [
+      "push",
+      "C"
+    ]
+  ],
+  "padding": "Repeat final sample; valid_mask marks real timesteps."
+}

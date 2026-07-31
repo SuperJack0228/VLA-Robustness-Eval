@@ -67,6 +67,8 @@ evidence used to freeze V2 Clean, is recorded in
 The V3 checkpoint identity, dataset counts, verification commands, and current
 evidence boundary are recorded in
 [docs/V3_RELEASE_MANIFEST.md](docs/V3_RELEASE_MANIFEST.md).
+The six-slide stage presentation is available at
+[docs/2026-07-28-LiuYining-MiniVLA-V3-Update.pptx](docs/2026-07-28-LiuYining-MiniVLA-V3-Update.pptx).
 
 The 135 MB V3 policy is versioned with Git LFS. Install Git LFS before cloning
 or pulling the release artifacts:

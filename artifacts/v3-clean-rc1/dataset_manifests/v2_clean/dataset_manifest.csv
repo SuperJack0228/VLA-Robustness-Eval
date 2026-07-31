@@ -1,0 +1,1201 @@
+filename,dataset_version,split,task_type,target_id,instruction,scene_seed,collection_seed,success_step,wrong_object_contact
+ep_00001.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1901387285,20260817,75,0
+ep_00002.npz,v2.clean,train,pick,A,Pick up the red cube,324207262,20260817,117,0
+ep_00003.npz,v2.clean,train,push,A,Push the red cube away from the robot,202112556,20260817,88,0
+ep_00004.npz,v2.clean,test,push,A,Push the red cube away from the robot,1571131358,20260817,80,0
+ep_00005.npz,v2.clean,train,pick,C,Pick up the green cylinder,1293020425,20260817,76,0
+ep_00006.npz,v2.clean,train,pick,A,Pick up the red cube,296092869,20260817,85,0
+ep_00007.npz,v2.clean,train,pick,A,Pick up the red cube,1051862198,20260817,82,0
+ep_00008.npz,v2.clean,train,pick,B,Pick up the blue ball,105026430,20260817,84,0
+ep_00009.npz,v2.clean,train,pick,B,Pick up the blue ball,352243426,20260817,81,0
+ep_00010.npz,v2.clean,test,pick,B,Pick up the blue ball,1157233161,20260817,84,0
+ep_00011.npz,v2.clean,train,pick,C,Pick up the green cylinder,59761288,20260817,73,0
+ep_00012.npz,v2.clean,train,pick,B,Pick up the blue ball,1478035935,20260817,78,0
+ep_00013.npz,v2.clean,train,pick,C,Pick up the green cylinder,661323745,20260817,84,0
+ep_00014.npz,v2.clean,train,pick,C,Pick up the green cylinder,2014049477,20260817,76,0
+ep_00015.npz,v2.clean,train,pick,B,Pick up the blue ball,1360254611,20260817,77,0
+ep_00016.npz,v2.clean,val,pick,B,Pick up the blue ball,1659564069,20260817,81,0
+ep_00017.npz,v2.clean,train,push,A,Push the red cube away from the robot,1081926925,20260817,89,0
+ep_00018.npz,v2.clean,train,pick,A,Pick up the red cube,311308036,20260817,82,0
+ep_00019.npz,v2.clean,train,pick,C,Pick up the green cylinder,110568795,20260817,83,0
+ep_00020.npz,v2.clean,test,pick,B,Pick up the blue ball,704511144,20260817,75,0
+ep_00021.npz,v2.clean,train,pick,A,Pick up the red cube,1140628306,20260817,85,0
+ep_00022.npz,v2.clean,train,pick,A,Pick up the red cube,1868797538,20260817,87,0
+ep_00023.npz,v2.clean,train,pick,C,Pick up the green cylinder,1744256813,20260817,82,0
+ep_00024.npz,v2.clean,test,pick,B,Pick up the blue ball,203087725,20260817,70,0
+ep_00025.npz,v2.clean,train,pick,C,Pick up the green cylinder,1133196927,20260817,80,0
+ep_00026.npz,v2.clean,train,push,A,Push the red cube away from the robot,432895907,20260817,74,0
+ep_00027.npz,v2.clean,train,pick,C,Pick up the green cylinder,828492733,20260817,79,0
+ep_00028.npz,v2.clean,test,pick,A,Pick up the red cube,1257794832,20260817,79,0
+ep_00029.npz,v2.clean,train,pick,C,Pick up the green cylinder,229532271,20260817,70,0
+ep_00030.npz,v2.clean,train,pick,A,Pick up the red cube,422532535,20260817,79,0
+ep_00031.npz,v2.clean,test,pick,C,Pick up the green cylinder,1280967722,20260817,85,0
+ep_00032.npz,v2.clean,train,push,A,Push the red cube away from the robot,1601548497,20260817,88,0
+ep_00033.npz,v2.clean,test,pick,B,Pick up the blue ball,1663219856,20260817,84,0
+ep_00034.npz,v2.clean,train,pick,A,Pick up the red cube,927632731,20260817,81,0
+ep_00035.npz,v2.clean,train,pick,C,Pick up the green cylinder,186169263,20260817,77,0
+ep_00036.npz,v2.clean,train,pick,C,Pick up the green cylinder,2116583128,20260817,75,0
+ep_00037.npz,v2.clean,train,pick,C,Pick up the green cylinder,1476654562,20260817,80,0
+ep_00038.npz,v2.clean,test,pick,A,Pick up the red cube,1504811536,20260817,84,0
+ep_00039.npz,v2.clean,train,pick,B,Pick up the blue ball,1292877524,20260817,86,0
+ep_00040.npz,v2.clean,train,pick,C,Pick up the green cylinder,224229485,20260817,80,0
+ep_00041.npz,v2.clean,train,pick,C,Pick up the green cylinder,551732265,20260817,85,0
+ep_00042.npz,v2.clean,train,pick,A,Pick up the red cube,1266789236,20260817,82,0
+ep_00043.npz,v2.clean,train,pick,C,Pick up the green cylinder,4872140,20260817,75,0
+ep_00044.npz,v2.clean,train,pick,B,Pick up the blue ball,101457915,20260817,86,0
+ep_00045.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1744473082,20260817,68,0
+ep_00046.npz,v2.clean,train,pick,A,Pick up the red cube,1236020806,20260817,81,0
+ep_00047.npz,v2.clean,train,pick,A,Pick up the red cube,1022113049,20260817,81,0
+ep_00048.npz,v2.clean,train,pick,A,Pick up the red cube,2025952738,20260817,83,0
+ep_00049.npz,v2.clean,train,pick,A,Pick up the red cube,249581157,20260817,88,0
+ep_00050.npz,v2.clean,train,pick,B,Pick up the blue ball,1733607718,20260817,84,0
+ep_00051.npz,v2.clean,train,pick,A,Pick up the red cube,1908343164,20260817,84,0
+ep_00052.npz,v2.clean,val,pick,A,Pick up the red cube,302447605,20260817,88,0
+ep_00053.npz,v2.clean,train,pick,B,Pick up the blue ball,2100103591,20260817,84,0
+ep_00054.npz,v2.clean,train,pick,C,Pick up the green cylinder,214211670,20260817,83,0
+ep_00055.npz,v2.clean,train,pick,B,Pick up the blue ball,2031799363,20260817,70,0
+ep_00056.npz,v2.clean,test,pick,A,Pick up the red cube,1642138227,20260817,86,0
+ep_00057.npz,v2.clean,train,pick,B,Pick up the blue ball,858971029,20260817,71,0
+ep_00058.npz,v2.clean,train,pick,A,Pick up the red cube,424312253,20260817,88,0
+ep_00059.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1944143746,20260817,66,0
+ep_00060.npz,v2.clean,train,pick,A,Pick up the red cube,1558952231,20260817,80,0
+ep_00061.npz,v2.clean,train,pick,C,Pick up the green cylinder,455139802,20260817,75,0
+ep_00062.npz,v2.clean,train,pick,C,Pick up the green cylinder,1196778188,20260817,81,0
+ep_00063.npz,v2.clean,train,pick,B,Pick up the blue ball,840291966,20260817,77,0
+ep_00064.npz,v2.clean,train,push,A,Push the red cube away from the robot,243459691,20260817,80,0
+ep_00065.npz,v2.clean,train,pick,A,Pick up the red cube,450234035,20260817,82,0
+ep_00066.npz,v2.clean,train,push,B,Push the blue ball away from the robot,191519400,20260817,155,0
+ep_00067.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,616223191,20260817,82,0
+ep_00068.npz,v2.clean,val,pick,C,Pick up the green cylinder,683738876,20260817,77,0
+ep_00069.npz,v2.clean,train,pick,C,Pick up the green cylinder,2112545541,20260817,71,0
+ep_00070.npz,v2.clean,val,pick,A,Pick up the red cube,300023403,20260817,79,0
+ep_00071.npz,v2.clean,train,pick,B,Pick up the blue ball,1366362984,20260817,84,0
+ep_00072.npz,v2.clean,train,pick,B,Pick up the blue ball,80090535,20260817,76,0
+ep_00073.npz,v2.clean,train,pick,C,Pick up the green cylinder,459157137,20260817,85,0
+ep_00074.npz,v2.clean,train,pick,B,Pick up the blue ball,21260353,20260817,75,0
+ep_00075.npz,v2.clean,train,pick,C,Pick up the green cylinder,1866203250,20260817,83,0
+ep_00076.npz,v2.clean,test,pick,C,Pick up the green cylinder,902590336,20260817,71,0
+ep_00077.npz,v2.clean,train,pick,A,Pick up the red cube,798295037,20260817,87,0
+ep_00078.npz,v2.clean,train,push,A,Push the red cube away from the robot,919389373,20260817,83,0
+ep_00079.npz,v2.clean,train,pick,C,Pick up the green cylinder,203258505,20260817,67,0
+ep_00080.npz,v2.clean,train,pick,A,Pick up the red cube,1125652160,20260817,87,0
+ep_00081.npz,v2.clean,train,pick,A,Pick up the red cube,104080749,20260817,78,0
+ep_00082.npz,v2.clean,val,pick,B,Pick up the blue ball,2044620911,20260817,79,0
+ep_00083.npz,v2.clean,train,pick,C,Pick up the green cylinder,28581660,20260817,81,0
+ep_00084.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1848602595,20260817,77,0
+ep_00085.npz,v2.clean,train,pick,C,Pick up the green cylinder,1396995220,20260817,79,0
+ep_00086.npz,v2.clean,train,pick,B,Pick up the blue ball,1799807444,20260817,85,0
+ep_00087.npz,v2.clean,train,pick,A,Pick up the red cube,620163737,20260817,87,0
+ep_00088.npz,v2.clean,test,pick,B,Pick up the blue ball,130695600,20260817,72,0
+ep_00089.npz,v2.clean,train,push,A,Push the red cube away from the robot,625472107,20260817,82,0
+ep_00090.npz,v2.clean,test,push,B,Push the blue ball away from the robot,778977583,20260817,76,0
+ep_00091.npz,v2.clean,train,pick,C,Pick up the green cylinder,836778438,20260817,83,0
+ep_00092.npz,v2.clean,train,pick,B,Pick up the blue ball,509895729,20260817,83,0
+ep_00093.npz,v2.clean,train,pick,B,Pick up the blue ball,342773552,20260817,83,0
+ep_00094.npz,v2.clean,train,pick,A,Pick up the red cube,1372658730,20260817,78,0
+ep_00095.npz,v2.clean,train,pick,C,Pick up the green cylinder,1743338496,20260817,73,0
+ep_00096.npz,v2.clean,test,pick,C,Pick up the green cylinder,133098339,20260817,85,0
+ep_00097.npz,v2.clean,train,pick,C,Pick up the green cylinder,82606018,20260817,77,0
+ep_00098.npz,v2.clean,test,pick,C,Pick up the green cylinder,1110148719,20260817,84,0
+ep_00099.npz,v2.clean,test,pick,A,Pick up the red cube,1506430013,20260817,80,0
+ep_00100.npz,v2.clean,train,push,A,Push the red cube away from the robot,976055412,20260817,99,0
+ep_00101.npz,v2.clean,test,pick,A,Pick up the red cube,642687459,20260817,85,0
+ep_00102.npz,v2.clean,val,pick,C,Pick up the green cylinder,893152637,20260817,85,0
+ep_00103.npz,v2.clean,val,pick,C,Pick up the green cylinder,1439933812,20260817,77,0
+ep_00104.npz,v2.clean,val,pick,A,Pick up the red cube,578324536,20260817,87,0
+ep_00105.npz,v2.clean,train,pick,C,Pick up the green cylinder,1387699633,20260817,77,0
+ep_00106.npz,v2.clean,test,pick,A,Pick up the red cube,1643786897,20260817,76,0
+ep_00107.npz,v2.clean,train,pick,B,Pick up the blue ball,2110294476,20260817,77,0
+ep_00108.npz,v2.clean,train,pick,C,Pick up the green cylinder,372132293,20260817,73,0
+ep_00109.npz,v2.clean,val,pick,A,Pick up the red cube,243288943,20260817,70,0
+ep_00110.npz,v2.clean,train,pick,C,Pick up the green cylinder,835705299,20260817,80,0
+ep_00111.npz,v2.clean,train,pick,A,Pick up the red cube,250505073,20260817,85,0
+ep_00112.npz,v2.clean,train,pick,C,Pick up the green cylinder,1385421530,20260817,85,0
+ep_00113.npz,v2.clean,val,pick,B,Pick up the blue ball,1062218966,20260817,75,0
+ep_00114.npz,v2.clean,train,pick,A,Pick up the red cube,1123076837,20260817,80,0
+ep_00115.npz,v2.clean,train,pick,B,Pick up the blue ball,2106874407,20260817,81,0
+ep_00116.npz,v2.clean,train,pick,A,Pick up the red cube,1214180797,20260817,80,0
+ep_00117.npz,v2.clean,train,pick,A,Pick up the red cube,1783406241,20260817,86,0
+ep_00118.npz,v2.clean,train,pick,C,Pick up the green cylinder,2024695770,20260817,83,0
+ep_00119.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1690884313,20260817,95,0
+ep_00120.npz,v2.clean,train,pick,C,Pick up the green cylinder,118327604,20260817,81,0
+ep_00121.npz,v2.clean,train,pick,A,Pick up the red cube,1068255845,20260817,72,0
+ep_00122.npz,v2.clean,train,pick,A,Pick up the red cube,1882061057,20260817,87,0
+ep_00123.npz,v2.clean,val,pick,B,Pick up the blue ball,2114400339,20260817,84,0
+ep_00124.npz,v2.clean,train,pick,B,Pick up the blue ball,1201051045,20260817,75,0
+ep_00125.npz,v2.clean,train,pick,C,Pick up the green cylinder,1788695022,20260817,86,0
+ep_00126.npz,v2.clean,train,pick,C,Pick up the green cylinder,1349792795,20260817,84,0
+ep_00127.npz,v2.clean,train,pick,A,Pick up the red cube,492037308,20260817,83,0
+ep_00128.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,1067259257,20260817,85,0
+ep_00129.npz,v2.clean,train,pick,B,Pick up the blue ball,800959582,20260817,82,0
+ep_00130.npz,v2.clean,train,pick,B,Pick up the blue ball,840401220,20260817,80,0
+ep_00131.npz,v2.clean,train,pick,A,Pick up the red cube,1844868684,20260817,84,0
+ep_00132.npz,v2.clean,train,pick,A,Pick up the red cube,254784096,20260817,86,0
+ep_00133.npz,v2.clean,train,pick,B,Pick up the blue ball,456168550,20260817,80,0
+ep_00134.npz,v2.clean,train,pick,C,Pick up the green cylinder,1518011662,20260817,79,0
+ep_00135.npz,v2.clean,test,pick,A,Pick up the red cube,881529335,20260817,88,0
+ep_00136.npz,v2.clean,train,pick,C,Pick up the green cylinder,935750115,20260817,87,0
+ep_00137.npz,v2.clean,train,push,A,Push the red cube away from the robot,936897389,20260817,80,0
+ep_00138.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1176906753,20260817,154,0
+ep_00139.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1974819438,20260817,96,0
+ep_00140.npz,v2.clean,test,pick,A,Pick up the red cube,1702331312,20260817,78,0
+ep_00141.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,858449457,20260817,84,0
+ep_00142.npz,v2.clean,train,pick,B,Pick up the blue ball,1253849965,20260817,87,0
+ep_00143.npz,v2.clean,val,pick,B,Pick up the blue ball,1824037063,20260817,78,0
+ep_00144.npz,v2.clean,train,pick,C,Pick up the green cylinder,989689291,20260817,77,0
+ep_00145.npz,v2.clean,train,pick,A,Pick up the red cube,570009511,20260817,86,0
+ep_00146.npz,v2.clean,train,pick,A,Pick up the red cube,25281492,20260817,87,0
+ep_00147.npz,v2.clean,train,pick,A,Pick up the red cube,718425877,20260817,80,0
+ep_00148.npz,v2.clean,train,pick,A,Pick up the red cube,1728850934,20260817,82,0
+ep_00149.npz,v2.clean,train,pick,A,Pick up the red cube,97344550,20260817,79,0
+ep_00150.npz,v2.clean,val,pick,C,Pick up the green cylinder,1703480773,20260817,77,0
+ep_00151.npz,v2.clean,train,pick,A,Pick up the red cube,473279032,20260817,81,0
+ep_00152.npz,v2.clean,train,pick,A,Pick up the red cube,1307218191,20260817,81,0
+ep_00153.npz,v2.clean,val,pick,C,Pick up the green cylinder,158586791,20260817,80,0
+ep_00154.npz,v2.clean,train,push,A,Push the red cube away from the robot,398119280,20260817,77,0
+ep_00155.npz,v2.clean,train,pick,C,Pick up the green cylinder,1556536606,20260817,77,0
+ep_00156.npz,v2.clean,train,pick,B,Pick up the blue ball,19207598,20260817,71,0
+ep_00157.npz,v2.clean,train,pick,A,Pick up the red cube,1481837154,20260817,79,0
+ep_00158.npz,v2.clean,train,pick,B,Pick up the blue ball,569455963,20260817,80,0
+ep_00159.npz,v2.clean,train,pick,A,Pick up the red cube,2121470971,20260817,84,0
+ep_00160.npz,v2.clean,train,push,B,Push the blue ball away from the robot,312629155,20260817,73,0
+ep_00161.npz,v2.clean,train,pick,C,Pick up the green cylinder,1743765448,20260817,87,0
+ep_00162.npz,v2.clean,val,pick,C,Pick up the green cylinder,2053907711,20260817,85,0
+ep_00163.npz,v2.clean,val,push,B,Push the blue ball away from the robot,849610328,20260817,177,0
+ep_00164.npz,v2.clean,train,pick,A,Pick up the red cube,845264811,20260817,87,0
+ep_00165.npz,v2.clean,train,pick,B,Pick up the blue ball,1910041270,20260817,72,0
+ep_00166.npz,v2.clean,train,pick,B,Pick up the blue ball,1486203981,20260817,82,0
+ep_00167.npz,v2.clean,train,pick,A,Pick up the red cube,111812718,20260817,87,0
+ep_00168.npz,v2.clean,train,pick,A,Pick up the red cube,1814698038,20260817,82,0
+ep_00169.npz,v2.clean,train,push,B,Push the blue ball away from the robot,35847023,20260817,72,0
+ep_00170.npz,v2.clean,train,pick,C,Pick up the green cylinder,645046701,20260817,74,0
+ep_00171.npz,v2.clean,train,push,A,Push the red cube away from the robot,1590732768,20260817,82,0
+ep_00172.npz,v2.clean,train,pick,C,Pick up the green cylinder,142718133,20260817,84,0
+ep_00173.npz,v2.clean,val,pick,C,Pick up the green cylinder,1308631598,20260817,74,0
+ep_00174.npz,v2.clean,train,pick,B,Pick up the blue ball,217852815,20260817,71,0
+ep_00175.npz,v2.clean,train,pick,B,Pick up the blue ball,467971845,20260817,82,0
+ep_00176.npz,v2.clean,train,pick,A,Pick up the red cube,1620545159,20260817,79,0
+ep_00177.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1295540525,20260817,76,0
+ep_00178.npz,v2.clean,val,pick,C,Pick up the green cylinder,745195738,20260817,76,0
+ep_00179.npz,v2.clean,train,push,A,Push the red cube away from the robot,1422089452,20260817,79,0
+ep_00180.npz,v2.clean,train,pick,B,Pick up the blue ball,551399392,20260817,85,0
+ep_00181.npz,v2.clean,train,pick,A,Pick up the red cube,1999638165,20260817,87,0
+ep_00182.npz,v2.clean,train,pick,A,Pick up the red cube,1713869549,20260817,77,0
+ep_00183.npz,v2.clean,train,pick,A,Pick up the red cube,1748276189,20260817,82,0
+ep_00184.npz,v2.clean,train,push,A,Push the red cube away from the robot,1019498010,20260817,79,0
+ep_00185.npz,v2.clean,train,pick,C,Pick up the green cylinder,1507006851,20260817,84,0
+ep_00186.npz,v2.clean,train,pick,C,Pick up the green cylinder,733015951,20260817,77,0
+ep_00187.npz,v2.clean,val,pick,B,Pick up the blue ball,847649157,20260817,87,0
+ep_00188.npz,v2.clean,train,pick,B,Pick up the blue ball,1638390673,20260817,78,0
+ep_00189.npz,v2.clean,train,pick,B,Pick up the blue ball,1394698679,20260817,82,0
+ep_00190.npz,v2.clean,val,pick,B,Pick up the blue ball,1338038112,20260817,80,0
+ep_00191.npz,v2.clean,test,pick,C,Pick up the green cylinder,1206157589,20260817,73,0
+ep_00192.npz,v2.clean,train,pick,C,Pick up the green cylinder,1636673266,20260817,82,0
+ep_00193.npz,v2.clean,train,pick,B,Pick up the blue ball,1518890407,20260817,84,0
+ep_00194.npz,v2.clean,train,pick,A,Pick up the red cube,2120824347,20260817,84,0
+ep_00195.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,906588073,20260817,73,0
+ep_00196.npz,v2.clean,test,push,B,Push the blue ball away from the robot,1043156328,20260817,65,0
+ep_00197.npz,v2.clean,train,pick,A,Pick up the red cube,1458181789,20260817,76,0
+ep_00198.npz,v2.clean,train,pick,B,Pick up the blue ball,1099474616,20260817,78,0
+ep_00199.npz,v2.clean,train,pick,B,Pick up the blue ball,677169918,20260817,76,0
+ep_00200.npz,v2.clean,train,pick,B,Pick up the blue ball,634530779,20260817,77,0
+ep_00201.npz,v2.clean,train,pick,A,Pick up the red cube,970054748,20260817,78,0
+ep_00202.npz,v2.clean,test,pick,C,Pick up the green cylinder,561966176,20260817,78,0
+ep_00203.npz,v2.clean,train,push,A,Push the red cube away from the robot,491608014,20260817,82,0
+ep_00204.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1240088407,20260817,81,0
+ep_00205.npz,v2.clean,test,pick,B,Pick up the blue ball,1285688494,20260817,86,0
+ep_00206.npz,v2.clean,train,push,A,Push the red cube away from the robot,1377633211,20260817,73,0
+ep_00207.npz,v2.clean,test,pick,A,Pick up the red cube,555848922,20260817,81,0
+ep_00208.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,652673956,20260817,88,0
+ep_00209.npz,v2.clean,train,push,A,Push the red cube away from the robot,794425276,20260817,82,0
+ep_00210.npz,v2.clean,train,pick,A,Pick up the red cube,1191690663,20260817,84,0
+ep_00211.npz,v2.clean,train,pick,B,Pick up the blue ball,549276343,20260817,71,0
+ep_00212.npz,v2.clean,train,push,A,Push the red cube away from the robot,671079853,20260817,92,0
+ep_00213.npz,v2.clean,train,pick,A,Pick up the red cube,195204125,20260817,81,0
+ep_00214.npz,v2.clean,train,pick,A,Pick up the red cube,969068745,20260817,86,0
+ep_00215.npz,v2.clean,train,push,B,Push the blue ball away from the robot,149866715,20260817,74,0
+ep_00216.npz,v2.clean,train,push,B,Push the blue ball away from the robot,760096783,20260817,83,0
+ep_00217.npz,v2.clean,train,pick,C,Pick up the green cylinder,1438887829,20260817,74,0
+ep_00218.npz,v2.clean,train,pick,C,Pick up the green cylinder,309738055,20260817,83,0
+ep_00219.npz,v2.clean,train,pick,A,Pick up the red cube,959064434,20260817,86,0
+ep_00220.npz,v2.clean,train,pick,A,Pick up the red cube,855701927,20260817,84,0
+ep_00221.npz,v2.clean,train,pick,A,Pick up the red cube,1787207925,20260817,82,0
+ep_00222.npz,v2.clean,train,pick,A,Pick up the red cube,2104306272,20260817,80,0
+ep_00223.npz,v2.clean,test,pick,B,Pick up the blue ball,1402909810,20260817,80,0
+ep_00224.npz,v2.clean,val,pick,B,Pick up the blue ball,816793556,20260817,79,0
+ep_00225.npz,v2.clean,train,pick,A,Pick up the red cube,352454098,20260817,86,0
+ep_00226.npz,v2.clean,test,push,B,Push the blue ball away from the robot,833125615,20260817,155,0
+ep_00227.npz,v2.clean,train,push,A,Push the red cube away from the robot,394190509,20260817,83,0
+ep_00228.npz,v2.clean,train,pick,A,Pick up the red cube,1892136731,20260817,81,0
+ep_00229.npz,v2.clean,train,pick,C,Pick up the green cylinder,1867775991,20260817,76,0
+ep_00230.npz,v2.clean,train,pick,A,Pick up the red cube,2007613171,20260817,85,0
+ep_00231.npz,v2.clean,train,pick,C,Pick up the green cylinder,278077649,20260817,79,0
+ep_00232.npz,v2.clean,train,pick,C,Pick up the green cylinder,836137220,20260817,78,0
+ep_00233.npz,v2.clean,train,pick,B,Pick up the blue ball,1301703023,20260817,79,0
+ep_00234.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1275645269,20260817,75,0
+ep_00235.npz,v2.clean,train,pick,C,Pick up the green cylinder,87941877,20260817,72,0
+ep_00236.npz,v2.clean,train,pick,B,Pick up the blue ball,1398265744,20260817,82,0
+ep_00237.npz,v2.clean,train,pick,C,Pick up the green cylinder,1851369976,20260817,79,0
+ep_00238.npz,v2.clean,train,pick,C,Pick up the green cylinder,517086131,20260817,85,0
+ep_00239.npz,v2.clean,train,pick,A,Pick up the red cube,612518237,20260817,81,0
+ep_00240.npz,v2.clean,val,push,B,Push the blue ball away from the robot,455377188,20260817,158,0
+ep_00241.npz,v2.clean,train,pick,A,Pick up the red cube,1521584593,20260817,80,0
+ep_00242.npz,v2.clean,train,pick,B,Pick up the blue ball,1668766570,20260817,73,0
+ep_00243.npz,v2.clean,train,pick,C,Pick up the green cylinder,293524345,20260817,85,0
+ep_00244.npz,v2.clean,train,pick,B,Pick up the blue ball,2070858848,20260817,77,0
+ep_00245.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1793343022,20260817,67,0
+ep_00246.npz,v2.clean,train,pick,C,Pick up the green cylinder,2019256789,20260817,79,0
+ep_00247.npz,v2.clean,train,pick,B,Pick up the blue ball,314976852,20260817,86,0
+ep_00248.npz,v2.clean,train,pick,C,Pick up the green cylinder,521779372,20260817,79,0
+ep_00249.npz,v2.clean,train,pick,A,Pick up the red cube,679893990,20260817,88,0
+ep_00250.npz,v2.clean,test,pick,C,Pick up the green cylinder,289842482,20260817,75,0
+ep_00251.npz,v2.clean,train,pick,C,Pick up the green cylinder,1560403709,20260817,84,0
+ep_00252.npz,v2.clean,train,pick,A,Pick up the red cube,279056775,20260817,71,0
+ep_00253.npz,v2.clean,train,pick,C,Pick up the green cylinder,1927591327,20260817,80,0
+ep_00254.npz,v2.clean,train,pick,B,Pick up the blue ball,573638162,20260817,78,0
+ep_00255.npz,v2.clean,train,pick,A,Pick up the red cube,499848850,20260817,88,0
+ep_00256.npz,v2.clean,train,pick,B,Pick up the blue ball,1164103536,20260817,79,0
+ep_00257.npz,v2.clean,test,pick,A,Pick up the red cube,1012630835,20260817,74,0
+ep_00258.npz,v2.clean,test,pick,C,Pick up the green cylinder,416357915,20260817,82,0
+ep_00259.npz,v2.clean,train,pick,B,Pick up the blue ball,368920103,20260817,82,0
+ep_00260.npz,v2.clean,train,pick,A,Pick up the red cube,1821978701,20260817,80,0
+ep_00261.npz,v2.clean,train,push,A,Push the red cube away from the robot,1817273201,20260817,82,0
+ep_00262.npz,v2.clean,train,pick,A,Pick up the red cube,470962863,20260817,88,0
+ep_00263.npz,v2.clean,test,pick,B,Pick up the blue ball,1178571861,20260817,80,0
+ep_00264.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,889850560,20260817,76,0
+ep_00265.npz,v2.clean,test,pick,B,Pick up the blue ball,910258707,20260817,72,0
+ep_00266.npz,v2.clean,train,pick,C,Pick up the green cylinder,347414034,20260817,82,0
+ep_00267.npz,v2.clean,test,push,A,Push the red cube away from the robot,239820589,20260817,74,0
+ep_00268.npz,v2.clean,train,pick,C,Pick up the green cylinder,481725705,20260817,80,0
+ep_00269.npz,v2.clean,train,pick,B,Pick up the blue ball,1903855021,20260817,72,0
+ep_00270.npz,v2.clean,train,pick,C,Pick up the green cylinder,165667448,20260817,79,0
+ep_00271.npz,v2.clean,test,pick,C,Pick up the green cylinder,757552072,20260817,84,0
+ep_00272.npz,v2.clean,train,pick,C,Pick up the green cylinder,348536512,20260817,85,0
+ep_00273.npz,v2.clean,val,pick,A,Pick up the red cube,818337586,20260817,85,0
+ep_00274.npz,v2.clean,train,pick,A,Pick up the red cube,2032857914,20260817,82,0
+ep_00275.npz,v2.clean,train,pick,C,Pick up the green cylinder,131252546,20260817,74,0
+ep_00276.npz,v2.clean,train,pick,A,Pick up the red cube,1223628807,20260817,83,0
+ep_00277.npz,v2.clean,train,pick,C,Pick up the green cylinder,794508658,20260817,86,0
+ep_00278.npz,v2.clean,train,pick,A,Pick up the red cube,1685450308,20260817,87,0
+ep_00279.npz,v2.clean,val,pick,A,Pick up the red cube,209669321,20260817,74,0
+ep_00280.npz,v2.clean,train,pick,A,Pick up the red cube,568334217,20260817,83,0
+ep_00281.npz,v2.clean,train,pick,B,Pick up the blue ball,893947871,20260817,84,0
+ep_00282.npz,v2.clean,train,pick,C,Pick up the green cylinder,746614289,20260817,80,0
+ep_00283.npz,v2.clean,train,pick,A,Pick up the red cube,101051720,20260817,78,0
+ep_00284.npz,v2.clean,train,pick,C,Pick up the green cylinder,1029132909,20260817,77,0
+ep_00285.npz,v2.clean,val,pick,A,Pick up the red cube,2022313249,20260817,83,0
+ep_00286.npz,v2.clean,train,pick,C,Pick up the green cylinder,519479508,20260817,85,0
+ep_00287.npz,v2.clean,train,pick,C,Pick up the green cylinder,123586960,20260817,78,0
+ep_00288.npz,v2.clean,test,pick,A,Pick up the red cube,392552721,20260817,91,0
+ep_00289.npz,v2.clean,train,push,A,Push the red cube away from the robot,911396729,20260817,81,0
+ep_00290.npz,v2.clean,train,pick,C,Pick up the green cylinder,1977941635,20260817,77,0
+ep_00291.npz,v2.clean,train,pick,A,Pick up the red cube,1279791487,20260817,75,0
+ep_00292.npz,v2.clean,train,pick,A,Pick up the red cube,1012196569,20260817,89,0
+ep_00293.npz,v2.clean,train,pick,C,Pick up the green cylinder,1129086188,20260817,72,0
+ep_00294.npz,v2.clean,train,pick,C,Pick up the green cylinder,454104504,20260817,87,0
+ep_00295.npz,v2.clean,train,pick,A,Pick up the red cube,313693871,20260817,80,0
+ep_00296.npz,v2.clean,train,push,A,Push the red cube away from the robot,1058908238,20260817,85,0
+ep_00297.npz,v2.clean,test,push,A,Push the red cube away from the robot,1919216085,20260817,89,0
+ep_00298.npz,v2.clean,train,pick,C,Pick up the green cylinder,1329498064,20260817,79,0
+ep_00299.npz,v2.clean,train,pick,B,Pick up the blue ball,304052731,20260817,77,0
+ep_00300.npz,v2.clean,train,pick,C,Pick up the green cylinder,184496570,20260817,74,0
+ep_00301.npz,v2.clean,train,pick,C,Pick up the green cylinder,1964323999,20260817,76,0
+ep_00302.npz,v2.clean,train,pick,A,Pick up the red cube,1847464351,20260817,77,0
+ep_00303.npz,v2.clean,train,pick,A,Pick up the red cube,821207812,20260817,85,0
+ep_00304.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1197131805,20260817,80,0
+ep_00305.npz,v2.clean,train,push,A,Push the red cube away from the robot,1019745215,20260817,86,0
+ep_00306.npz,v2.clean,train,pick,A,Pick up the red cube,1259960504,20260817,88,0
+ep_00307.npz,v2.clean,train,pick,B,Pick up the blue ball,316891196,20260817,85,0
+ep_00308.npz,v2.clean,train,pick,C,Pick up the green cylinder,953488329,20260817,84,0
+ep_00309.npz,v2.clean,train,pick,A,Pick up the red cube,1001859478,20260817,77,0
+ep_00310.npz,v2.clean,train,pick,B,Pick up the blue ball,144653262,20260817,78,0
+ep_00311.npz,v2.clean,train,pick,C,Pick up the green cylinder,163922084,20260817,85,0
+ep_00312.npz,v2.clean,train,pick,B,Pick up the blue ball,1515147673,20260817,77,0
+ep_00313.npz,v2.clean,train,pick,A,Pick up the red cube,1619515294,20260817,73,0
+ep_00314.npz,v2.clean,test,push,A,Push the red cube away from the robot,1850745680,20260817,80,0
+ep_00315.npz,v2.clean,train,pick,C,Pick up the green cylinder,1877006109,20260817,78,0
+ep_00316.npz,v2.clean,train,pick,A,Pick up the red cube,1398933633,20260817,87,0
+ep_00317.npz,v2.clean,train,pick,C,Pick up the green cylinder,1064897411,20260817,83,0
+ep_00318.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1280946941,20260817,82,0
+ep_00319.npz,v2.clean,val,pick,C,Pick up the green cylinder,1843409222,20260817,85,0
+ep_00320.npz,v2.clean,train,pick,B,Pick up the blue ball,1933102682,20260817,71,0
+ep_00321.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1542586555,20260817,179,0
+ep_00322.npz,v2.clean,train,pick,B,Pick up the blue ball,1911562911,20260817,81,0
+ep_00323.npz,v2.clean,train,pick,B,Pick up the blue ball,1951168295,20260817,80,0
+ep_00324.npz,v2.clean,train,pick,B,Pick up the blue ball,1029731760,20260817,75,0
+ep_00325.npz,v2.clean,train,pick,A,Pick up the red cube,1436355477,20260817,75,0
+ep_00326.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1831522736,20260817,76,0
+ep_00327.npz,v2.clean,test,pick,A,Pick up the red cube,620078297,20260817,88,0
+ep_00328.npz,v2.clean,train,pick,A,Pick up the red cube,1030104999,20260817,87,0
+ep_00329.npz,v2.clean,test,pick,A,Pick up the red cube,276280804,20260817,79,0
+ep_00330.npz,v2.clean,train,pick,B,Pick up the blue ball,1341921529,20260817,81,0
+ep_00331.npz,v2.clean,val,push,A,Push the red cube away from the robot,1765696988,20260817,81,0
+ep_00332.npz,v2.clean,train,pick,C,Pick up the green cylinder,1576436062,20260817,80,0
+ep_00333.npz,v2.clean,train,pick,B,Pick up the blue ball,976067727,20260817,81,0
+ep_00334.npz,v2.clean,train,push,B,Push the blue ball away from the robot,728943237,20260817,72,0
+ep_00335.npz,v2.clean,train,pick,B,Pick up the blue ball,1803381707,20260817,87,0
+ep_00336.npz,v2.clean,train,pick,C,Pick up the green cylinder,1018955104,20260817,85,0
+ep_00337.npz,v2.clean,val,push,A,Push the red cube away from the robot,547824514,20260817,81,0
+ep_00338.npz,v2.clean,train,pick,B,Pick up the blue ball,1656183201,20260817,80,0
+ep_00339.npz,v2.clean,val,pick,C,Pick up the green cylinder,455269979,20260817,80,0
+ep_00340.npz,v2.clean,train,pick,C,Pick up the green cylinder,1010841525,20260817,82,0
+ep_00341.npz,v2.clean,train,pick,B,Pick up the blue ball,467745758,20260817,71,0
+ep_00342.npz,v2.clean,train,pick,B,Pick up the blue ball,1029967508,20260817,75,0
+ep_00343.npz,v2.clean,train,pick,A,Pick up the red cube,636772214,20260817,81,0
+ep_00344.npz,v2.clean,test,pick,C,Pick up the green cylinder,314286117,20260817,67,0
+ep_00345.npz,v2.clean,train,pick,B,Pick up the blue ball,1319519533,20260817,79,0
+ep_00346.npz,v2.clean,train,pick,A,Pick up the red cube,315719978,20260817,81,0
+ep_00347.npz,v2.clean,test,pick,C,Pick up the green cylinder,2084111069,20260817,73,0
+ep_00348.npz,v2.clean,train,pick,A,Pick up the red cube,60823377,20260817,84,0
+ep_00349.npz,v2.clean,train,pick,C,Pick up the green cylinder,512459950,20260817,68,0
+ep_00350.npz,v2.clean,train,push,B,Push the blue ball away from the robot,615137319,20260817,65,0
+ep_00351.npz,v2.clean,train,pick,B,Pick up the blue ball,1410017570,20260817,75,0
+ep_00352.npz,v2.clean,train,pick,A,Pick up the red cube,1732220724,20260817,87,0
+ep_00353.npz,v2.clean,train,pick,A,Pick up the red cube,436312509,20260817,84,0
+ep_00354.npz,v2.clean,test,pick,B,Pick up the blue ball,1136570407,20260817,73,0
+ep_00355.npz,v2.clean,train,push,B,Push the blue ball away from the robot,253458763,20260817,63,0
+ep_00356.npz,v2.clean,test,pick,C,Pick up the green cylinder,202762131,20260817,86,0
+ep_00357.npz,v2.clean,val,pick,A,Pick up the red cube,1551865400,20260817,83,0
+ep_00358.npz,v2.clean,train,pick,B,Pick up the blue ball,1806451337,20260817,78,0
+ep_00359.npz,v2.clean,train,pick,C,Pick up the green cylinder,595750420,20260817,79,0
+ep_00360.npz,v2.clean,train,pick,A,Pick up the red cube,79282831,20260817,81,0
+ep_00361.npz,v2.clean,test,pick,B,Pick up the blue ball,178599811,20260817,86,0
+ep_00362.npz,v2.clean,train,pick,B,Pick up the blue ball,2092034972,20260817,85,0
+ep_00363.npz,v2.clean,test,pick,C,Pick up the green cylinder,733938118,20260817,86,0
+ep_00364.npz,v2.clean,train,pick,A,Pick up the red cube,51163922,20260817,86,0
+ep_00365.npz,v2.clean,train,pick,B,Pick up the blue ball,1863235723,20260817,85,0
+ep_00366.npz,v2.clean,train,pick,A,Pick up the red cube,1820953494,20260817,85,0
+ep_00367.npz,v2.clean,train,pick,B,Pick up the blue ball,772445137,20260817,83,0
+ep_00368.npz,v2.clean,train,pick,C,Pick up the green cylinder,501964145,20260817,72,0
+ep_00369.npz,v2.clean,train,pick,B,Pick up the blue ball,1869257301,20260817,80,0
+ep_00370.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,986343980,20260817,75,0
+ep_00371.npz,v2.clean,val,pick,A,Pick up the red cube,758823147,20260817,80,0
+ep_00372.npz,v2.clean,train,pick,A,Pick up the red cube,1699747624,20260817,78,0
+ep_00373.npz,v2.clean,train,pick,C,Pick up the green cylinder,1378175543,20260817,81,0
+ep_00374.npz,v2.clean,train,pick,B,Pick up the blue ball,921666199,20260817,75,0
+ep_00375.npz,v2.clean,train,pick,A,Pick up the red cube,232428202,20260817,84,0
+ep_00376.npz,v2.clean,train,pick,B,Pick up the blue ball,376199501,20260817,82,0
+ep_00377.npz,v2.clean,train,pick,C,Pick up the green cylinder,1234294665,20260817,84,0
+ep_00378.npz,v2.clean,train,push,A,Push the red cube away from the robot,261454770,20260817,79,0
+ep_00379.npz,v2.clean,train,pick,A,Pick up the red cube,1001937041,20260817,89,0
+ep_00380.npz,v2.clean,train,push,A,Push the red cube away from the robot,658906161,20260817,80,0
+ep_00381.npz,v2.clean,train,pick,A,Pick up the red cube,1753784329,20260817,81,0
+ep_00382.npz,v2.clean,train,push,A,Push the red cube away from the robot,785841092,20260817,82,0
+ep_00383.npz,v2.clean,train,pick,C,Pick up the green cylinder,2082834608,20260817,72,0
+ep_00384.npz,v2.clean,train,pick,B,Pick up the blue ball,1896501380,20260817,81,0
+ep_00385.npz,v2.clean,test,pick,C,Pick up the green cylinder,1220120961,20260817,78,0
+ep_00386.npz,v2.clean,train,pick,B,Pick up the blue ball,2066768361,20260817,79,0
+ep_00387.npz,v2.clean,train,pick,C,Pick up the green cylinder,2038860591,20260817,85,0
+ep_00388.npz,v2.clean,train,pick,C,Pick up the green cylinder,167288781,20260817,86,0
+ep_00389.npz,v2.clean,train,pick,B,Pick up the blue ball,1607484257,20260817,83,0
+ep_00390.npz,v2.clean,train,pick,B,Pick up the blue ball,1351879243,20260817,83,0
+ep_00391.npz,v2.clean,val,pick,B,Pick up the blue ball,1826997328,20260817,78,0
+ep_00392.npz,v2.clean,train,pick,A,Pick up the red cube,1517413643,20260817,79,0
+ep_00393.npz,v2.clean,train,pick,C,Pick up the green cylinder,575470357,20260817,84,0
+ep_00394.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1575086975,20260817,184,0
+ep_00395.npz,v2.clean,train,push,A,Push the red cube away from the robot,1926737355,20260817,83,0
+ep_00396.npz,v2.clean,train,pick,A,Pick up the red cube,1331755908,20260817,84,0
+ep_00397.npz,v2.clean,train,push,A,Push the red cube away from the robot,2059614772,20260817,84,0
+ep_00398.npz,v2.clean,train,pick,C,Pick up the green cylinder,163026689,20260817,79,0
+ep_00399.npz,v2.clean,train,pick,B,Pick up the blue ball,237199937,20260817,77,0
+ep_00400.npz,v2.clean,train,pick,C,Pick up the green cylinder,391456534,20260817,82,0
+ep_00401.npz,v2.clean,val,pick,C,Pick up the green cylinder,1501637741,20260817,75,0
+ep_00402.npz,v2.clean,train,pick,A,Pick up the red cube,289300011,20260817,79,0
+ep_00403.npz,v2.clean,train,pick,C,Pick up the green cylinder,875115757,20260817,83,0
+ep_00404.npz,v2.clean,train,pick,B,Pick up the blue ball,523239552,20260817,85,0
+ep_00405.npz,v2.clean,train,pick,C,Pick up the green cylinder,1047533860,20260817,73,0
+ep_00406.npz,v2.clean,train,pick,C,Pick up the green cylinder,403353416,20260817,84,0
+ep_00407.npz,v2.clean,train,pick,A,Pick up the red cube,316368838,20260817,85,0
+ep_00408.npz,v2.clean,train,pick,B,Pick up the blue ball,693960562,20260817,69,0
+ep_00409.npz,v2.clean,train,push,B,Push the blue ball away from the robot,775586333,20260817,65,0
+ep_00410.npz,v2.clean,train,pick,A,Pick up the red cube,495417419,20260817,79,0
+ep_00411.npz,v2.clean,train,pick,C,Pick up the green cylinder,202026918,20260817,73,0
+ep_00412.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,10779840,20260817,77,0
+ep_00413.npz,v2.clean,train,push,A,Push the red cube away from the robot,628475495,20260817,84,0
+ep_00414.npz,v2.clean,train,pick,B,Pick up the blue ball,1357662558,20260817,86,0
+ep_00415.npz,v2.clean,val,pick,C,Pick up the green cylinder,578808680,20260817,73,0
+ep_00416.npz,v2.clean,val,pick,A,Pick up the red cube,2136886231,20260817,85,0
+ep_00417.npz,v2.clean,test,pick,C,Pick up the green cylinder,1989658220,20260817,76,0
+ep_00418.npz,v2.clean,train,pick,C,Pick up the green cylinder,1163694436,20260817,84,0
+ep_00419.npz,v2.clean,val,pick,C,Pick up the green cylinder,1105924606,20260817,75,0
+ep_00420.npz,v2.clean,train,pick,A,Pick up the red cube,1086298049,20260817,105,0
+ep_00421.npz,v2.clean,train,pick,B,Pick up the blue ball,1908123513,20260817,76,0
+ep_00422.npz,v2.clean,val,push,A,Push the red cube away from the robot,583423774,20260817,78,0
+ep_00423.npz,v2.clean,train,pick,B,Pick up the blue ball,1744097159,20260817,77,0
+ep_00424.npz,v2.clean,train,pick,C,Pick up the green cylinder,1827432825,20260817,77,0
+ep_00425.npz,v2.clean,train,pick,A,Pick up the red cube,661310824,20260817,84,0
+ep_00426.npz,v2.clean,train,pick,A,Pick up the red cube,60277671,20260817,83,0
+ep_00427.npz,v2.clean,train,pick,A,Pick up the red cube,154651964,20260817,86,0
+ep_00428.npz,v2.clean,train,pick,B,Pick up the blue ball,1457668670,20260817,76,0
+ep_00429.npz,v2.clean,train,push,A,Push the red cube away from the robot,1005163749,20260817,82,0
+ep_00430.npz,v2.clean,train,pick,A,Pick up the red cube,564007008,20260817,78,0
+ep_00431.npz,v2.clean,train,pick,A,Pick up the red cube,3190713,20260817,81,0
+ep_00432.npz,v2.clean,train,pick,C,Pick up the green cylinder,248662400,20260817,74,0
+ep_00433.npz,v2.clean,train,pick,B,Pick up the blue ball,1802956176,20260817,83,0
+ep_00434.npz,v2.clean,train,pick,C,Pick up the green cylinder,486141422,20260817,83,0
+ep_00435.npz,v2.clean,test,pick,A,Pick up the red cube,1660370194,20260817,95,0
+ep_00436.npz,v2.clean,train,pick,B,Pick up the blue ball,345674549,20260817,83,0
+ep_00437.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1092310337,20260817,73,0
+ep_00438.npz,v2.clean,train,pick,B,Pick up the blue ball,1064878801,20260817,82,0
+ep_00439.npz,v2.clean,train,pick,C,Pick up the green cylinder,927382975,20260817,83,0
+ep_00440.npz,v2.clean,train,pick,A,Pick up the red cube,1862874801,20260817,79,0
+ep_00441.npz,v2.clean,train,pick,B,Pick up the blue ball,1644376938,20260817,82,0
+ep_00442.npz,v2.clean,val,pick,B,Pick up the blue ball,1258066744,20260817,82,0
+ep_00443.npz,v2.clean,train,pick,A,Pick up the red cube,1706036564,20260817,94,0
+ep_00444.npz,v2.clean,train,push,A,Push the red cube away from the robot,135182242,20260817,76,0
+ep_00445.npz,v2.clean,train,pick,B,Pick up the blue ball,111944301,20260817,81,0
+ep_00446.npz,v2.clean,val,pick,C,Pick up the green cylinder,1616000879,20260817,78,0
+ep_00447.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,505020191,20260817,93,0
+ep_00448.npz,v2.clean,train,pick,A,Pick up the red cube,2098844031,20260817,85,0
+ep_00449.npz,v2.clean,train,pick,B,Pick up the blue ball,941630887,20260817,83,0
+ep_00450.npz,v2.clean,train,pick,B,Pick up the blue ball,872816706,20260817,85,0
+ep_00451.npz,v2.clean,train,pick,C,Pick up the green cylinder,30300514,20260817,75,0
+ep_00452.npz,v2.clean,train,pick,B,Pick up the blue ball,1597199543,20260817,81,0
+ep_00453.npz,v2.clean,train,push,A,Push the red cube away from the robot,1473503275,20260817,76,0
+ep_00454.npz,v2.clean,train,pick,A,Pick up the red cube,511330491,20260817,83,0
+ep_00455.npz,v2.clean,val,pick,A,Pick up the red cube,859982071,20260817,88,0
+ep_00456.npz,v2.clean,train,push,A,Push the red cube away from the robot,1466215042,20260817,72,0
+ep_00457.npz,v2.clean,val,pick,A,Pick up the red cube,880292208,20260817,78,0
+ep_00458.npz,v2.clean,train,pick,C,Pick up the green cylinder,1114807545,20260817,76,0
+ep_00459.npz,v2.clean,val,pick,B,Pick up the blue ball,1100921334,20260817,82,0
+ep_00460.npz,v2.clean,test,pick,A,Pick up the red cube,995933351,20260817,77,0
+ep_00461.npz,v2.clean,train,pick,A,Pick up the red cube,598158727,20260817,79,0
+ep_00462.npz,v2.clean,train,pick,B,Pick up the blue ball,314999378,20260817,74,0
+ep_00463.npz,v2.clean,test,pick,B,Pick up the blue ball,846450198,20260817,71,0
+ep_00464.npz,v2.clean,train,pick,C,Pick up the green cylinder,1281657154,20260817,86,0
+ep_00465.npz,v2.clean,train,push,A,Push the red cube away from the robot,298607498,20260817,83,0
+ep_00466.npz,v2.clean,test,pick,B,Pick up the blue ball,875688987,20260817,76,0
+ep_00467.npz,v2.clean,train,pick,A,Pick up the red cube,471186032,20260817,82,0
+ep_00468.npz,v2.clean,train,pick,C,Pick up the green cylinder,1999882514,20260817,87,0
+ep_00469.npz,v2.clean,train,pick,C,Pick up the green cylinder,1286793777,20260817,82,0
+ep_00470.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1745204161,20260817,177,0
+ep_00471.npz,v2.clean,val,pick,C,Pick up the green cylinder,1662590063,20260817,78,0
+ep_00472.npz,v2.clean,train,pick,C,Pick up the green cylinder,1539128284,20260817,84,0
+ep_00473.npz,v2.clean,val,pick,A,Pick up the red cube,106122314,20260817,84,0
+ep_00474.npz,v2.clean,train,pick,C,Pick up the green cylinder,1121911479,20260817,78,0
+ep_00475.npz,v2.clean,train,pick,C,Pick up the green cylinder,341589977,20260817,75,0
+ep_00476.npz,v2.clean,train,pick,C,Pick up the green cylinder,328015994,20260817,81,0
+ep_00477.npz,v2.clean,val,pick,A,Pick up the red cube,1819791988,20260817,82,0
+ep_00478.npz,v2.clean,train,pick,B,Pick up the blue ball,917508055,20260817,81,0
+ep_00479.npz,v2.clean,train,pick,B,Pick up the blue ball,245703234,20260817,83,0
+ep_00480.npz,v2.clean,val,pick,B,Pick up the blue ball,850420910,20260817,75,0
+ep_00481.npz,v2.clean,train,pick,C,Pick up the green cylinder,828389237,20260817,81,0
+ep_00482.npz,v2.clean,train,pick,A,Pick up the red cube,1955087049,20260817,80,0
+ep_00483.npz,v2.clean,train,pick,A,Pick up the red cube,633978161,20260817,81,0
+ep_00484.npz,v2.clean,val,pick,A,Pick up the red cube,1484824988,20260817,73,0
+ep_00485.npz,v2.clean,train,pick,B,Pick up the blue ball,526125996,20260817,78,0
+ep_00486.npz,v2.clean,train,pick,A,Pick up the red cube,128858575,20260817,77,0
+ep_00487.npz,v2.clean,train,pick,B,Pick up the blue ball,1362051815,20260817,87,0
+ep_00488.npz,v2.clean,val,pick,C,Pick up the green cylinder,131602945,20260817,70,0
+ep_00489.npz,v2.clean,train,push,A,Push the red cube away from the robot,38557865,20260817,81,0
+ep_00490.npz,v2.clean,train,pick,C,Pick up the green cylinder,1913150196,20260817,83,0
+ep_00491.npz,v2.clean,train,pick,C,Pick up the green cylinder,305248520,20260817,84,0
+ep_00492.npz,v2.clean,train,pick,A,Pick up the red cube,966774414,20260817,86,0
+ep_00493.npz,v2.clean,train,pick,B,Pick up the blue ball,1982151439,20260817,76,0
+ep_00494.npz,v2.clean,train,pick,A,Pick up the red cube,1017389379,20260817,75,0
+ep_00495.npz,v2.clean,train,pick,B,Pick up the blue ball,196475503,20260817,84,0
+ep_00496.npz,v2.clean,train,pick,A,Pick up the red cube,1226417389,20260817,79,0
+ep_00497.npz,v2.clean,test,pick,A,Pick up the red cube,203502623,20260817,81,0
+ep_00498.npz,v2.clean,test,pick,B,Pick up the blue ball,1540983223,20260817,84,0
+ep_00499.npz,v2.clean,train,pick,A,Pick up the red cube,1366615045,20260817,86,0
+ep_00500.npz,v2.clean,train,pick,B,Pick up the blue ball,1834931760,20260817,82,0
+ep_00501.npz,v2.clean,train,pick,A,Pick up the red cube,1945596526,20260817,82,0
+ep_00502.npz,v2.clean,test,push,A,Push the red cube away from the robot,1272305165,20260817,83,0
+ep_00503.npz,v2.clean,train,pick,C,Pick up the green cylinder,1103901826,20260817,75,0
+ep_00504.npz,v2.clean,val,pick,A,Pick up the red cube,145058348,20260817,83,0
+ep_00505.npz,v2.clean,test,pick,C,Pick up the green cylinder,645045829,20260817,73,0
+ep_00506.npz,v2.clean,train,pick,A,Pick up the red cube,555910420,20260817,111,0
+ep_00507.npz,v2.clean,train,pick,C,Pick up the green cylinder,929539095,20260817,71,0
+ep_00508.npz,v2.clean,train,pick,C,Pick up the green cylinder,315773805,20260817,81,0
+ep_00509.npz,v2.clean,train,pick,C,Pick up the green cylinder,88193392,20260817,77,0
+ep_00510.npz,v2.clean,train,pick,C,Pick up the green cylinder,1968928573,20260817,75,0
+ep_00511.npz,v2.clean,test,push,A,Push the red cube away from the robot,1966212548,20260817,80,0
+ep_00512.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,2083371363,20260817,82,0
+ep_00513.npz,v2.clean,train,pick,A,Pick up the red cube,1111477517,20260817,84,0
+ep_00514.npz,v2.clean,train,pick,C,Pick up the green cylinder,1155178218,20260817,69,0
+ep_00515.npz,v2.clean,train,pick,A,Pick up the red cube,1207916,20260817,75,0
+ep_00516.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1311105233,20260817,84,0
+ep_00517.npz,v2.clean,train,pick,C,Pick up the green cylinder,1764692797,20260817,81,0
+ep_00518.npz,v2.clean,train,push,A,Push the red cube away from the robot,976630088,20260817,80,0
+ep_00519.npz,v2.clean,train,pick,A,Pick up the red cube,944303975,20260817,88,0
+ep_00520.npz,v2.clean,train,pick,A,Pick up the red cube,1708753749,20260817,86,0
+ep_00521.npz,v2.clean,train,pick,C,Pick up the green cylinder,2079627396,20260817,84,0
+ep_00522.npz,v2.clean,train,pick,C,Pick up the green cylinder,346247067,20260817,74,0
+ep_00523.npz,v2.clean,test,pick,A,Pick up the red cube,1007735417,20260817,73,0
+ep_00524.npz,v2.clean,train,pick,C,Pick up the green cylinder,992312734,20260817,68,0
+ep_00525.npz,v2.clean,train,pick,A,Pick up the red cube,816006794,20260817,84,0
+ep_00526.npz,v2.clean,train,pick,A,Pick up the red cube,347360483,20260817,79,0
+ep_00527.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1226976568,20260817,65,0
+ep_00528.npz,v2.clean,train,pick,B,Pick up the blue ball,304362441,20260817,81,0
+ep_00529.npz,v2.clean,train,pick,C,Pick up the green cylinder,95835172,20260817,83,0
+ep_00530.npz,v2.clean,val,pick,B,Pick up the blue ball,2133153858,20260817,74,0
+ep_00531.npz,v2.clean,train,pick,A,Pick up the red cube,1360495828,20260817,84,0
+ep_00532.npz,v2.clean,val,pick,B,Pick up the blue ball,1964766762,20260817,76,0
+ep_00533.npz,v2.clean,train,pick,B,Pick up the blue ball,666610393,20260817,84,0
+ep_00534.npz,v2.clean,train,pick,A,Pick up the red cube,1347174918,20260817,70,0
+ep_00535.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1584341073,20260817,149,0
+ep_00536.npz,v2.clean,train,pick,A,Pick up the red cube,1041313662,20260817,85,0
+ep_00537.npz,v2.clean,train,pick,A,Pick up the red cube,2147451957,20260817,82,0
+ep_00538.npz,v2.clean,train,pick,B,Pick up the blue ball,289818761,20260817,84,0
+ep_00539.npz,v2.clean,train,pick,C,Pick up the green cylinder,859495882,20260817,74,0
+ep_00540.npz,v2.clean,train,pick,B,Pick up the blue ball,199153458,20260817,78,0
+ep_00541.npz,v2.clean,train,pick,B,Pick up the blue ball,365157990,20260817,78,0
+ep_00542.npz,v2.clean,train,pick,A,Pick up the red cube,1246610717,20260817,76,0
+ep_00543.npz,v2.clean,train,pick,C,Pick up the green cylinder,908649469,20260817,86,0
+ep_00544.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1929794794,20260817,66,0
+ep_00545.npz,v2.clean,train,pick,A,Pick up the red cube,211724802,20260817,75,0
+ep_00546.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1416571481,20260817,66,0
+ep_00547.npz,v2.clean,train,pick,C,Pick up the green cylinder,1776867317,20260817,74,0
+ep_00548.npz,v2.clean,train,pick,B,Pick up the blue ball,458116341,20260817,80,0
+ep_00549.npz,v2.clean,val,pick,A,Pick up the red cube,1163212130,20260817,75,0
+ep_00550.npz,v2.clean,train,pick,C,Pick up the green cylinder,1191532861,20260817,72,0
+ep_00551.npz,v2.clean,train,pick,C,Pick up the green cylinder,483760625,20260817,79,0
+ep_00552.npz,v2.clean,train,pick,C,Pick up the green cylinder,388752763,20260817,85,0
+ep_00553.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1328818123,20260817,71,0
+ep_00554.npz,v2.clean,train,pick,B,Pick up the blue ball,1444750808,20260817,79,0
+ep_00555.npz,v2.clean,train,pick,C,Pick up the green cylinder,1210720056,20260817,77,0
+ep_00556.npz,v2.clean,train,pick,B,Pick up the blue ball,618485928,20260817,85,0
+ep_00557.npz,v2.clean,train,pick,C,Pick up the green cylinder,753070625,20260817,85,0
+ep_00558.npz,v2.clean,train,pick,B,Pick up the blue ball,1496687551,20260817,79,0
+ep_00559.npz,v2.clean,train,pick,B,Pick up the blue ball,1084355071,20260817,86,0
+ep_00560.npz,v2.clean,train,pick,A,Pick up the red cube,1106769434,20260817,85,0
+ep_00561.npz,v2.clean,train,pick,B,Pick up the blue ball,1243282812,20260817,79,0
+ep_00562.npz,v2.clean,train,pick,B,Pick up the blue ball,1621552752,20260817,78,0
+ep_00563.npz,v2.clean,train,pick,B,Pick up the blue ball,521005445,20260817,76,0
+ep_00564.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,159810765,20260817,81,0
+ep_00565.npz,v2.clean,train,pick,B,Pick up the blue ball,743431642,20260817,83,0
+ep_00566.npz,v2.clean,val,pick,B,Pick up the blue ball,42670399,20260817,71,0
+ep_00567.npz,v2.clean,test,pick,B,Pick up the blue ball,1362156075,20260817,76,0
+ep_00568.npz,v2.clean,train,pick,A,Pick up the red cube,2110163485,20260817,84,0
+ep_00569.npz,v2.clean,train,pick,B,Pick up the blue ball,1895832792,20260817,79,0
+ep_00570.npz,v2.clean,train,pick,B,Pick up the blue ball,1848195995,20260817,75,0
+ep_00571.npz,v2.clean,train,pick,B,Pick up the blue ball,305534253,20260817,85,0
+ep_00572.npz,v2.clean,train,pick,A,Pick up the red cube,2095685952,20260817,85,0
+ep_00573.npz,v2.clean,train,pick,C,Pick up the green cylinder,1304464,20260817,76,0
+ep_00574.npz,v2.clean,val,pick,A,Pick up the red cube,1478090101,20260817,79,0
+ep_00575.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,431013025,20260817,83,0
+ep_00576.npz,v2.clean,train,pick,B,Pick up the blue ball,1255546415,20260817,76,0
+ep_00577.npz,v2.clean,test,pick,A,Pick up the red cube,874894594,20260817,80,0
+ep_00578.npz,v2.clean,train,pick,B,Pick up the blue ball,70297807,20260817,77,0
+ep_00579.npz,v2.clean,train,pick,C,Pick up the green cylinder,431216512,20260817,80,0
+ep_00580.npz,v2.clean,train,pick,C,Pick up the green cylinder,2097873673,20260817,83,0
+ep_00581.npz,v2.clean,train,pick,B,Pick up the blue ball,213165003,20260817,79,0
+ep_00582.npz,v2.clean,train,pick,B,Pick up the blue ball,1820750459,20260817,75,0
+ep_00583.npz,v2.clean,train,pick,C,Pick up the green cylinder,743832389,20260817,78,0
+ep_00584.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,1977905994,20260817,74,0
+ep_00585.npz,v2.clean,train,pick,B,Pick up the blue ball,1748457796,20260817,81,0
+ep_00586.npz,v2.clean,train,pick,B,Pick up the blue ball,1833447244,20260817,86,0
+ep_00587.npz,v2.clean,test,pick,A,Pick up the red cube,1934517210,20260817,87,0
+ep_00588.npz,v2.clean,train,pick,A,Pick up the red cube,1870578516,20260817,84,0
+ep_00589.npz,v2.clean,train,pick,A,Pick up the red cube,1528123281,20260817,78,0
+ep_00590.npz,v2.clean,train,pick,A,Pick up the red cube,1802413814,20260817,82,0
+ep_00591.npz,v2.clean,val,pick,C,Pick up the green cylinder,824594509,20260817,74,0
+ep_00592.npz,v2.clean,val,pick,A,Pick up the red cube,1100839637,20260817,85,0
+ep_00593.npz,v2.clean,train,pick,A,Pick up the red cube,183991184,20260817,81,0
+ep_00594.npz,v2.clean,val,pick,C,Pick up the green cylinder,970229506,20260817,82,0
+ep_00595.npz,v2.clean,train,pick,A,Pick up the red cube,2004234450,20260817,87,0
+ep_00596.npz,v2.clean,train,pick,B,Pick up the blue ball,2103584457,20260817,81,0
+ep_00597.npz,v2.clean,train,pick,B,Pick up the blue ball,907612501,20260817,72,0
+ep_00598.npz,v2.clean,train,pick,B,Pick up the blue ball,778292288,20260817,87,0
+ep_00599.npz,v2.clean,train,pick,B,Pick up the blue ball,318739184,20260817,76,0
+ep_00600.npz,v2.clean,train,pick,C,Pick up the green cylinder,454342979,20260817,79,0
+ep_00601.npz,v2.clean,test,pick,C,Pick up the green cylinder,552144416,20260817,84,0
+ep_00602.npz,v2.clean,train,pick,C,Pick up the green cylinder,1048869514,20260817,81,0
+ep_00603.npz,v2.clean,train,pick,C,Pick up the green cylinder,42568523,20260817,68,0
+ep_00604.npz,v2.clean,train,pick,A,Pick up the red cube,273853203,20260817,77,0
+ep_00605.npz,v2.clean,train,push,A,Push the red cube away from the robot,1135855337,20260817,78,0
+ep_00606.npz,v2.clean,train,pick,B,Pick up the blue ball,412149790,20260817,79,0
+ep_00607.npz,v2.clean,train,pick,C,Pick up the green cylinder,1080203969,20260817,83,0
+ep_00608.npz,v2.clean,train,push,A,Push the red cube away from the robot,3204264,20260817,80,0
+ep_00609.npz,v2.clean,train,pick,B,Pick up the blue ball,294397103,20260817,77,0
+ep_00610.npz,v2.clean,train,pick,C,Pick up the green cylinder,1585846404,20260817,73,0
+ep_00611.npz,v2.clean,train,pick,C,Pick up the green cylinder,581236638,20260817,82,0
+ep_00612.npz,v2.clean,train,pick,A,Pick up the red cube,571482905,20260817,81,0
+ep_00613.npz,v2.clean,train,pick,B,Pick up the blue ball,1494436291,20260817,74,0
+ep_00614.npz,v2.clean,train,push,A,Push the red cube away from the robot,628309646,20260817,93,0
+ep_00615.npz,v2.clean,test,push,A,Push the red cube away from the robot,284534508,20260817,79,0
+ep_00616.npz,v2.clean,train,pick,B,Pick up the blue ball,990807152,20260817,80,0
+ep_00617.npz,v2.clean,test,pick,A,Pick up the red cube,504971293,20260817,122,0
+ep_00618.npz,v2.clean,train,push,A,Push the red cube away from the robot,187904045,20260817,77,0
+ep_00619.npz,v2.clean,train,pick,A,Pick up the red cube,495530140,20260817,76,0
+ep_00620.npz,v2.clean,train,pick,B,Pick up the blue ball,420042124,20260817,86,0
+ep_00621.npz,v2.clean,train,pick,B,Pick up the blue ball,546202346,20260817,83,0
+ep_00622.npz,v2.clean,train,pick,C,Pick up the green cylinder,1586326606,20260817,76,0
+ep_00623.npz,v2.clean,train,pick,A,Pick up the red cube,47847189,20260817,86,0
+ep_00624.npz,v2.clean,train,pick,C,Pick up the green cylinder,605530425,20260817,79,0
+ep_00625.npz,v2.clean,train,pick,C,Pick up the green cylinder,595443162,20260817,71,0
+ep_00626.npz,v2.clean,train,pick,A,Pick up the red cube,1939957883,20260817,87,0
+ep_00627.npz,v2.clean,train,push,A,Push the red cube away from the robot,2002739479,20260817,83,0
+ep_00628.npz,v2.clean,train,push,A,Push the red cube away from the robot,412534813,20260817,76,0
+ep_00629.npz,v2.clean,test,push,A,Push the red cube away from the robot,146396991,20260817,82,0
+ep_00630.npz,v2.clean,train,pick,C,Pick up the green cylinder,1284207353,20260817,68,0
+ep_00631.npz,v2.clean,train,pick,C,Pick up the green cylinder,1067112221,20260817,84,0
+ep_00632.npz,v2.clean,train,pick,C,Pick up the green cylinder,2147284541,20260817,70,0
+ep_00633.npz,v2.clean,val,push,A,Push the red cube away from the robot,1404612034,20260817,82,0
+ep_00634.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,1744332756,20260817,74,0
+ep_00635.npz,v2.clean,train,pick,A,Pick up the red cube,420376718,20260817,82,0
+ep_00636.npz,v2.clean,train,pick,C,Pick up the green cylinder,1079006553,20260817,75,0
+ep_00637.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,748351317,20260817,92,0
+ep_00638.npz,v2.clean,train,pick,C,Pick up the green cylinder,1219157244,20260817,84,0
+ep_00639.npz,v2.clean,train,pick,B,Pick up the blue ball,1851961212,20260817,69,0
+ep_00640.npz,v2.clean,train,pick,B,Pick up the blue ball,825711534,20260817,86,0
+ep_00641.npz,v2.clean,train,pick,C,Pick up the green cylinder,1106454710,20260817,69,0
+ep_00642.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,1681556809,20260817,73,0
+ep_00643.npz,v2.clean,train,pick,A,Pick up the red cube,1981587827,20260817,76,0
+ep_00644.npz,v2.clean,val,pick,C,Pick up the green cylinder,1366261520,20260817,81,0
+ep_00645.npz,v2.clean,train,pick,C,Pick up the green cylinder,1295777657,20260817,85,0
+ep_00646.npz,v2.clean,test,pick,C,Pick up the green cylinder,1186939619,20260817,80,0
+ep_00647.npz,v2.clean,train,pick,A,Pick up the red cube,1543948938,20260817,81,0
+ep_00648.npz,v2.clean,train,pick,C,Pick up the green cylinder,868957231,20260817,77,0
+ep_00649.npz,v2.clean,train,pick,A,Pick up the red cube,189700239,20260817,71,0
+ep_00650.npz,v2.clean,test,pick,C,Pick up the green cylinder,509130190,20260817,80,0
+ep_00651.npz,v2.clean,train,pick,A,Pick up the red cube,1007464280,20260817,82,0
+ep_00652.npz,v2.clean,train,pick,A,Pick up the red cube,1280995279,20260817,87,0
+ep_00653.npz,v2.clean,train,pick,C,Pick up the green cylinder,1966719264,20260817,84,0
+ep_00654.npz,v2.clean,train,push,A,Push the red cube away from the robot,1834095452,20260817,82,0
+ep_00655.npz,v2.clean,train,pick,B,Pick up the blue ball,1015262064,20260817,70,0
+ep_00656.npz,v2.clean,train,pick,B,Pick up the blue ball,1055277161,20260817,73,0
+ep_00657.npz,v2.clean,train,pick,A,Pick up the red cube,817868455,20260817,88,0
+ep_00658.npz,v2.clean,test,pick,B,Pick up the blue ball,2011323762,20260817,71,0
+ep_00659.npz,v2.clean,test,pick,B,Pick up the blue ball,2010666456,20260817,77,0
+ep_00660.npz,v2.clean,train,pick,A,Pick up the red cube,1366373596,20260817,81,0
+ep_00661.npz,v2.clean,train,pick,A,Pick up the red cube,967268675,20260817,82,0
+ep_00662.npz,v2.clean,train,pick,B,Pick up the blue ball,1913019818,20260817,82,0
+ep_00663.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1038718210,20260817,152,0
+ep_00664.npz,v2.clean,train,push,A,Push the red cube away from the robot,1381234998,20260817,74,0
+ep_00665.npz,v2.clean,train,pick,B,Pick up the blue ball,354152094,20260817,87,0
+ep_00666.npz,v2.clean,train,pick,B,Pick up the blue ball,534185787,20260817,84,0
+ep_00667.npz,v2.clean,train,pick,A,Pick up the red cube,484554824,20260817,82,0
+ep_00668.npz,v2.clean,val,pick,C,Pick up the green cylinder,295677463,20260817,82,0
+ep_00669.npz,v2.clean,train,pick,B,Pick up the blue ball,311196928,20260817,82,0
+ep_00670.npz,v2.clean,train,pick,A,Pick up the red cube,821788882,20260817,79,0
+ep_00671.npz,v2.clean,train,pick,A,Pick up the red cube,750461453,20260817,85,0
+ep_00672.npz,v2.clean,val,push,A,Push the red cube away from the robot,1117239343,20260817,76,0
+ep_00673.npz,v2.clean,train,pick,B,Pick up the blue ball,1167288376,20260817,74,0
+ep_00674.npz,v2.clean,train,pick,C,Pick up the green cylinder,845280527,20260817,85,0
+ep_00675.npz,v2.clean,train,pick,C,Pick up the green cylinder,1794878664,20260817,85,0
+ep_00676.npz,v2.clean,train,pick,B,Pick up the blue ball,810723638,20260817,69,0
+ep_00677.npz,v2.clean,train,push,A,Push the red cube away from the robot,1279609236,20260817,79,0
+ep_00678.npz,v2.clean,train,pick,A,Pick up the red cube,1270100729,20260817,87,0
+ep_00679.npz,v2.clean,test,pick,C,Pick up the green cylinder,2087028970,20260817,83,0
+ep_00680.npz,v2.clean,test,pick,B,Pick up the blue ball,1950976986,20260817,75,0
+ep_00681.npz,v2.clean,train,pick,C,Pick up the green cylinder,307535654,20260817,73,0
+ep_00682.npz,v2.clean,val,pick,B,Pick up the blue ball,1855750327,20260817,77,0
+ep_00683.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1218680060,20260817,71,0
+ep_00684.npz,v2.clean,train,pick,B,Pick up the blue ball,1466317772,20260817,79,0
+ep_00685.npz,v2.clean,val,push,A,Push the red cube away from the robot,529550620,20260817,83,0
+ep_00686.npz,v2.clean,train,pick,B,Pick up the blue ball,809962663,20260817,83,0
+ep_00687.npz,v2.clean,val,pick,A,Pick up the red cube,425607844,20260817,83,0
+ep_00688.npz,v2.clean,train,pick,B,Pick up the blue ball,648305368,20260817,74,0
+ep_00689.npz,v2.clean,train,pick,A,Pick up the red cube,534013485,20260817,85,0
+ep_00690.npz,v2.clean,val,pick,B,Pick up the blue ball,1209859859,20260817,85,0
+ep_00691.npz,v2.clean,train,pick,C,Pick up the green cylinder,1717488279,20260817,71,0
+ep_00692.npz,v2.clean,train,pick,C,Pick up the green cylinder,257154864,20260817,82,0
+ep_00693.npz,v2.clean,train,pick,C,Pick up the green cylinder,1265936041,20260817,85,0
+ep_00694.npz,v2.clean,val,pick,B,Pick up the blue ball,59323099,20260817,86,0
+ep_00695.npz,v2.clean,train,push,A,Push the red cube away from the robot,785184800,20260817,82,0
+ep_00696.npz,v2.clean,test,push,B,Push the blue ball away from the robot,2143184578,20260817,78,0
+ep_00697.npz,v2.clean,train,pick,B,Pick up the blue ball,1579452805,20260817,83,0
+ep_00698.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,457490182,20260817,83,0
+ep_00699.npz,v2.clean,train,pick,B,Pick up the blue ball,1063165242,20260817,86,0
+ep_00700.npz,v2.clean,train,push,A,Push the red cube away from the robot,2099238302,20260817,95,0
+ep_00701.npz,v2.clean,train,pick,B,Pick up the blue ball,1663625208,20260817,79,0
+ep_00702.npz,v2.clean,train,pick,B,Pick up the blue ball,636243063,20260817,77,0
+ep_00703.npz,v2.clean,test,pick,B,Pick up the blue ball,1723209849,20260817,84,0
+ep_00704.npz,v2.clean,train,pick,B,Pick up the blue ball,1556774149,20260817,83,0
+ep_00705.npz,v2.clean,train,pick,B,Pick up the blue ball,430040060,20260817,81,0
+ep_00706.npz,v2.clean,train,pick,B,Pick up the blue ball,2012646697,20260817,77,0
+ep_00707.npz,v2.clean,train,pick,B,Pick up the blue ball,1341517773,20260817,85,0
+ep_00708.npz,v2.clean,val,pick,B,Pick up the blue ball,1615683052,20260817,77,0
+ep_00709.npz,v2.clean,test,push,A,Push the red cube away from the robot,1294180365,20260817,80,0
+ep_00710.npz,v2.clean,train,push,A,Push the red cube away from the robot,698761455,20260817,84,0
+ep_00711.npz,v2.clean,test,pick,B,Pick up the blue ball,767117394,20260817,81,0
+ep_00712.npz,v2.clean,train,pick,B,Pick up the blue ball,1121314226,20260817,78,0
+ep_00713.npz,v2.clean,val,push,B,Push the blue ball away from the robot,1691665243,20260817,74,0
+ep_00714.npz,v2.clean,train,pick,B,Pick up the blue ball,1490337194,20260817,77,0
+ep_00715.npz,v2.clean,train,pick,B,Pick up the blue ball,248230808,20260817,81,0
+ep_00716.npz,v2.clean,train,pick,B,Pick up the blue ball,1140358453,20260817,77,0
+ep_00717.npz,v2.clean,train,pick,B,Pick up the blue ball,2090088345,20260817,83,0
+ep_00718.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,964434162,20260817,71,0
+ep_00719.npz,v2.clean,train,pick,B,Pick up the blue ball,831007517,20260817,76,0
+ep_00720.npz,v2.clean,train,pick,B,Pick up the blue ball,695492440,20260817,79,0
+ep_00721.npz,v2.clean,train,pick,B,Pick up the blue ball,293006780,20260817,87,0
+ep_00722.npz,v2.clean,val,pick,B,Pick up the blue ball,622468352,20260817,84,0
+ep_00723.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1499769336,20260817,77,0
+ep_00724.npz,v2.clean,train,push,A,Push the red cube away from the robot,1653745699,20260817,75,0
+ep_00725.npz,v2.clean,train,push,A,Push the red cube away from the robot,2104981489,20260817,83,0
+ep_00726.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1814435989,20260817,78,0
+ep_00727.npz,v2.clean,train,push,B,Push the blue ball away from the robot,125688840,20260817,75,0
+ep_00728.npz,v2.clean,test,push,A,Push the red cube away from the robot,1939629942,20260817,80,0
+ep_00729.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1571680622,20260817,88,0
+ep_00730.npz,v2.clean,train,push,A,Push the red cube away from the robot,1312586917,20260817,85,0
+ep_00731.npz,v2.clean,train,push,A,Push the red cube away from the robot,690746508,20260817,81,0
+ep_00732.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1076669933,20260817,78,0
+ep_00733.npz,v2.clean,train,push,A,Push the red cube away from the robot,480316707,20260817,80,0
+ep_00734.npz,v2.clean,train,push,A,Push the red cube away from the robot,295263967,20260817,102,0
+ep_00735.npz,v2.clean,test,push,A,Push the red cube away from the robot,1953870718,20260817,79,0
+ep_00736.npz,v2.clean,train,push,A,Push the red cube away from the robot,20382770,20260817,75,0
+ep_00737.npz,v2.clean,test,push,A,Push the red cube away from the robot,1379342154,20260817,85,0
+ep_00738.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1243944106,20260817,179,0
+ep_00739.npz,v2.clean,train,push,A,Push the red cube away from the robot,1912971379,20260817,81,0
+ep_00740.npz,v2.clean,val,push,A,Push the red cube away from the robot,1746876669,20260817,98,0
+ep_00741.npz,v2.clean,train,push,A,Push the red cube away from the robot,1312979882,20260817,82,0
+ep_00742.npz,v2.clean,train,push,B,Push the blue ball away from the robot,666768484,20260817,69,0
+ep_00743.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1539306395,20260817,72,0
+ep_00744.npz,v2.clean,train,push,B,Push the blue ball away from the robot,869905499,20260817,66,0
+ep_00745.npz,v2.clean,train,push,A,Push the red cube away from the robot,143080861,20260817,91,0
+ep_00746.npz,v2.clean,train,push,A,Push the red cube away from the robot,25875105,20260817,77,0
+ep_00747.npz,v2.clean,train,push,A,Push the red cube away from the robot,1624953737,20260817,73,0
+ep_00748.npz,v2.clean,test,push,B,Push the blue ball away from the robot,765363127,20260817,76,0
+ep_00749.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1183344786,20260817,73,0
+ep_00750.npz,v2.clean,train,push,B,Push the blue ball away from the robot,737520569,20260817,71,0
+ep_00751.npz,v2.clean,val,push,A,Push the red cube away from the robot,487164297,20260817,80,0
+ep_00752.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,1390521964,20260817,73,0
+ep_00753.npz,v2.clean,train,push,B,Push the blue ball away from the robot,723216704,20260817,73,0
+ep_00754.npz,v2.clean,train,push,B,Push the blue ball away from the robot,843934559,20260817,74,0
+ep_00755.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1783376619,20260817,88,0
+ep_00756.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,1910958176,20260817,87,0
+ep_00757.npz,v2.clean,train,push,A,Push the red cube away from the robot,701357587,20260817,83,0
+ep_00758.npz,v2.clean,train,push,A,Push the red cube away from the robot,1087808987,20260817,80,0
+ep_00759.npz,v2.clean,val,push,B,Push the blue ball away from the robot,495980609,20260817,152,0
+ep_00760.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1749626513,20260817,71,0
+ep_00761.npz,v2.clean,train,push,A,Push the red cube away from the robot,1013217711,20260817,76,0
+ep_00762.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,730211586,20260817,82,0
+ep_00763.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1121417543,20260817,68,0
+ep_00764.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,796928128,20260817,71,0
+ep_00765.npz,v2.clean,train,push,A,Push the red cube away from the robot,166864731,20260817,81,0
+ep_00766.npz,v2.clean,train,push,A,Push the red cube away from the robot,1641423842,20260817,82,0
+ep_00767.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1503043580,20260817,91,0
+ep_00768.npz,v2.clean,train,push,A,Push the red cube away from the robot,456706081,20260817,76,0
+ep_00769.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1342682732,20260817,172,0
+ep_00770.npz,v2.clean,val,push,A,Push the red cube away from the robot,1064958867,20260817,84,0
+ep_00771.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1491246376,20260817,82,0
+ep_00772.npz,v2.clean,train,push,A,Push the red cube away from the robot,2120609172,20260817,80,0
+ep_00773.npz,v2.clean,train,push,A,Push the red cube away from the robot,585197325,20260817,77,0
+ep_00774.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,2014452829,20260817,74,0
+ep_00775.npz,v2.clean,train,push,A,Push the red cube away from the robot,165571855,20260817,76,0
+ep_00776.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,467199210,20260817,76,0
+ep_00777.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,287458424,20260817,72,0
+ep_00778.npz,v2.clean,train,push,A,Push the red cube away from the robot,709948566,20260817,91,0
+ep_00779.npz,v2.clean,train,push,A,Push the red cube away from the robot,455370884,20260817,83,0
+ep_00780.npz,v2.clean,train,push,A,Push the red cube away from the robot,1696669566,20260817,83,0
+ep_00781.npz,v2.clean,train,push,A,Push the red cube away from the robot,452939454,20260817,86,0
+ep_00782.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1316048493,20260817,170,0
+ep_00783.npz,v2.clean,train,push,A,Push the red cube away from the robot,1358166169,20260817,77,0
+ep_00784.npz,v2.clean,train,push,A,Push the red cube away from the robot,1878288570,20260817,76,0
+ep_00785.npz,v2.clean,train,push,B,Push the blue ball away from the robot,491568974,20260817,157,0
+ep_00786.npz,v2.clean,val,push,B,Push the blue ball away from the robot,1255107188,20260817,69,0
+ep_00787.npz,v2.clean,train,push,B,Push the blue ball away from the robot,446076937,20260817,75,0
+ep_00788.npz,v2.clean,val,push,A,Push the red cube away from the robot,1232146035,20260817,77,0
+ep_00789.npz,v2.clean,train,push,A,Push the red cube away from the robot,142225667,20260817,75,0
+ep_00790.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1674979891,20260817,73,0
+ep_00791.npz,v2.clean,train,push,A,Push the red cube away from the robot,1833375751,20260817,75,0
+ep_00792.npz,v2.clean,train,push,A,Push the red cube away from the robot,57338861,20260817,95,0
+ep_00793.npz,v2.clean,train,push,B,Push the blue ball away from the robot,130195322,20260817,74,0
+ep_00794.npz,v2.clean,train,push,A,Push the red cube away from the robot,1962781100,20260817,76,0
+ep_00795.npz,v2.clean,train,push,A,Push the red cube away from the robot,854830916,20260817,82,0
+ep_00796.npz,v2.clean,train,push,A,Push the red cube away from the robot,1833146010,20260817,80,0
+ep_00797.npz,v2.clean,train,push,A,Push the red cube away from the robot,465601675,20260817,76,0
+ep_00798.npz,v2.clean,train,push,B,Push the blue ball away from the robot,479478686,20260817,153,0
+ep_00799.npz,v2.clean,train,push,A,Push the red cube away from the robot,1282614722,20260817,75,0
+ep_00800.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,2133641070,20260817,86,0
+ep_00801.npz,v2.clean,train,push,A,Push the red cube away from the robot,948988160,20260817,79,0
+ep_00802.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1829203179,20260817,87,0
+ep_00803.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,1863215098,20260817,74,0
+ep_00804.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1295037454,20260817,73,0
+ep_00805.npz,v2.clean,train,push,A,Push the red cube away from the robot,712217306,20260817,79,0
+ep_00806.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,430879332,20260817,81,0
+ep_00807.npz,v2.clean,train,push,B,Push the blue ball away from the robot,588542183,20260817,76,0
+ep_00808.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,22559960,20260817,75,0
+ep_00809.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1917289784,20260817,152,0
+ep_00810.npz,v2.clean,train,push,B,Push the blue ball away from the robot,2086951642,20260817,67,0
+ep_00811.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,2051869363,20260817,78,0
+ep_00812.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,227083997,20260817,93,0
+ep_00813.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,28126181,20260817,79,0
+ep_00814.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1585449987,20260817,82,0
+ep_00815.npz,v2.clean,train,push,B,Push the blue ball away from the robot,689560744,20260817,72,0
+ep_00816.npz,v2.clean,train,push,A,Push the red cube away from the robot,1610073726,20260817,77,0
+ep_00817.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1505568261,20260817,172,0
+ep_00818.npz,v2.clean,train,push,A,Push the red cube away from the robot,1863895863,20260817,94,0
+ep_00819.npz,v2.clean,train,push,B,Push the blue ball away from the robot,311987005,20260817,64,0
+ep_00820.npz,v2.clean,train,push,B,Push the blue ball away from the robot,818914008,20260817,72,0
+ep_00821.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,123698840,20260817,79,0
+ep_00822.npz,v2.clean,train,push,A,Push the red cube away from the robot,596369596,20260817,78,0
+ep_00823.npz,v2.clean,train,push,B,Push the blue ball away from the robot,730279083,20260817,178,0
+ep_00824.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1674452078,20260817,81,0
+ep_00825.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,719236658,20260817,72,0
+ep_00826.npz,v2.clean,train,push,A,Push the red cube away from the robot,1416868032,20260817,90,0
+ep_00827.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,468044105,20260817,82,0
+ep_00828.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1671499515,20260817,70,0
+ep_00829.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1497615356,20260817,153,0
+ep_00830.npz,v2.clean,test,push,B,Push the blue ball away from the robot,38116117,20260817,169,0
+ep_00831.npz,v2.clean,train,push,A,Push the red cube away from the robot,1126126927,20260817,83,0
+ep_00832.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,795711251,20260817,81,0
+ep_00833.npz,v2.clean,train,push,B,Push the blue ball away from the robot,784847377,20260817,64,0
+ep_00834.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1519377135,20260817,71,0
+ep_00835.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,1083107671,20260817,84,0
+ep_00836.npz,v2.clean,val,push,B,Push the blue ball away from the robot,2048222065,20260817,75,0
+ep_00837.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1530536283,20260817,91,0
+ep_00838.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1468480252,20260817,72,0
+ep_00839.npz,v2.clean,test,push,B,Push the blue ball away from the robot,1667662920,20260817,75,0
+ep_00840.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,850446606,20260817,78,0
+ep_00841.npz,v2.clean,train,push,B,Push the blue ball away from the robot,34791092,20260817,73,0
+ep_00842.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1392611200,20260817,75,0
+ep_00843.npz,v2.clean,val,push,B,Push the blue ball away from the robot,1390683387,20260817,164,0
+ep_00844.npz,v2.clean,test,push,B,Push the blue ball away from the robot,1286103558,20260817,68,0
+ep_00845.npz,v2.clean,train,push,A,Push the red cube away from the robot,920162299,20260817,81,0
+ep_00846.npz,v2.clean,test,push,B,Push the blue ball away from the robot,1414421431,20260817,69,0
+ep_00847.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1431433625,20260817,93,0
+ep_00848.npz,v2.clean,train,push,A,Push the red cube away from the robot,1609408084,20260817,80,0
+ep_00849.npz,v2.clean,val,push,A,Push the red cube away from the robot,136889428,20260817,82,0
+ep_00850.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1623817658,20260817,62,0
+ep_00851.npz,v2.clean,train,push,B,Push the blue ball away from the robot,563963929,20260817,76,0
+ep_00852.npz,v2.clean,test,push,B,Push the blue ball away from the robot,1869794026,20260817,69,0
+ep_00853.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1283943266,20260817,74,0
+ep_00854.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,182069313,20260817,73,0
+ep_00855.npz,v2.clean,val,push,A,Push the red cube away from the robot,1388151700,20260817,80,0
+ep_00856.npz,v2.clean,train,push,B,Push the blue ball away from the robot,753981951,20260817,180,0
+ep_00857.npz,v2.clean,train,push,B,Push the blue ball away from the robot,53199540,20260817,153,0
+ep_00858.npz,v2.clean,train,push,A,Push the red cube away from the robot,1079066,20260817,81,0
+ep_00859.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1631479711,20260817,80,0
+ep_00860.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1629738328,20260817,65,0
+ep_00861.npz,v2.clean,val,push,A,Push the red cube away from the robot,414451473,20260817,82,0
+ep_00862.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1542331301,20260817,72,0
+ep_00863.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,2092219628,20260817,72,0
+ep_00864.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1055822760,20260817,65,0
+ep_00865.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,1826616337,20260817,70,0
+ep_00866.npz,v2.clean,train,push,A,Push the red cube away from the robot,1156534593,20260817,80,0
+ep_00867.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,801353094,20260817,76,0
+ep_00868.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1515185267,20260817,89,0
+ep_00869.npz,v2.clean,train,push,A,Push the red cube away from the robot,1394223393,20260817,80,0
+ep_00870.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,479696032,20260817,80,0
+ep_00871.npz,v2.clean,train,push,A,Push the red cube away from the robot,1266900216,20260817,78,0
+ep_00872.npz,v2.clean,train,push,A,Push the red cube away from the robot,544928312,20260817,74,0
+ep_00873.npz,v2.clean,train,push,A,Push the red cube away from the robot,110607157,20260817,83,0
+ep_00874.npz,v2.clean,test,push,A,Push the red cube away from the robot,163016786,20260817,90,0
+ep_00875.npz,v2.clean,train,push,A,Push the red cube away from the robot,582364846,20260817,83,0
+ep_00876.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,1144056886,20260817,85,0
+ep_00877.npz,v2.clean,train,push,A,Push the red cube away from the robot,1112697955,20260817,75,0
+ep_00878.npz,v2.clean,train,push,B,Push the blue ball away from the robot,321104159,20260817,66,0
+ep_00879.npz,v2.clean,test,push,B,Push the blue ball away from the robot,543410946,20260817,75,0
+ep_00880.npz,v2.clean,train,push,A,Push the red cube away from the robot,1298916510,20260817,80,0
+ep_00881.npz,v2.clean,train,push,A,Push the red cube away from the robot,1663572809,20260817,76,0
+ep_00882.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,565985862,20260817,82,0
+ep_00883.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1201973101,20260817,74,0
+ep_00884.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1690920691,20260817,71,0
+ep_00885.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1345647122,20260817,68,0
+ep_00886.npz,v2.clean,train,push,B,Push the blue ball away from the robot,493364101,20260817,72,0
+ep_00887.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1554009048,20260817,83,0
+ep_00888.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1129993245,20260817,70,0
+ep_00889.npz,v2.clean,train,push,A,Push the red cube away from the robot,2138230252,20260817,76,0
+ep_00890.npz,v2.clean,train,push,A,Push the red cube away from the robot,1891784155,20260817,73,0
+ep_00891.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1979144924,20260817,71,0
+ep_00892.npz,v2.clean,train,push,A,Push the red cube away from the robot,741220687,20260817,83,0
+ep_00893.npz,v2.clean,train,push,A,Push the red cube away from the robot,1570403016,20260817,75,0
+ep_00894.npz,v2.clean,test,push,A,Push the red cube away from the robot,1616632995,20260817,102,0
+ep_00895.npz,v2.clean,train,push,B,Push the blue ball away from the robot,50452255,20260817,74,0
+ep_00896.npz,v2.clean,train,push,A,Push the red cube away from the robot,38606752,20260817,87,0
+ep_00897.npz,v2.clean,train,push,A,Push the red cube away from the robot,1611663091,20260817,85,0
+ep_00898.npz,v2.clean,val,push,A,Push the red cube away from the robot,516501733,20260817,93,0
+ep_00899.npz,v2.clean,train,push,B,Push the blue ball away from the robot,44460356,20260817,75,0
+ep_00900.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,962898417,20260817,86,0
+ep_00901.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,2096865966,20260817,83,0
+ep_00902.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1974601990,20260817,156,0
+ep_00903.npz,v2.clean,test,push,B,Push the blue ball away from the robot,2065794497,20260817,144,0
+ep_00904.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1400768933,20260817,74,0
+ep_00905.npz,v2.clean,train,push,A,Push the red cube away from the robot,36432667,20260817,78,0
+ep_00906.npz,v2.clean,train,push,B,Push the blue ball away from the robot,585633690,20260817,157,0
+ep_00907.npz,v2.clean,train,push,A,Push the red cube away from the robot,2079788807,20260817,82,0
+ep_00908.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1904649046,20260817,73,0
+ep_00909.npz,v2.clean,train,push,B,Push the blue ball away from the robot,237611282,20260817,149,0
+ep_00910.npz,v2.clean,test,push,B,Push the blue ball away from the robot,783585500,20260817,70,0
+ep_00911.npz,v2.clean,train,push,A,Push the red cube away from the robot,2078529538,20260817,86,0
+ep_00912.npz,v2.clean,train,push,A,Push the red cube away from the robot,1984959526,20260817,82,0
+ep_00913.npz,v2.clean,train,push,A,Push the red cube away from the robot,1912170678,20260817,82,0
+ep_00914.npz,v2.clean,train,push,A,Push the red cube away from the robot,316514978,20260817,84,0
+ep_00915.npz,v2.clean,train,push,B,Push the blue ball away from the robot,2128860923,20260817,75,0
+ep_00916.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,477539605,20260817,73,0
+ep_00917.npz,v2.clean,train,push,B,Push the blue ball away from the robot,823293444,20260817,76,0
+ep_00918.npz,v2.clean,train,push,A,Push the red cube away from the robot,1464348228,20260817,83,0
+ep_00919.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1853320052,20260817,74,0
+ep_00920.npz,v2.clean,test,push,A,Push the red cube away from the robot,2124061893,20260817,82,0
+ep_00921.npz,v2.clean,train,push,A,Push the red cube away from the robot,943023862,20260817,74,0
+ep_00922.npz,v2.clean,train,push,A,Push the red cube away from the robot,1089649469,20260817,80,0
+ep_00923.npz,v2.clean,train,push,A,Push the red cube away from the robot,95150630,20260817,80,0
+ep_00924.npz,v2.clean,train,push,A,Push the red cube away from the robot,251271487,20260817,79,0
+ep_00925.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,502018030,20260817,75,0
+ep_00926.npz,v2.clean,train,push,A,Push the red cube away from the robot,1915285627,20260817,83,0
+ep_00927.npz,v2.clean,train,push,A,Push the red cube away from the robot,1658679389,20260817,77,0
+ep_00928.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1324114189,20260817,65,0
+ep_00929.npz,v2.clean,train,push,B,Push the blue ball away from the robot,71393537,20260817,74,0
+ep_00930.npz,v2.clean,train,push,A,Push the red cube away from the robot,1439797881,20260817,91,0
+ep_00931.npz,v2.clean,train,push,B,Push the blue ball away from the robot,281088219,20260817,73,0
+ep_00932.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,175783529,20260817,74,0
+ep_00933.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,223249379,20260817,72,0
+ep_00934.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,2105035510,20260817,74,0
+ep_00935.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,483574687,20260817,74,0
+ep_00936.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1048830468,20260817,154,0
+ep_00937.npz,v2.clean,train,push,A,Push the red cube away from the robot,2067220953,20260817,82,0
+ep_00938.npz,v2.clean,train,push,B,Push the blue ball away from the robot,579108650,20260817,76,0
+ep_00939.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1172896617,20260817,84,0
+ep_00940.npz,v2.clean,train,push,B,Push the blue ball away from the robot,2032882023,20260817,76,0
+ep_00941.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1513211648,20260817,64,0
+ep_00942.npz,v2.clean,train,push,A,Push the red cube away from the robot,957240178,20260817,82,0
+ep_00943.npz,v2.clean,train,push,A,Push the red cube away from the robot,699312958,20260817,80,0
+ep_00944.npz,v2.clean,train,push,A,Push the red cube away from the robot,911689355,20260817,84,0
+ep_00945.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1193746939,20260817,73,0
+ep_00946.npz,v2.clean,train,push,A,Push the red cube away from the robot,1025526050,20260817,84,0
+ep_00947.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,119211232,20260817,79,0
+ep_00948.npz,v2.clean,val,push,A,Push the red cube away from the robot,668726706,20260817,77,0
+ep_00949.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1722623557,20260817,78,0
+ep_00950.npz,v2.clean,train,push,A,Push the red cube away from the robot,133853890,20260817,74,0
+ep_00951.npz,v2.clean,train,push,A,Push the red cube away from the robot,747214522,20260817,81,0
+ep_00952.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,1472115248,20260817,82,0
+ep_00953.npz,v2.clean,train,push,B,Push the blue ball away from the robot,679556581,20260817,65,0
+ep_00954.npz,v2.clean,train,push,B,Push the blue ball away from the robot,686907220,20260817,72,0
+ep_00955.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1303577316,20260817,153,0
+ep_00956.npz,v2.clean,train,push,A,Push the red cube away from the robot,1639919780,20260817,81,0
+ep_00957.npz,v2.clean,train,push,B,Push the blue ball away from the robot,167999961,20260817,64,0
+ep_00958.npz,v2.clean,val,push,B,Push the blue ball away from the robot,1846395070,20260817,68,0
+ep_00959.npz,v2.clean,train,push,A,Push the red cube away from the robot,1384750761,20260817,81,0
+ep_00960.npz,v2.clean,train,push,B,Push the blue ball away from the robot,731334074,20260817,157,0
+ep_00961.npz,v2.clean,train,push,B,Push the blue ball away from the robot,2059785648,20260817,67,0
+ep_00962.npz,v2.clean,train,push,A,Push the red cube away from the robot,1807570344,20260817,76,0
+ep_00963.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,176078746,20260817,74,0
+ep_00964.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,590684837,20260817,80,0
+ep_00965.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1147052203,20260817,74,0
+ep_00966.npz,v2.clean,val,push,A,Push the red cube away from the robot,1485140516,20260817,75,0
+ep_00967.npz,v2.clean,train,push,B,Push the blue ball away from the robot,123459660,20260817,74,0
+ep_00968.npz,v2.clean,val,push,A,Push the red cube away from the robot,507017463,20260817,76,0
+ep_00969.npz,v2.clean,train,push,A,Push the red cube away from the robot,261901408,20260817,77,0
+ep_00970.npz,v2.clean,train,push,A,Push the red cube away from the robot,1623720265,20260817,84,0
+ep_00971.npz,v2.clean,test,push,A,Push the red cube away from the robot,2108130049,20260817,73,0
+ep_00972.npz,v2.clean,train,push,A,Push the red cube away from the robot,1015311483,20260817,79,0
+ep_00973.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,224103549,20260817,69,0
+ep_00974.npz,v2.clean,train,push,A,Push the red cube away from the robot,717150946,20260817,76,0
+ep_00975.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1377753691,20260817,79,0
+ep_00976.npz,v2.clean,train,push,A,Push the red cube away from the robot,529486903,20260817,84,0
+ep_00977.npz,v2.clean,test,push,A,Push the red cube away from the robot,487422015,20260817,81,0
+ep_00978.npz,v2.clean,train,push,B,Push the blue ball away from the robot,839656713,20260817,71,0
+ep_00979.npz,v2.clean,train,push,A,Push the red cube away from the robot,1795559514,20260817,76,0
+ep_00980.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1392848082,20260817,72,0
+ep_00981.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,822378816,20260817,81,0
+ep_00982.npz,v2.clean,train,push,B,Push the blue ball away from the robot,19030686,20260817,69,0
+ep_00983.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1182618481,20260817,179,0
+ep_00984.npz,v2.clean,train,push,A,Push the red cube away from the robot,1341669884,20260817,71,0
+ep_00985.npz,v2.clean,test,push,A,Push the red cube away from the robot,1395095255,20260817,79,0
+ep_00986.npz,v2.clean,train,push,A,Push the red cube away from the robot,348237519,20260817,95,0
+ep_00987.npz,v2.clean,train,push,A,Push the red cube away from the robot,1899258809,20260817,74,0
+ep_00988.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,989251125,20260817,80,0
+ep_00989.npz,v2.clean,train,push,A,Push the red cube away from the robot,1506859170,20260817,79,0
+ep_00990.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1800577489,20260817,89,0
+ep_00991.npz,v2.clean,train,push,B,Push the blue ball away from the robot,916156958,20260817,66,0
+ep_00992.npz,v2.clean,val,push,A,Push the red cube away from the robot,1194818665,20260817,105,0
+ep_00993.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1863851733,20260817,69,0
+ep_00994.npz,v2.clean,train,push,B,Push the blue ball away from the robot,169135641,20260817,153,0
+ep_00995.npz,v2.clean,train,push,B,Push the blue ball away from the robot,60700216,20260817,152,0
+ep_00996.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,1619157126,20260817,72,0
+ep_00997.npz,v2.clean,train,push,A,Push the red cube away from the robot,408693226,20260817,76,0
+ep_00998.npz,v2.clean,train,push,A,Push the red cube away from the robot,1406878512,20260817,94,0
+ep_00999.npz,v2.clean,train,push,A,Push the red cube away from the robot,523192336,20260817,78,0
+ep_01000.npz,v2.clean,val,push,A,Push the red cube away from the robot,1833200576,20260817,91,0
+ep_01001.npz,v2.clean,train,push,A,Push the red cube away from the robot,1584079037,20260817,83,0
+ep_01002.npz,v2.clean,train,push,B,Push the blue ball away from the robot,251673390,20260817,67,0
+ep_01003.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1290637030,20260817,65,0
+ep_01004.npz,v2.clean,train,push,B,Push the blue ball away from the robot,2048027628,20260817,63,0
+ep_01005.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,127483613,20260817,79,0
+ep_01006.npz,v2.clean,train,push,A,Push the red cube away from the robot,28003934,20260817,85,0
+ep_01007.npz,v2.clean,val,push,B,Push the blue ball away from the robot,93201900,20260817,73,0
+ep_01008.npz,v2.clean,test,push,A,Push the red cube away from the robot,1857066886,20260817,75,0
+ep_01009.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1666064704,20260817,84,0
+ep_01010.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1167748734,20260817,68,0
+ep_01011.npz,v2.clean,train,push,A,Push the red cube away from the robot,1196892456,20260817,72,0
+ep_01012.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,329010371,20260817,82,0
+ep_01013.npz,v2.clean,train,push,A,Push the red cube away from the robot,1987879154,20260817,89,0
+ep_01014.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,1789911664,20260817,83,0
+ep_01015.npz,v2.clean,train,push,A,Push the red cube away from the robot,841635244,20260817,80,0
+ep_01016.npz,v2.clean,train,push,A,Push the red cube away from the robot,1688254226,20260817,79,0
+ep_01017.npz,v2.clean,val,push,B,Push the blue ball away from the robot,658086671,20260817,65,0
+ep_01018.npz,v2.clean,val,push,B,Push the blue ball away from the robot,832331891,20260817,70,0
+ep_01019.npz,v2.clean,train,push,A,Push the red cube away from the robot,1748159117,20260817,72,0
+ep_01020.npz,v2.clean,train,push,A,Push the red cube away from the robot,322448783,20260817,74,0
+ep_01021.npz,v2.clean,train,push,A,Push the red cube away from the robot,140613707,20260817,83,0
+ep_01022.npz,v2.clean,train,push,A,Push the red cube away from the robot,2001840503,20260817,80,0
+ep_01023.npz,v2.clean,train,push,A,Push the red cube away from the robot,1138338748,20260817,95,0
+ep_01024.npz,v2.clean,train,push,A,Push the red cube away from the robot,2140931902,20260817,83,0
+ep_01025.npz,v2.clean,train,push,A,Push the red cube away from the robot,1542154125,20260817,83,0
+ep_01026.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,764403071,20260817,80,0
+ep_01027.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1706054011,20260817,156,0
+ep_01028.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1403953184,20260817,75,0
+ep_01029.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1036450224,20260817,71,0
+ep_01030.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1773674259,20260817,79,0
+ep_01031.npz,v2.clean,val,push,B,Push the blue ball away from the robot,1077758564,20260817,154,0
+ep_01032.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1804864134,20260817,152,0
+ep_01033.npz,v2.clean,train,push,A,Push the red cube away from the robot,28078707,20260817,100,0
+ep_01034.npz,v2.clean,train,push,A,Push the red cube away from the robot,1927812221,20260817,83,0
+ep_01035.npz,v2.clean,test,push,A,Push the red cube away from the robot,940583314,20260817,83,0
+ep_01036.npz,v2.clean,train,push,B,Push the blue ball away from the robot,663962903,20260817,169,0
+ep_01037.npz,v2.clean,val,push,A,Push the red cube away from the robot,837810833,20260817,84,0
+ep_01038.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1190894615,20260817,79,0
+ep_01039.npz,v2.clean,val,push,B,Push the blue ball away from the robot,420201744,20260817,70,0
+ep_01040.npz,v2.clean,train,push,A,Push the red cube away from the robot,275353879,20260817,80,0
+ep_01041.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1380921640,20260817,75,0
+ep_01042.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,2086598969,20260817,83,0
+ep_01043.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1531408841,20260817,71,0
+ep_01044.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,461683020,20260817,71,0
+ep_01045.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1258141629,20260817,72,0
+ep_01046.npz,v2.clean,train,push,B,Push the blue ball away from the robot,474096311,20260817,72,0
+ep_01047.npz,v2.clean,test,push,B,Push the blue ball away from the robot,1892263534,20260817,69,0
+ep_01048.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1406345617,20260817,73,0
+ep_01049.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,642011065,20260817,72,0
+ep_01050.npz,v2.clean,train,push,B,Push the blue ball away from the robot,2039827690,20260817,76,0
+ep_01051.npz,v2.clean,train,push,B,Push the blue ball away from the robot,633661404,20260817,156,0
+ep_01052.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1431084750,20260817,90,0
+ep_01053.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1385892538,20260817,64,0
+ep_01054.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,815285172,20260817,77,0
+ep_01055.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,270436477,20260817,76,0
+ep_01056.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1300615555,20260817,150,0
+ep_01057.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1379767911,20260817,92,0
+ep_01058.npz,v2.clean,train,push,B,Push the blue ball away from the robot,481883587,20260817,180,0
+ep_01059.npz,v2.clean,train,push,B,Push the blue ball away from the robot,187304416,20260817,154,0
+ep_01060.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,789061957,20260817,69,0
+ep_01061.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1997790605,20260817,77,0
+ep_01062.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,846343580,20260817,94,0
+ep_01063.npz,v2.clean,val,push,B,Push the blue ball away from the robot,710371882,20260817,66,0
+ep_01064.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,412648698,20260817,94,0
+ep_01065.npz,v2.clean,train,push,B,Push the blue ball away from the robot,631612983,20260817,73,0
+ep_01066.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1867899064,20260817,157,0
+ep_01067.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1489506819,20260817,72,0
+ep_01068.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,1210161945,20260817,73,0
+ep_01069.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1059842069,20260817,75,0
+ep_01070.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1256038304,20260817,71,0
+ep_01071.npz,v2.clean,test,push,B,Push the blue ball away from the robot,771043034,20260817,147,0
+ep_01072.npz,v2.clean,train,push,B,Push the blue ball away from the robot,637785849,20260817,69,0
+ep_01073.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1053551980,20260817,179,0
+ep_01074.npz,v2.clean,train,push,B,Push the blue ball away from the robot,560083348,20260817,77,0
+ep_01075.npz,v2.clean,train,push,B,Push the blue ball away from the robot,830535240,20260817,73,0
+ep_01076.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,288029198,20260817,85,0
+ep_01077.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1488718751,20260817,80,0
+ep_01078.npz,v2.clean,train,push,B,Push the blue ball away from the robot,2065758935,20260817,77,0
+ep_01079.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,2050240716,20260817,83,0
+ep_01080.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,998384755,20260817,72,0
+ep_01081.npz,v2.clean,train,push,B,Push the blue ball away from the robot,539952929,20260817,73,0
+ep_01082.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,2132455728,20260817,84,0
+ep_01083.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,2121822836,20260817,84,0
+ep_01084.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,8441943,20260817,83,0
+ep_01085.npz,v2.clean,train,push,B,Push the blue ball away from the robot,183769090,20260817,63,0
+ep_01086.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,133603601,20260817,73,0
+ep_01087.npz,v2.clean,test,push,B,Push the blue ball away from the robot,1562127404,20260817,63,0
+ep_01088.npz,v2.clean,train,push,B,Push the blue ball away from the robot,933138332,20260817,66,0
+ep_01089.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,2040256075,20260817,82,0
+ep_01090.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,878809306,20260817,80,0
+ep_01091.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1943272266,20260817,72,0
+ep_01092.npz,v2.clean,train,push,B,Push the blue ball away from the robot,2060275673,20260817,150,0
+ep_01093.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1719249478,20260817,62,0
+ep_01094.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1446843262,20260817,83,0
+ep_01095.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1198902640,20260817,149,0
+ep_01096.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1075718150,20260817,83,0
+ep_01097.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,908655808,20260817,85,0
+ep_01098.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1407311738,20260817,72,0
+ep_01099.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1731601285,20260817,156,0
+ep_01100.npz,v2.clean,train,push,B,Push the blue ball away from the robot,40469543,20260817,71,0
+ep_01101.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1144210331,20260817,79,0
+ep_01102.npz,v2.clean,train,push,B,Push the blue ball away from the robot,484793140,20260817,155,0
+ep_01103.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,140934746,20260817,71,0
+ep_01104.npz,v2.clean,train,push,B,Push the blue ball away from the robot,828261315,20260817,73,0
+ep_01105.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1524090390,20260817,66,0
+ep_01106.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,90154351,20260817,81,0
+ep_01107.npz,v2.clean,train,push,B,Push the blue ball away from the robot,729878214,20260817,75,0
+ep_01108.npz,v2.clean,train,push,B,Push the blue ball away from the robot,265815382,20260817,155,0
+ep_01109.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1584554861,20260817,65,0
+ep_01110.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,959222552,20260817,87,0
+ep_01111.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1357283633,20260817,75,0
+ep_01112.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,41768208,20260817,87,0
+ep_01113.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1623741138,20260817,73,0
+ep_01114.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,591612375,20260817,72,0
+ep_01115.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,471700194,20260817,89,0
+ep_01116.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1814880787,20260817,82,0
+ep_01117.npz,v2.clean,val,push,B,Push the blue ball away from the robot,1043809724,20260817,66,0
+ep_01118.npz,v2.clean,val,push,B,Push the blue ball away from the robot,1423296283,20260817,74,0
+ep_01119.npz,v2.clean,train,push,B,Push the blue ball away from the robot,675418514,20260817,157,0
+ep_01120.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,825219877,20260817,81,0
+ep_01121.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1139545983,20260817,88,0
+ep_01122.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,1326668780,20260817,79,0
+ep_01123.npz,v2.clean,val,push,B,Push the blue ball away from the robot,1363153284,20260817,65,0
+ep_01124.npz,v2.clean,test,push,B,Push the blue ball away from the robot,1371014504,20260817,153,0
+ep_01125.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1130003972,20260817,91,0
+ep_01126.npz,v2.clean,train,push,B,Push the blue ball away from the robot,363984892,20260817,181,0
+ep_01127.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1672156624,20260817,73,0
+ep_01128.npz,v2.clean,train,push,B,Push the blue ball away from the robot,2105287025,20260817,75,0
+ep_01129.npz,v2.clean,train,push,B,Push the blue ball away from the robot,112130787,20260817,152,0
+ep_01130.npz,v2.clean,train,push,B,Push the blue ball away from the robot,63262102,20260817,170,0
+ep_01131.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,1774011555,20260817,71,0
+ep_01132.npz,v2.clean,test,push,B,Push the blue ball away from the robot,363991832,20260817,75,0
+ep_01133.npz,v2.clean,train,push,B,Push the blue ball away from the robot,2000966920,20260817,64,0
+ep_01134.npz,v2.clean,train,push,B,Push the blue ball away from the robot,967160052,20260817,153,0
+ep_01135.npz,v2.clean,val,push,B,Push the blue ball away from the robot,334004346,20260817,180,0
+ep_01136.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,1351531708,20260817,79,0
+ep_01137.npz,v2.clean,test,push,B,Push the blue ball away from the robot,620149068,20260817,75,0
+ep_01138.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,1004106715,20260817,89,0
+ep_01139.npz,v2.clean,train,push,B,Push the blue ball away from the robot,213773584,20260817,73,0
+ep_01140.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,680191211,20260817,82,0
+ep_01141.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,280799304,20260817,84,0
+ep_01142.npz,v2.clean,train,push,B,Push the blue ball away from the robot,178026550,20260817,74,0
+ep_01143.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1442489661,20260817,82,0
+ep_01144.npz,v2.clean,train,push,B,Push the blue ball away from the robot,78863496,20260817,70,0
+ep_01145.npz,v2.clean,train,push,B,Push the blue ball away from the robot,873475088,20260817,68,0
+ep_01146.npz,v2.clean,val,push,B,Push the blue ball away from the robot,584500674,20260817,156,0
+ep_01147.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,478421836,20260817,84,0
+ep_01148.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1777685560,20260817,72,0
+ep_01149.npz,v2.clean,test,push,B,Push the blue ball away from the robot,706603120,20260817,155,0
+ep_01150.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,708196254,20260817,82,0
+ep_01151.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1191993504,20260817,74,0
+ep_01152.npz,v2.clean,train,push,B,Push the blue ball away from the robot,95968604,20260817,180,0
+ep_01153.npz,v2.clean,val,push,B,Push the blue ball away from the robot,1248059210,20260817,74,0
+ep_01154.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1079847276,20260817,79,0
+ep_01155.npz,v2.clean,train,push,B,Push the blue ball away from the robot,1776440169,20260817,157,0
+ep_01156.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,525994559,20260817,80,0
+ep_01157.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1312844639,20260817,83,0
+ep_01158.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1510795738,20260817,87,0
+ep_01159.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1752410919,20260817,91,0
+ep_01160.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,116931827,20260817,72,0
+ep_01161.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1005273166,20260817,78,0
+ep_01162.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,843256482,20260817,85,0
+ep_01163.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,181259407,20260817,72,0
+ep_01164.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1474746347,20260817,77,0
+ep_01165.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,893570048,20260817,84,0
+ep_01166.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1452888340,20260817,80,0
+ep_01167.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1226791646,20260817,77,0
+ep_01168.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,619345189,20260817,88,0
+ep_01169.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1642024454,20260817,84,0
+ep_01170.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,566086522,20260817,73,0
+ep_01171.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,804025936,20260817,73,0
+ep_01172.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,2082489576,20260817,98,0
+ep_01173.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,254550228,20260817,70,0
+ep_01174.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1080555950,20260817,72,0
+ep_01175.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,622078745,20260817,69,0
+ep_01176.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,736428843,20260817,78,0
+ep_01177.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,1680228126,20260817,97,0
+ep_01178.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1606389637,20260817,88,0
+ep_01179.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,391149296,20260817,85,0
+ep_01180.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,575982854,20260817,72,0
+ep_01181.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,566849703,20260817,74,0
+ep_01182.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,2122289325,20260817,80,0
+ep_01183.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1087664203,20260817,88,0
+ep_01184.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1047461011,20260817,75,0
+ep_01185.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,296692795,20260817,88,0
+ep_01186.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,870117856,20260817,73,0
+ep_01187.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1243277158,20260817,71,0
+ep_01188.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1632235288,20260817,85,0
+ep_01189.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,502408096,20260817,85,0
+ep_01190.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1016645991,20260817,79,0
+ep_01191.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,911634198,20260817,81,0
+ep_01192.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1657644101,20260817,71,0
+ep_01193.npz,v2.clean,val,push,C,Push the green cylinder away from the robot,783279944,20260817,87,0
+ep_01194.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,132366112,20260817,82,0
+ep_01195.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,56453623,20260817,85,0
+ep_01196.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1330109177,20260817,86,0
+ep_01197.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,1538098040,20260817,79,0
+ep_01198.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,542797457,20260817,72,0
+ep_01199.npz,v2.clean,test,push,C,Push the green cylinder away from the robot,2005087816,20260817,86,0
+ep_01200.npz,v2.clean,train,push,C,Push the green cylinder away from the robot,29442639,20260817,82,0

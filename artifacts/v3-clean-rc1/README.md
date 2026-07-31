@@ -17,6 +17,8 @@ the V3 Clean release candidate.
 - `minivla-v3-1349625.out`: complete Slurm training console log.
 - `clean_comparison/`: two paired seeds for V2 and V3, including CSV, JSON,
   and console logs.
+- `dataset_manifests/`: V2 Clean and V3 Recovery manifests, schemas, and
+  collection summaries. Raw episode archives are stored externally.
 - `SHA256SUMS`: checksums for release integrity verification.
 
 ## Retrieve LFS Objects

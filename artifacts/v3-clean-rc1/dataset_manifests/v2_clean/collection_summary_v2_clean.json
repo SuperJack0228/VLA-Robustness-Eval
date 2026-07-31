@@ -1,0 +1,69 @@
+{
+  "schema_version": 5,
+  "dataset_version": "v2.clean",
+  "collection_seed": 20260817,
+  "requested_total": 1200,
+  "accepted_total": 1200,
+  "buckets": {
+    "pick_A": {
+      "accepted": 200,
+      "attempts": 255,
+      "scene_rejections": 55,
+      "oracle_failures": 0,
+      "wrong_contact_failures": 0,
+      "quality_rejections": 0,
+      "physics_failures": 0,
+      "clean_success_rate": 0.7843137254901961
+    },
+    "pick_B": {
+      "accepted": 200,
+      "attempts": 252,
+      "scene_rejections": 52,
+      "oracle_failures": 0,
+      "wrong_contact_failures": 0,
+      "quality_rejections": 0,
+      "physics_failures": 0,
+      "clean_success_rate": 0.7936507936507936
+    },
+    "pick_C": {
+      "accepted": 200,
+      "attempts": 253,
+      "scene_rejections": 53,
+      "oracle_failures": 0,
+      "wrong_contact_failures": 0,
+      "quality_rejections": 0,
+      "physics_failures": 0,
+      "clean_success_rate": 0.7905138339920948
+    },
+    "push_A": {
+      "accepted": 200,
+      "attempts": 1010,
+      "scene_rejections": 810,
+      "oracle_failures": 0,
+      "wrong_contact_failures": 0,
+      "quality_rejections": 0,
+      "physics_failures": 0,
+      "clean_success_rate": 0.19801980198019803
+    },
+    "push_B": {
+      "accepted": 200,
+      "attempts": 1424,
+      "scene_rejections": 1153,
+      "oracle_failures": 8,
+      "wrong_contact_failures": 0,
+      "quality_rejections": 63,
+      "physics_failures": 0,
+      "clean_success_rate": 0.1404494382022472
+    },
+    "push_C": {
+      "accepted": 200,
+      "attempts": 1911,
+      "scene_rejections": 1710,
+      "oracle_failures": 1,
+      "wrong_contact_failures": 0,
+      "quality_rejections": 0,
+      "physics_failures": 0,
+      "clean_success_rate": 0.10465724751439037
+    }
+  }
+}

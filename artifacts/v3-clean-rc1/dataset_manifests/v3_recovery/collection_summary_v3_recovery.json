@@ -1,0 +1,21 @@
+{
+  "recovery_version": "v3.recovery.1",
+  "requested_total": 600,
+  "accepted_total": 600,
+  "attempts": 2612,
+  "collection_seed": 20261201,
+  "base_dataset": "results/dataset_v2_clean",
+  "buckets": {
+    "pick_A": 100,
+    "pick_B": 100,
+    "pick_C": 100,
+    "push_A": 100,
+    "push_B": 100,
+    "push_C": 100
+  },
+  "recovery_types": {
+    "forced_pick_miss": 150,
+    "forced_push_miss": 150,
+    "target_displacement": 300
+  }
+}
