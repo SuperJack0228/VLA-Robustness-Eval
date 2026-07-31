@@ -23,8 +23,12 @@ if PROJECT_ROOT not in sys.path:
 
 from utils.evaluation_core_v2 import (
     DEFAULT_POLICY_PATH,
+    ENSEMBLE_DECAY,
     ENSEMBLE_MODES,
+    GROUNDING_SHIFT_RESET_THRESHOLD_M,
     MAX_STEPS,
+    MAX_TEMPORAL_PREDICTION_AGE,
+    TEMPORAL_PROFILES,
     EvaluationConfig,
     EvaluationCore,
     get_device,
@@ -40,6 +44,7 @@ from utils.perturbations_v2 import (
 PERTURBATIONS = ("target-displacement",)
 DEFAULT_LEVELS = (0.0, 0.02, 0.04, 0.06, 0.08)
 DEFAULT_OUTPUT_DIR = "results/robustness/target_displacement"
+PROTOCOL_VERSION = "target-displacement.v2"
 
 
 def parse_args() -> argparse.Namespace:
@@ -67,10 +72,41 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--seed", type=int, default=20261101)
     parser.add_argument("--perturbation-seed", type=int, default=None)
     parser.add_argument("--instruction", default=None)
+    parser.add_argument("--task-type", choices=("pick", "push"), default=None)
+    parser.add_argument("--target-id", choices=("A", "B", "C"), default=None)
     parser.add_argument("--output-dir", default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--replan-interval", type=int, default=1)
+    parser.add_argument(
+        "--temporal-profile",
+        choices=TEMPORAL_PROFILES,
+        default="robust",
+    )
+    parser.add_argument("--ensemble-decay", type=float, default=ENSEMBLE_DECAY)
+    parser.add_argument(
+        "--max-prediction-age",
+        type=int,
+        default=MAX_TEMPORAL_PREDICTION_AGE,
+        help="Maximum age in control steps for temporal action predictions.",
+    )
+    parser.add_argument(
+        "--grounding-reset-threshold",
+        type=float,
+        default=GROUNDING_SHIFT_RESET_THRESHOLD_M,
+        help=(
+            "Discard older chunks when consecutive model grounding predictions "
+            "shift by at least this many meters; 0 disables the reset."
+        ),
+    )
     parser.add_argument("--log-every", type=int, default=20)
     parser.add_argument("--render", action="store_true")
+    parser.add_argument(
+        "--diagnostic-trace",
+        action="store_true",
+        help=(
+            "Store per-prediction target coordinates plus phase and contact "
+            "event traces in episode CSV rows."
+        ),
+    )
     parser.add_argument("--local-files-only", action="store_true")
     parser.add_argument(
         "--ensemble-modes",
@@ -89,6 +125,17 @@ def validate_args(args: argparse.Namespace) -> None:
         raise ValueError("max-steps must be positive")
     if args.replan_interval <= 0:
         raise ValueError("replan-interval must be positive")
+    if not np.isfinite(args.ensemble_decay) or args.ensemble_decay < 0.0:
+        raise ValueError("ensemble-decay must be finite and non-negative")
+    if args.max_prediction_age < 0:
+        raise ValueError("max-prediction-age must be non-negative")
+    if (
+        not np.isfinite(args.grounding_reset_threshold)
+        or args.grounding_reset_threshold < 0.0
+    ):
+        raise ValueError(
+            "grounding-reset-threshold must be finite and non-negative"
+        )
     if not args.levels:
         raise ValueError("At least one perturbation level is required")
     if any(not np.isfinite(level) or level < 0.0 for level in args.levels):
@@ -149,11 +196,24 @@ def nonnegative_mean(values: list[int]) -> float | None:
 
 
 def compact_run_summary(rows: list[dict], report: dict) -> dict:
-    return {
+    injected_rows = [row for row in rows if int(row["injected"]) == 1]
+    summary = {
         "episodes": len(rows),
         "task_success_rate": report["overall"]["task_success_rate"],
         "clean_success_rate": report["overall"]["clean_success_rate"],
         "wrong_contact_rate": report["overall"]["wrong_contact_rate"],
+        "strict_target_contact_rate": report["overall"][
+            "strict_target_contact_rate"
+        ],
+        "collateral_contact_rate": report["overall"][
+            "collateral_contact_rate"
+        ],
+        "mean_oldest_prediction_age": report["overall"][
+            "mean_oldest_prediction_age"
+        ],
+        "mean_grounding_shift_resets": report["overall"][
+            "mean_grounding_shift_resets"
+        ],
         "failure_counts": dict(
             Counter(row["failure_category"] for row in rows)
         ),
@@ -162,26 +222,68 @@ def compact_run_summary(rows: list[dict], report: dict) -> dict:
             [float(row["actual_delta_norm_m"]) for row in rows]
         ),
         "mean_reacquisition_latency": nonnegative_mean(
-            [int(row["reacquisition_latency"]) for row in rows]
+            [int(row["reacquisition_latency"]) for row in injected_rows]
         ),
         "mean_post_injection_contact_latency": nonnegative_mean(
-            [int(row["post_injection_contact_latency"]) for row in rows]
+            [
+                int(row["post_injection_contact_latency"])
+                for row in injected_rows
+            ]
         ),
         "mean_grounding_error_after_injection_cm": finite_mean(
-            [row["grounding_error_after_injection_cm"] for row in rows]
+            [
+                row["grounding_error_after_injection_cm"]
+                for row in injected_rows
+            ]
         ),
         "buckets": report["buckets"],
     }
+    for threshold in (0.5, 1.0, 2.0):
+        slug = str(threshold).replace(".", "_")
+        success_key = f"reacquired_within_{slug}cm"
+        latency_key = f"reacquisition_latency_{slug}cm"
+        summary[f"reacquisition_rate_{slug}cm"] = (
+            None
+            if not injected_rows
+            else float(np.mean([row[success_key] for row in injected_rows]))
+        )
+        summary[f"mean_reacquisition_latency_{slug}cm"] = nonnegative_mean(
+            [int(row[latency_key]) for row in injected_rows]
+        )
+        summary[f"mean_censored_reacquisition_latency_{slug}cm"] = (
+            None
+            if not injected_rows
+            else float(
+                np.mean(
+                    [
+                        (
+                            int(row[latency_key])
+                            if int(row[latency_key]) >= 0
+                            else int(row["steps"]) - int(row["injection_step"]) + 1
+                        )
+                        for row in injected_rows
+                    ]
+                )
+            )
+        )
+    return summary
 
 
 def build_manager(
     perturbation: str,
     level: float,
     perturbation_seed: int,
+    validation_levels: tuple[float, ...],
 ) -> PerturbationManager:
     if perturbation == "target-displacement":
         return PerturbationManager(
-            [DynamicTargetDisplacement(level, perturbation_seed)]
+            [
+                DynamicTargetDisplacement(
+                    level,
+                    perturbation_seed,
+                    validation_distances_m=validation_levels,
+                )
+            ]
         )
     raise ValueError(f"Unsupported perturbation: {perturbation}")
 
@@ -206,6 +308,8 @@ def main() -> None:
     all_rows: list[dict] = []
     run_records: list[dict] = []
     clean_reference: dict[str, float] = {}
+    reference_scene_signature: list[tuple] | None = None
+    validation_levels = tuple(sorted(args.levels))
 
     # Mode outermost keeps every mode's level sweep easy to resume and inspect.
     for mode in args.ensemble_modes:
@@ -222,6 +326,7 @@ def main() -> None:
                 args.perturbation,
                 level,
                 perturbation_seed,
+                validation_levels,
             )
             config = EvaluationConfig(
                 policy_path=args.policy,
@@ -229,6 +334,8 @@ def main() -> None:
                 max_steps=args.max_steps,
                 seed=args.seed,
                 instruction=args.instruction,
+                task_type=args.task_type,
+                target_id=args.target_id,
                 output_prefix=output_prefix,
                 replan_interval=args.replan_interval,
                 render=args.render,
@@ -236,8 +343,17 @@ def main() -> None:
                 local_files_only=args.local_files_only,
                 visual_perturbation="clean",
                 ensemble_mode=mode,
+                temporal_profile=args.temporal_profile,
+                ensemble_decay=args.ensemble_decay,
+                max_prediction_age=args.max_prediction_age,
+                grounding_shift_reset_threshold_m=(
+                    args.grounding_reset_threshold
+                ),
                 perturbation_label=args.perturbation,
-                uses_privileged_perturbation_oracle=level > 0.0,
+                uses_privileged_perturbation_oracle=bool(
+                    max(validation_levels, default=0.0) > 0.0
+                ),
+                diagnostic_trace=args.diagnostic_trace,
             )
             env = make_environment(args.render, args.max_steps)
             core = EvaluationCore(
@@ -249,6 +365,24 @@ def main() -> None:
                 perturbation_manager=manager,
             )
             result = core.run(close_environment=True)
+            scene_signature = [
+                (
+                    row["episode"],
+                    row["task_type"],
+                    row["target_id"],
+                    row["scene_seed"],
+                    round(float(row["selected_direction_x"]), 8),
+                    round(float(row["selected_direction_y"]), 8),
+                )
+                for row in result.rows
+            ]
+            if reference_scene_signature is None:
+                reference_scene_signature = scene_signature
+            elif scene_signature != reference_scene_signature:
+                raise RuntimeError(
+                    "Paired-scene protocol violation: a level or ensemble mode "
+                    "used different scene seeds or displacement directions"
+                )
             for row in result.rows:
                 row["benchmark_level"] = level
                 row["benchmark_mode"] = mode
@@ -262,6 +396,13 @@ def main() -> None:
                 "ensemble_mode": mode,
                 "scene_seed": args.seed,
                 "perturbation_seed": perturbation_seed,
+                "protocol_version": PROTOCOL_VERSION,
+                "temporal_profile": args.temporal_profile,
+                "ensemble_decay": args.ensemble_decay,
+                "max_prediction_age": args.max_prediction_age,
+                "grounding_reset_threshold_m": (
+                    args.grounding_reset_threshold
+                ),
                 "run_csv": result.csv_path,
                 "run_json": result.json_path,
                 **summary,
@@ -275,12 +416,17 @@ def main() -> None:
                 "status": "running",
                 "policy": args.policy,
                 "perturbation": args.perturbation,
+                "protocol_version": PROTOCOL_VERSION,
+                "temporal_profile": args.temporal_profile,
                 "levels_m": args.levels,
                 "ensemble_modes": args.ensemble_modes,
                 "episodes_per_level": args.episodes_per_level,
                 "seed": args.seed,
                 "perturbation_seed": perturbation_seed,
                 "paired_scenes": True,
+                "paired_scene_validation_passed": True,
+                "clean_reference_scope": "perturbation-valid-paired-scenes",
+                "diagnostic_trace": args.diagnostic_trace,
                 "runs": run_records,
             }
             atomic_write_json(
@@ -304,16 +450,24 @@ def main() -> None:
         "status": "complete",
         "policy": args.policy,
         "perturbation": args.perturbation,
+        "protocol_version": PROTOCOL_VERSION,
+        "temporal_profile": args.temporal_profile,
         "levels_m": args.levels,
         "ensemble_modes": args.ensemble_modes,
         "episodes_per_level": args.episodes_per_level,
         "seed": args.seed,
         "perturbation_seed": perturbation_seed,
         "paired_scenes": True,
+        "paired_scene_validation_passed": True,
+        "clean_reference_scope": "perturbation-valid-paired-scenes",
+        "ensemble_decay": args.ensemble_decay,
+        "max_prediction_age": args.max_prediction_age,
+        "grounding_reset_threshold_m": args.grounding_reset_threshold,
         "uses_privileged_execution_assistance": False,
         "uses_privileged_perturbation_oracle": any(
             level > 0.0 for level in args.levels
         ),
+        "diagnostic_trace": args.diagnostic_trace,
         "runs": run_records,
     }
     summary_path = os.path.join(args.output_dir, "benchmark_summary.json")

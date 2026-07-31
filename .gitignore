@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.so
+.pytest_cache/
 
 # Virtual Environments
 venv/
@@ -19,9 +20,18 @@ env/
 
 # Local Codex artifacts and unrelated personal documents
 .codex-resume-work/
+.tmp/
 /output/
 /tmp/
 /JACK-CV-*.docx
+
+# Local presentation build artifacts
+*.pptx
+*.inspect.ndjson
+~$*
+
+# Local Slurm output
+slurm-*.out
 
 # Generated datasets, checkpoints, reports, videos, and logs
 results/*

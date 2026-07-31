@@ -126,10 +126,21 @@ output prefix for every run.
 
 ## 6. Dynamic-Displacement Robustness Sweep
 
-The robustness runner evaluates identical scene seeds at every displacement
-level and runs both temporal ensembling and latest-prediction-only execution.
-Distances are specified in meters. External target displacement is removed
-from Push scoring, so teleportation cannot count as policy progress.
+Protocol V2 evaluates identical scene seeds and a single prevalidated
+displacement ray at every level. The preflight checks target placement,
+pick clearance, push corridors, and direct MuJoCo contacts. Distances are
+specified in meters. External target displacement is removed from Push
+scoring, so teleportation cannot count as policy progress.
+
+The policy still predicts a 20-step ACT chunk. Robust temporal execution only
+blends predictions up to three control steps old, uses stronger recency
+weighting, and clears older chunks when the model's own grounding prediction
+moves by at least 1 cm. This reset uses model output, not simulator object
+truth. The simulator control rate is 20 Hz.
+
+Use `--temporal-profile legacy` to reproduce the frozen 93.33% V2 Clean
+execution protocol. Robustness Protocol V2 uses
+`--temporal-profile robust`; the profile is written into every result.
 
 ```bash
 set -o pipefail
@@ -141,12 +152,16 @@ caffeinate -dimsu env \
   python scripts/benchmark_robustness_v2.py \
     --policy results/v2_clean/mini_vla_v2_clean_policy.pth \
     --perturbation target-displacement \
-    --levels 0 0.02 0.04 0.06 0.08 \
-    --episodes-per-level 120 \
+    --levels 0 0.01 0.02 0.03 0.04 \
+    --episodes-per-level 30 \
     --max-steps 200 \
     --seed 20261101 \
     --ensemble-modes temporal latest-only \
     --replan-interval 1 \
+    --temporal-profile robust \
+    --ensemble-decay 0.75 \
+    --max-prediction-age 3 \
+    --grounding-reset-threshold 0.01 \
     --log-every 20 \
     --local-files-only \
     --output-dir results/robustness/target_displacement \
@@ -158,3 +173,9 @@ Primary outputs:
 - `benchmark_episodes.csv`: per-episode perturbation, recovery, and failure data.
 - `benchmark_summary.json`: success-decay curves and per-task failure counts.
 - `runs/*.csv` and `runs/*.json`: independently inspectable level/mode runs.
+
+On Cognition, submit the same corrected pilot with:
+
+```bash
+sbatch hpc/benchmark_target_displacement.sbatch
+```

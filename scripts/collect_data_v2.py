@@ -8,6 +8,7 @@ import json
 import os
 import sys
 import tempfile
+from collections.abc import Callable
 from dataclasses import dataclass
 
 import numpy as np
@@ -421,6 +422,10 @@ class ScriptedOracleV2:
         aligned_yaw = (object_yaw + np.pi / 4.0) % (np.pi / 2.0) - np.pi / 4.0
         return rotation_about_z(aligned_yaw) @ self.initial_eef_orientation
 
+    def _pick_object_position(self) -> np.ndarray:
+        """Return the live target pose; V3 recovery oracles may override it."""
+        return self.env.get_object_position(self.task.target_id)
+
     def action(self, obs: dict) -> np.ndarray:
         # A real grasp always wins over a scripted recovery. This transition is
         # performed before the phase label is recorded, keeping labels causal.
@@ -439,7 +444,7 @@ class ScriptedOracleV2:
         return self._pose_action(obs, target, gripper, gain)
 
     def _pick_target(self, obs: dict) -> tuple[np.ndarray, float, float]:
-        object_position = self.env.get_object_position(self.task.target_id)
+        object_position = self._pick_object_position()
         eef_position = np.asarray(obs["robot0_eef_pos"])
         hover = object_position + np.array([0.0, 0.0, PICK_HOVER_HEIGHT])
 
@@ -755,15 +760,20 @@ def rollout_oracle(
     seed: int,
     capture_images: bool,
     ball_push_height_above_table: float = BALL_PUSH_HEIGHT_ABOVE_TABLE,
+    oracle: ScriptedOracleV2 | None = None,
+    before_step_hook: (
+        Callable[[int, ScriptedOracleV2, dict, np.ndarray], None] | None
+    ) = None,
 ) -> RolloutResult:
     env.set_task(task)
-    oracle = ScriptedOracleV2(
-        env,
-        task,
-        obs,
-        seed=seed + 1,
-        ball_push_height_above_table=ball_push_height_above_table,
-    )
+    if oracle is None:
+        oracle = ScriptedOracleV2(
+            env,
+            task,
+            obs,
+            seed=seed + 1,
+            ball_push_height_above_table=ball_push_height_above_table,
+        )
     tracker = ProprioceptionTracker()
     previous_action = np.zeros(ACTION_DIM, dtype=np.float32)
     target_index = tuple(OBJECT_SPECS).index(task.target_id)
@@ -813,6 +823,8 @@ def rollout_oracle(
             )
 
         saturation_steps += int(np.any(np.abs(action[:6]) >= 0.99))
+        if before_step_hook is not None:
+            before_step_hook(step, oracle, obs, action)
         obs, _, _, _ = env.step(action)
         contacts_after = env.object_contact_flags()
         wrong_object_contact |= bool(

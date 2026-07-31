@@ -7,7 +7,7 @@ import json
 import os
 import tempfile
 from collections import Counter, defaultdict, deque
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 import cv2
 import numpy as np
@@ -31,7 +31,10 @@ from scripts.collect_data_v2 import (
     reseed_environment,
     schedule_task_v2,
 )
-from utils.perturbations_v2 import PerturbationManager
+from utils.perturbations_v2 import (
+    PerturbationManager,
+    PerturbationSceneRejected,
+)
 from utils.training_dataset_v2 import (
     IMAGENET_MEAN,
     IMAGENET_STD,
@@ -54,13 +57,17 @@ DEFAULT_OUTPUT_PREFIX = "results/v2_clean/evaluation_v2_clean"
 DEFAULT_NUM_EPISODES = 120
 MAX_STEPS = 200
 REPLAN_INTERVAL = 1
-ENSEMBLE_DECAY = 0.25
+ENSEMBLE_DECAY = 0.75
+MAX_TEMPORAL_PREDICTION_AGE = 3
+GROUNDING_SHIFT_RESET_THRESHOLD_M = 0.010
+LEGACY_ENSEMBLE_DECAY = 0.25
 GRIPPER_CLOSE_THRESHOLD = 0.60
 GRIPPER_OPEN_THRESHOLD = 0.40
 PICK_TASK_HEIGHT = 0.04
 PICK_CLEAN_HEIGHT = 0.08
 SUCCESS_HOLD_STEPS = 5
-SUPPORTED_CHECKPOINT_FORMATS = {4, 6, 7}
+SUPPORTED_CHECKPOINT_FORMATS = {4, 6, 7, 8}
+SUPPORTED_POLICY_DATASET_VERSIONS = {DATASET_VERSION, "v3.robust-language"}
 OBJECT_MOVEMENT_CONTACT_THRESHOLD = 5e-4
 WRONG_OBJECT_MOVEMENT_THRESHOLD = 8e-3
 WORKSPACE_X_LIMIT = 0.27
@@ -73,8 +80,10 @@ PUSH_EEF_FLOOR_OFFSET = {"A": 0.016, "B": 0.018, "C": 0.016}
 SPHERE_PENETRATION_TOLERANCE = 0.006
 CYLINDER_CLEAN_UPRIGHT_THRESHOLD = 0.75
 CYLINDER_TOPPLE_THRESHOLD = 0.65
-PICK_CONTACT_PHASES = frozenset({2, 3})
-PUSH_CONTACT_PHASES = frozenset({6, 7})
+PICK_REACTIVE_PHASES = frozenset({1, 2, 3, 4})
+PUSH_REACTIVE_PHASES = frozenset({6, 7, 9})
+LEGACY_PICK_REACTIVE_PHASES = frozenset({2, 3})
+LEGACY_PUSH_REACTIVE_PHASES = frozenset({6, 7})
 MAX_PICK_RECOVERY_CYCLES = 3
 MAX_PUSH_RECOVERY_CYCLES = 3
 MAX_SAFETY_INTERVENTION_STREAK = 25
@@ -87,6 +96,7 @@ VISUAL_PERTURBATIONS = (
     "center_occlusion",
 )
 ENSEMBLE_MODES = ("temporal", "latest-only")
+TEMPORAL_PROFILES = ("robust", "legacy")
 
 
 @dataclass(frozen=True)
@@ -96,6 +106,8 @@ class EvaluationConfig:
     max_steps: int = MAX_STEPS
     seed: int = 20260714
     instruction: str | None = None
+    task_type: str | None = None
+    target_id: str | None = None
     output_prefix: str = DEFAULT_OUTPUT_PREFIX
     replan_interval: int = REPLAN_INTERVAL
     render: bool = False
@@ -103,8 +115,15 @@ class EvaluationConfig:
     local_files_only: bool = False
     visual_perturbation: str = "clean"
     ensemble_mode: str = "temporal"
+    temporal_profile: str = "robust"
+    ensemble_decay: float = ENSEMBLE_DECAY
+    max_prediction_age: int = MAX_TEMPORAL_PREDICTION_AGE
+    grounding_shift_reset_threshold_m: float = (
+        GROUNDING_SHIFT_RESET_THRESHOLD_M
+    )
     perturbation_label: str = "clean"
     uses_privileged_perturbation_oracle: bool = False
+    diagnostic_trace: bool = False
     write_outputs: bool = True
 
     def validate(self) -> None:
@@ -114,12 +133,40 @@ class EvaluationConfig:
             raise ValueError("max_steps must be positive")
         if self.replan_interval <= 0:
             raise ValueError("replan_interval must be positive")
+        if (self.task_type is None) != (self.target_id is None):
+            raise ValueError("task_type and target_id must be provided together")
+        if self.task_type is not None:
+            if (self.task_type, self.target_id) not in TASK_BUCKETS:
+                raise ValueError(
+                    f"Unsupported task selection: "
+                    f"{(self.task_type, self.target_id)}"
+                )
+            if self.instruction is None:
+                raise ValueError(
+                    "An explicit task_type/target_id requires --instruction"
+                )
         if self.visual_perturbation not in VISUAL_PERTURBATIONS:
             raise ValueError(
                 f"Unsupported visual perturbation: {self.visual_perturbation}"
             )
         if self.ensemble_mode not in ENSEMBLE_MODES:
             raise ValueError(f"Unsupported ensemble mode: {self.ensemble_mode}")
+        if self.temporal_profile not in TEMPORAL_PROFILES:
+            raise ValueError(
+                f"Unsupported temporal profile: {self.temporal_profile}"
+            )
+        if not np.isfinite(self.ensemble_decay) or self.ensemble_decay < 0.0:
+            raise ValueError("ensemble_decay must be finite and non-negative")
+        if self.max_prediction_age < 0:
+            raise ValueError("max_prediction_age must be non-negative")
+        if (
+            not np.isfinite(self.grounding_shift_reset_threshold_m)
+            or self.grounding_shift_reset_threshold_m < 0.0
+        ):
+            raise ValueError(
+                "grounding_shift_reset_threshold_m must be finite and "
+                "non-negative"
+            )
 
 
 @dataclass
@@ -131,6 +178,8 @@ class EvaluationResult:
 
 
 def get_device() -> torch.device:
+    if torch.cuda.is_available():
+        return torch.device("cuda")
     if torch.backends.mps.is_available():
         return torch.device("mps")
     return torch.device("cpu")
@@ -145,7 +194,7 @@ def load_policy(
     if checkpoint.get("format_version") not in SUPPORTED_CHECKPOINT_FORMATS:
         raise RuntimeError("Checkpoint is not a supported MiniVLA V2 policy")
     checkpoint_dataset = checkpoint.get("dataset_version")
-    if checkpoint_dataset != DATASET_VERSION:
+    if checkpoint_dataset not in SUPPORTED_POLICY_DATASET_VERSIONS:
         print(
             f"WARNING: policy dataset version is {checkpoint_dataset!r}; "
             f"the current environment is {DATASET_VERSION}.",
@@ -205,7 +254,12 @@ def balanced_schedule(
     num_episodes: int,
     seed: int,
     fixed_instruction: str | None,
+    fixed_task: tuple[str, str] | None = None,
 ) -> list[tuple[str, str]]:
+    if fixed_task is not None:
+        if fixed_task not in TASK_BUCKETS:
+            raise ValueError(f"Unsupported fixed task: {fixed_task}")
+        return [fixed_task] * num_episodes
     if fixed_instruction:
         return [parse_instruction(fixed_instruction)] * num_episodes
     repeated = [
@@ -291,11 +345,23 @@ def preprocess_history(
 class TemporalActionEnsembler:
     """Blend chunks predicting the current timestep or select the latest one."""
 
-    def __init__(self, decay: float = ENSEMBLE_DECAY) -> None:
+    def __init__(
+        self,
+        decay: float = ENSEMBLE_DECAY,
+        max_prediction_age: int = MAX_TEMPORAL_PREDICTION_AGE,
+    ) -> None:
+        if decay < 0.0:
+            raise ValueError("decay must be non-negative")
+        if max_prediction_age < 0:
+            raise ValueError("max_prediction_age must be non-negative")
         self.decay = decay
+        self.max_prediction_age = max_prediction_age
         self.predictions: dict[int, list[tuple[int, np.ndarray, float, int]]] = (
             defaultdict(list)
         )
+        self.last_prediction_count = 0
+        self.last_oldest_prediction_age = 0
+        self.last_latest_weight = 1.0
 
     def add(
         self,
@@ -317,6 +383,18 @@ class TemporalActionEnsembler:
     def has_step(self, step: int) -> bool:
         return bool(self.predictions.get(step))
 
+    def discard_created_before(self, start_step: int) -> int:
+        """Remove stale chunks without consulting simulator privileged state."""
+        removed = 0
+        for target_step, entries in list(self.predictions.items()):
+            retained = [entry for entry in entries if entry[0] >= start_step]
+            removed += len(entries) - len(retained)
+            if retained:
+                self.predictions[target_step] = retained
+            else:
+                del self.predictions[target_step]
+        return removed
+
     def action(
         self,
         step: int,
@@ -332,9 +410,21 @@ class TemporalActionEnsembler:
         used_latest_only = mode == "latest-only" or newest_phase in latest_only_phases
         if used_latest_only:
             entries = newest_entries
+        else:
+            entries = [
+                entry
+                for entry in entries
+                if step - entry[0] <= self.max_prediction_age
+            ]
+            if not entries:
+                entries = newest_entries
         ages = np.asarray([step - created for created, _, _, _ in entries])
         weights = np.exp(-self.decay * ages)
         weights /= weights.sum()
+        self.last_prediction_count = len(entries)
+        self.last_oldest_prediction_age = int(ages.max())
+        newest_mask = ages == ages.min()
+        self.last_latest_weight = float(weights[newest_mask].sum())
         pose = np.sum(
             np.stack([entry[1] for entry in entries]) * weights[:, None],
             axis=0,
@@ -350,6 +440,43 @@ class TemporalActionEnsembler:
         for target in stale_steps:
             del self.predictions[target]
         return pose.astype(np.float32), gripper, phase, used_latest_only
+
+
+def strict_robot_object_contact_flags(env) -> np.ndarray:
+    """Return direct MuJoCo contacts between any robot part and each object."""
+    robot_model = env.robots[0].robot_model
+    gripper = env.robots[0].gripper
+    gripper_models = (
+        tuple(gripper.values()) if isinstance(gripper, dict) else (gripper,)
+    )
+    flags = []
+    for object_id in ("A", "B", "C"):
+        object_model = env.objects_by_id[object_id]
+        contact = env.check_contact(robot_model, object_model) or any(
+            env.check_contact(gripper_model, object_model)
+            for gripper_model in gripper_models
+        )
+        flags.append(contact)
+    return np.asarray(flags, dtype=bool)
+
+
+def strict_target_distractor_contact(env, target_id: str) -> bool:
+    """Detect physical target-to-distractor collisions without motion proxies."""
+    return bool(strict_target_distractor_contact_ids(env, target_id))
+
+
+def strict_target_distractor_contact_ids(
+    env,
+    target_id: str,
+) -> tuple[str, ...]:
+    """Return distractors in direct physical contact with the target."""
+    target_model = env.objects_by_id[target_id]
+    return tuple(
+        other_id
+        for other_id in ("A", "B", "C")
+        if other_id != target_id
+        and env.check_contact(target_model, env.objects_by_id[other_id])
+    )
 
 
 class GripperHysteresis:
@@ -475,6 +602,7 @@ def evaluate_success_conditions(
 
 def classify_failure(
     task_type: str,
+    target_id: str,
     task_success: bool,
     wrong_object_contact: bool,
     termination: str,
@@ -483,8 +611,10 @@ def classify_failure(
     target_contact: bool,
     grasped_once: bool,
     final_grasp: bool,
+    initial_target_height: float,
     max_target_height: float,
     final_target_height: float,
+    min_target_uprightness: float,
     table_height: float,
     push_forward: float,
     push_lateral: float,
@@ -508,11 +638,20 @@ def classify_failure(
             return "target_not_reached"
         if gripper_close_step == 0:
             return "gripper_never_closed"
-        if grasped_once and not final_grasp:
-            return "object_dropped"
-        if final_grasp or max_target_height > table_height + 0.03:
+        if grasped_once:
+            if not final_grasp:
+                return "object_dropped"
             return "insufficient_lift"
-        return "missed_grasp"
+        if max_target_height > initial_target_height + 0.03:
+            return "object_launched"
+        if (
+            target_id == "C"
+            and min_target_uprightness < CYLINDER_TOPPLE_THRESHOLD
+        ):
+            return "target_toppled_before_grasp"
+        if not target_contact:
+            return "missed_grasp"
+        return "grasp_failed_after_contact"
     if final_target_height < table_height - 0.02:
         return "object_left_table"
     if not target_contact:
@@ -532,6 +671,7 @@ def summarize(
         "visual_perturbation": rows[0].get("visual_perturbation", "clean"),
         "perturbation": perturbation,
         "ensemble_mode": ensemble_mode,
+        "temporal_profile": rows[0].get("temporal_profile", "legacy"),
         "execution_mode": "raw",
         "uses_privileged_execution_assistance": False,
         "uses_privileged_perturbation_oracle": bool(
@@ -576,6 +716,20 @@ def summarize(
             "mean_latest_only_rate": float(
                 np.mean([row["latest_only_rate"] for row in selected])
             ),
+            "strict_target_contact_rate": float(
+                np.mean([row["target_contact"] for row in selected])
+            ),
+            "collateral_contact_rate": float(
+                np.mean([row["collateral_object_contact"] for row in selected])
+            ),
+            "mean_oldest_prediction_age": float(
+                np.mean(
+                    [row["mean_oldest_prediction_age"] for row in selected]
+                )
+            ),
+            "mean_grounding_shift_resets": float(
+                np.mean([row["grounding_shift_resets"] for row in selected])
+            ),
             "minimum_target_uprightness": float(
                 np.min([row["min_target_uprightness"] for row in selected])
             ),
@@ -601,6 +755,18 @@ def summarize(
         ),
         "mean_latest_only_rate": float(
             np.mean([row["latest_only_rate"] for row in rows])
+        ),
+        "strict_target_contact_rate": float(
+            np.mean([row["target_contact"] for row in rows])
+        ),
+        "collateral_contact_rate": float(
+            np.mean([row["collateral_object_contact"] for row in rows])
+        ),
+        "mean_oldest_prediction_age": float(
+            np.mean([row["mean_oldest_prediction_age"] for row in rows])
+        ),
+        "mean_grounding_shift_resets": float(
+            np.mean([row["grounding_shift_resets"] for row in rows])
         ),
         "failure_counts": dict(Counter(row["failure_category"] for row in rows)),
     }
@@ -705,6 +871,11 @@ class EvaluationCore:
             config.num_episodes,
             config.seed,
             config.instruction,
+            (
+                (config.task_type, config.target_id)
+                if config.task_type is not None
+                else None
+            ),
         )
         scene_rng = np.random.default_rng(config.seed)
         visual_rng = np.random.default_rng(config.seed + 1_000_003)
@@ -712,6 +883,7 @@ class EvaluationCore:
         stop_requested = False
         try:
             for episode_id, bucket in enumerate(schedule, start=1):
+                scene_rejections = 0
                 while True:
                     scene_seed = int(
                         scene_rng.integers(0, np.iinfo(np.int32).max)
@@ -720,18 +892,31 @@ class EvaluationCore:
                     obs = env.reset()
                     try:
                         task = schedule_task_v2(env, obs, bucket[0], bucket[1])
-                        break
                     except RuntimeError as error:
                         print(f"Scene rejected for {bucket}: {error}", flush=True)
-                env.set_task(task)
-                if self.perturbation_manager is not None:
-                    self.perturbation_manager.on_episode_start(
-                        episode_id,
-                        scene_seed,
-                        env,
-                        task,
-                        obs,
-                    )
+                        scene_rejections += 1
+                        continue
+                    if config.instruction is not None:
+                        task = replace(task, instruction=config.instruction)
+                    env.set_task(task)
+                    if self.perturbation_manager is not None:
+                        try:
+                            self.perturbation_manager.on_episode_start(
+                                episode_id,
+                                scene_seed,
+                                env,
+                                task,
+                                obs,
+                            )
+                        except PerturbationSceneRejected as error:
+                            print(
+                                f"Perturbation scene rejected for {bucket}: "
+                                f"{error}",
+                                flush=True,
+                            )
+                            scene_rejections += 1
+                            continue
+                    break
                 print(
                     f"Episode {episode_id}/{config.num_episodes}: "
                     f"{task.instruction} | ensemble={config.ensemble_mode}",
@@ -745,6 +930,7 @@ class EvaluationCore:
                     visual_rng,
                     low,
                     high,
+                    scene_rejections,
                 )
                 rows.append(row)
                 if config.write_outputs:
@@ -769,7 +955,8 @@ class EvaluationCore:
         finally:
             if close_environment:
                 env.close()
-            cv2.destroyAllWindows()
+            if config.render:
+                cv2.destroyAllWindows()
 
         if not rows:
             raise RuntimeError("Evaluation ended before any episode completed")
@@ -792,11 +979,28 @@ class EvaluationCore:
         visual_rng: np.random.Generator,
         low: np.ndarray,
         high: np.ndarray,
+        scene_rejections: int = 0,
     ) -> tuple[dict, bool]:
         config = self.config
         env = self.env
         manager = self.perturbation_manager
         tracker = ProprioceptionTracker()
+        legacy_temporal = config.temporal_profile == "legacy"
+        resolved_ensemble_decay = (
+            LEGACY_ENSEMBLE_DECAY
+            if legacy_temporal
+            else config.ensemble_decay
+        )
+        resolved_max_prediction_age = (
+            max(int(self.model.chunk_size) - 1, 0)
+            if legacy_temporal
+            else config.max_prediction_age
+        )
+        resolved_grounding_reset_threshold = (
+            0.0
+            if legacy_temporal
+            else config.grounding_shift_reset_threshold_m
+        )
         initial_state = tracker.extract(obs)
         state_queue: deque[np.ndarray] = deque(
             [initial_state.copy() for _ in range(self.model.history_length)],
@@ -804,7 +1008,10 @@ class EvaluationCore:
         )
         agent_frame = self._capture(obs, "agentview", visual_rng)
         wrist_frame = self._capture(obs, "robot0_eye_in_hand", visual_rng)
-        ensembler = TemporalActionEnsembler()
+        ensembler = TemporalActionEnsembler(
+            decay=resolved_ensemble_decay,
+            max_prediction_age=resolved_max_prediction_age,
+        )
         gripper = GripperHysteresis()
         wrong_object_contact = False
         termination = "horizon"
@@ -819,6 +1026,7 @@ class EvaluationCore:
         predicted_target_id = "?"
         target_index = TARGET_ID_TO_INDEX[task.target_id]
         initial_target_position = env.get_object_position(task.target_id).copy()
+        initial_target_height = float(initial_target_position[2])
         initial_object_positions = np.stack(
             [env.get_object_position(object_id) for object_id in ("A", "B", "C")]
         )
@@ -840,6 +1048,36 @@ class EvaluationCore:
         previous_executed_phase = None
         pose_action_norms: list[float] = []
         latest_only_steps = 0
+        prediction_ages: list[int] = []
+        temporal_contributors: list[int] = []
+        latest_prediction_weights: list[float] = []
+        previous_target_prediction: np.ndarray | None = None
+        latest_target_prediction = np.zeros(3, dtype=np.float32)
+        grounding_shift_resets = 0
+        grounding_reset_steps: list[int] = []
+        stale_predictions_discarded = 0
+        target_motion_detected = False
+        wrong_object_moved = False
+        wrong_object_contact_ids: set[str] = set()
+        wrong_object_moved_ids: set[str] = set()
+        max_wrong_displacement_by_id = {
+            object_id: 0.0
+            for object_id in ("A", "B", "C")
+            if object_id != task.target_id
+        }
+        max_wrong_object_displacement = 0.0
+        collateral_object_contact = False
+        collateral_contact_ids: set[str] = set()
+        first_target_contact_step = 0
+        first_wrong_object_contact_step = 0
+        first_wrong_object_movement_step = 0
+        first_grasp_step = 0
+        first_grasp_lost_step = 0
+        previous_target_grasp = False
+        phase_transition_count = 0
+        phase_transition_events: list[dict] = []
+        contact_events: list[dict] = []
+        diagnostic_predictions: list[dict] = []
         stop_requested = False
 
         for zero_based_step in range(config.max_steps):
@@ -876,12 +1114,36 @@ class EvaluationCore:
                     * self.stats.target_position_std
                     + self.stats.target_position_mean
                 )
+                latest_target_prediction = target_prediction.astype(
+                    np.float32,
+                    copy=True,
+                )
                 ensembler.add(
                     zero_based_step,
                     pose_chunk,
                     gripper_probability_chunk,
                     phase_chunk,
                 )
+                predicted_target_shift = (
+                    0.0
+                    if previous_target_prediction is None
+                    else float(
+                        np.linalg.norm(
+                            target_prediction - previous_target_prediction
+                        )
+                    )
+                )
+                if (
+                    resolved_grounding_reset_threshold > 0.0
+                    and predicted_target_shift
+                    >= resolved_grounding_reset_threshold
+                ):
+                    removed = ensembler.discard_created_before(zero_based_step)
+                    if removed:
+                        grounding_shift_resets += 1
+                        grounding_reset_steps.append(step)
+                        stale_predictions_discarded += removed
+                previous_target_prediction = target_prediction.copy()
                 true_target = env.get_object_position(task.target_id)
                 grounding_error = float(
                     np.linalg.norm(target_prediction - true_target) * 100.0
@@ -894,6 +1156,31 @@ class EvaluationCore:
                 target_class_correctness.append(
                     float(predicted_target_index == target_index)
                 )
+                if config.diagnostic_trace:
+                    diagnostic_predictions.append(
+                        {
+                            "step": step,
+                            "predicted_target_xyz": [
+                                round(float(value), 6)
+                                for value in target_prediction
+                            ],
+                            "true_target_xyz": [
+                                round(float(value), 6)
+                                for value in true_target
+                            ],
+                            "grounding_error_cm": round(grounding_error, 4),
+                            "predicted_target_id": predicted_target_id,
+                            "first_chunk_phase": int(phase_chunk[0]),
+                            "prediction_shift_cm": round(
+                                predicted_target_shift * 100.0,
+                                4,
+                            ),
+                            "buffer_reset": bool(
+                                grounding_reset_steps
+                                and grounding_reset_steps[-1] == step
+                            ),
+                        }
+                    )
                 if manager is not None:
                     manager.after_prediction(
                         step,
@@ -901,11 +1188,18 @@ class EvaluationCore:
                         grounding_error,
                     )
 
-            reactive_phases = (
-                PICK_CONTACT_PHASES
-                if task.task_type == "pick"
-                else PUSH_CONTACT_PHASES
-            )
+            if legacy_temporal:
+                reactive_phases = (
+                    LEGACY_PICK_REACTIVE_PHASES
+                    if task.task_type == "pick"
+                    else LEGACY_PUSH_REACTIVE_PHASES
+                )
+            else:
+                reactive_phases = (
+                    PICK_REACTIVE_PHASES
+                    if task.task_type == "pick"
+                    else PUSH_REACTIVE_PHASES
+                )
             (
                 pose_action,
                 gripper_probability,
@@ -916,8 +1210,30 @@ class EvaluationCore:
                 reactive_phases,
                 config.ensemble_mode,
             )
-            latest_only_steps += int(used_latest_only)
             executed_phase = predicted_phase
+            if (
+                previous_executed_phase is None
+                or executed_phase != previous_executed_phase
+            ):
+                phase_transition_count += int(
+                    previous_executed_phase is not None
+                )
+                if config.diagnostic_trace:
+                    phase_transition_events.append(
+                        {
+                            "step": step,
+                            "from": (
+                                None
+                                if previous_executed_phase is None
+                                else int(previous_executed_phase)
+                            ),
+                            "to": int(executed_phase),
+                        }
+                    )
+            latest_only_steps += int(used_latest_only)
+            prediction_ages.append(ensembler.last_oldest_prediction_age)
+            temporal_contributors.append(ensembler.last_prediction_count)
+            latest_prediction_weights.append(ensembler.last_latest_weight)
             unclipped_pose_action = pose_action.copy()
             pose_action = np.clip(
                 pose_action,
@@ -978,7 +1294,7 @@ class EvaluationCore:
             state_queue.append(tracker.extract(obs))
             agent_frame = self._capture(obs, "agentview", visual_rng)
             wrist_frame = self._capture(obs, "robot0_eye_in_hand", visual_rng)
-            contact_flags = env.object_contact_flags().astype(bool)
+            contact_flags = strict_robot_object_contact_flags(env)
             grasp_flags = env.object_grasp_flags().astype(bool)
             current_object_positions = np.stack(
                 [env.get_object_position(object_id) for object_id in ("A", "B", "C")]
@@ -991,20 +1307,108 @@ class EvaluationCore:
                 current_object_positions - initial_object_positions,
                 axis=1,
             )
+            target_motion_detected |= bool(
+                step_movement[target_index] > OBJECT_MOVEMENT_CONTACT_THRESHOLD
+            )
+            wrong_movement = np.delete(total_movement, target_index)
+            if wrong_movement.size:
+                max_wrong_object_displacement = max(
+                    max_wrong_object_displacement,
+                    float(np.max(wrong_movement)),
+                )
+            newly_moved_wrong_ids: list[str] = []
+            for object_index, object_id in enumerate(("A", "B", "C")):
+                if object_id == task.target_id:
+                    continue
+                object_displacement = float(total_movement[object_index])
+                max_wrong_displacement_by_id[object_id] = max(
+                    max_wrong_displacement_by_id[object_id],
+                    object_displacement,
+                )
+                if object_displacement > WRONG_OBJECT_MOVEMENT_THRESHOLD:
+                    if object_id not in wrong_object_moved_ids:
+                        newly_moved_wrong_ids.append(object_id)
+                    wrong_object_moved_ids.add(object_id)
+                    if first_wrong_object_movement_step == 0:
+                        first_wrong_object_movement_step = step
+            if newly_moved_wrong_ids and config.diagnostic_trace:
+                contact_events.append(
+                    {
+                        "step": step,
+                        "event": "wrong_object_movement_threshold",
+                        "object_ids": sorted(newly_moved_wrong_ids),
+                    }
+                )
+            wrong_object_moved = bool(wrong_object_moved_ids)
             current_target_contact = bool(
                 contact_flags[target_index]
                 or grasp_flags[target_index]
-                or step_movement[target_index] > OBJECT_MOVEMENT_CONTACT_THRESHOLD
             )
+            if current_target_contact and first_target_contact_step == 0:
+                first_target_contact_step = step
+                if config.diagnostic_trace:
+                    contact_events.append(
+                        {
+                            "step": step,
+                            "event": "first_target_contact",
+                            "object_ids": [task.target_id],
+                        }
+                    )
             target_contact |= current_target_contact
-            grasped_once |= bool(grasp_flags[target_index])
-            wrong_object_contact |= bool(
-                np.any(np.delete(contact_flags, target_index))
-                or np.any(
-                    np.delete(total_movement, target_index)
-                    > WRONG_OBJECT_MOVEMENT_THRESHOLD
-                )
+            current_target_grasp = bool(grasp_flags[target_index])
+            if current_target_grasp and first_grasp_step == 0:
+                first_grasp_step = step
+                if config.diagnostic_trace:
+                    contact_events.append(
+                        {
+                            "step": step,
+                            "event": "first_target_grasp",
+                            "object_ids": [task.target_id],
+                        }
+                    )
+            if (
+                previous_target_grasp
+                and not current_target_grasp
+                and first_grasp_lost_step == 0
+            ):
+                first_grasp_lost_step = step
+                if config.diagnostic_trace:
+                    contact_events.append(
+                        {
+                            "step": step,
+                            "event": "first_target_grasp_lost",
+                            "object_ids": [task.target_id],
+                        }
+                    )
+            previous_target_grasp = current_target_grasp
+            grasped_once |= current_target_grasp
+            current_collateral_ids = strict_target_distractor_contact_ids(
+                env,
+                task.target_id,
             )
+            current_collateral_contact = bool(current_collateral_ids)
+            collateral_contact_ids.update(current_collateral_ids)
+            collateral_object_contact |= current_collateral_contact
+            current_direct_wrong_ids = {
+                object_id
+                for object_index, object_id in enumerate(("A", "B", "C"))
+                if object_id != task.target_id and contact_flags[object_index]
+            }
+            current_wrong_ids = current_direct_wrong_ids | set(
+                current_collateral_ids
+            )
+            if current_wrong_ids and first_wrong_object_contact_step == 0:
+                first_wrong_object_contact_step = step
+                if config.diagnostic_trace:
+                    contact_events.append(
+                        {
+                            "step": step,
+                            "event": "first_wrong_object_contact",
+                            "object_ids": sorted(current_wrong_ids),
+                        }
+                    )
+            wrong_object_contact_ids.update(current_wrong_ids)
+            wrong_object_contact = bool(wrong_object_contact_ids)
             previous_object_positions = current_object_positions
             current_target_position = env.get_object_position(task.target_id)
             current_uprightness = env.object_uprightness(task.target_id)
@@ -1104,10 +1508,15 @@ class EvaluationCore:
                     f"Phase {predicted_phase}->{executed_phase} | "
                     f"Ground {grounding_errors[-1]:.1f}cm | "
                     f"Target {predicted_target_id} | "
+                    f"PredXYZ {latest_target_prediction.round(3)} | "
+                    f"TrueXYZ {current_target_position.round(3)} | "
                     f"EEF {np.asarray(obs['robot0_eef_pos']).round(3)} | "
                     f"ObjZ {current_target_position[2]:.3f} | "
                     f"Up {current_uprightness:.2f} | "
                     f"Hold {task_success_streak}/{clean_success_streak} | "
+                    f"Age {ensembler.last_oldest_prediction_age} "
+                    f"({ensembler.last_prediction_count}) | "
+                    f"Resets {grounding_shift_resets} | "
                     f"Shield {safety_intervention_steps}",
                     flush=True,
                 )
@@ -1187,6 +1596,7 @@ class EvaluationCore:
         final_grasp = bool(env.is_grasping(task.target_id))
         failure_category = classify_failure(
             task.task_type,
+            task.target_id,
             task_success,
             wrong_object_contact,
             termination,
@@ -1195,8 +1605,10 @@ class EvaluationCore:
             target_contact,
             grasped_once,
             final_grasp,
+            initial_target_height,
             max_target_height,
             float(final_target_position[2]),
+            min_target_uprightness,
             table_height,
             push_forward,
             push_lateral,
@@ -1209,28 +1621,67 @@ class EvaluationCore:
             "visual_perturbation": config.visual_perturbation,
             "perturbation": config.perturbation_label,
             "ensemble_mode": config.ensemble_mode,
+            "temporal_profile": config.temporal_profile,
+            "ensemble_decay": resolved_ensemble_decay,
+            "max_prediction_age": resolved_max_prediction_age,
+            "grounding_shift_reset_threshold_m": (
+                resolved_grounding_reset_threshold
+            ),
             "execution_mode": "raw",
             "uses_privileged_execution_assistance": 0,
             "uses_privileged_perturbation_oracle": int(
                 config.uses_privileged_perturbation_oracle
             ),
             "scene_seed": scene_seed,
+            "scene_rejections": scene_rejections,
             "task_success": int(task_success),
             "clean_success": int(clean_success),
             "task_success_step": task_success_step,
             "clean_success_step": clean_success_step,
             "wrong_object_contact": int(wrong_object_contact),
+            "wrong_object_contact_ids": "|".join(
+                sorted(wrong_object_contact_ids)
+            ),
+            "first_wrong_object_contact_step": (
+                first_wrong_object_contact_step
+            ),
             "steps": step,
             "termination": termination,
             "failure_category": failure_category,
             "mean_grounding_error_cm": float(np.mean(grounding_errors)),
+            "max_grounding_error_cm": float(np.max(grounding_errors)),
+            "final_grounding_error_cm": float(grounding_errors[-1]),
+            "final_predicted_target_x": float(latest_target_prediction[0]),
+            "final_predicted_target_y": float(latest_target_prediction[1]),
+            "final_predicted_target_z": float(latest_target_prediction[2]),
             "mean_target_class_accuracy": float(
                 np.mean(target_class_correctness)
             ),
             "min_eef_target_distance": min_eef_target_distance,
             "gripper_close_step": gripper_close_step,
             "target_contact": int(target_contact),
+            "first_target_contact_step": first_target_contact_step,
+            "target_motion_detected": int(target_motion_detected),
             "grasped_once": int(grasped_once),
+            "first_grasp_step": first_grasp_step,
+            "first_grasp_lost_step": first_grasp_lost_step,
+            "collateral_object_contact": int(collateral_object_contact),
+            "collateral_contact_ids": "|".join(
+                sorted(collateral_contact_ids)
+            ),
+            "wrong_object_moved": int(wrong_object_moved),
+            "wrong_object_moved_ids": "|".join(
+                sorted(wrong_object_moved_ids)
+            ),
+            "first_wrong_object_movement_step": (
+                first_wrong_object_movement_step
+            ),
+            "max_wrong_object_displacement": max_wrong_object_displacement,
+            "max_wrong_displacement_by_id_json": json.dumps(
+                max_wrong_displacement_by_id,
+                separators=(",", ":"),
+                sort_keys=True,
+            ),
             "max_target_height": max_target_height,
             "min_target_height": min_target_height,
             "min_target_uprightness": min_target_uprightness,
@@ -1244,6 +1695,34 @@ class EvaluationCore:
             "recovery_cycles": recovery_cycles,
             "mean_pose_action_norm": float(np.mean(pose_action_norms)),
             "latest_only_rate": latest_only_steps / step,
+            "mean_oldest_prediction_age": float(np.mean(prediction_ages)),
+            "max_oldest_prediction_age": int(max(prediction_ages)),
+            "mean_temporal_contributors": float(
+                np.mean(temporal_contributors)
+            ),
+            "mean_latest_prediction_weight": float(
+                np.mean(latest_prediction_weights)
+            ),
+            "phase_transition_count": phase_transition_count,
+            "grounding_shift_resets": grounding_shift_resets,
+            "grounding_reset_steps_json": json.dumps(
+                grounding_reset_steps if config.diagnostic_trace else [],
+                separators=(",", ":"),
+            ),
+            "stale_predictions_discarded": stale_predictions_discarded,
+            "diagnostic_trace_enabled": int(config.diagnostic_trace),
+            "phase_transition_trace_json": json.dumps(
+                phase_transition_events if config.diagnostic_trace else [],
+                separators=(",", ":"),
+            ),
+            "contact_event_trace_json": json.dumps(
+                contact_events if config.diagnostic_trace else [],
+                separators=(",", ":"),
+            ),
+            "target_prediction_trace_json": json.dumps(
+                diagnostic_predictions if config.diagnostic_trace else [],
+                separators=(",", ":"),
+            ),
         }
         if manager is not None:
             manager.on_episode_end()

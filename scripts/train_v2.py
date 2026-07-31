@@ -9,6 +9,7 @@ import math
 import os
 import sys
 from collections import defaultdict
+from collections.abc import Sequence
 
 import numpy as np
 import torch
@@ -32,6 +33,7 @@ from utils.training_dataset_v2 import (
     V2EpisodeStore,
     compute_normalization_stats,
 )
+from utils.language_augmentation_v3 import LanguageAugmentationCatalog
 from utils.v2_schema import DATASET_VERSION, SCHEMA_VERSION, TASK_BUCKETS
 
 
@@ -77,6 +79,8 @@ PERCEPTION_WARMSTART_PREFIXES = (
 
 
 def get_device() -> torch.device:
+    if torch.cuda.is_available():
+        return torch.device("cuda")
     if torch.backends.mps.is_available():
         return torch.device("mps")
     return torch.device("cpu")
@@ -139,7 +143,7 @@ def seed_worker(worker_id: int) -> None:
 
 
 def build_loader(
-    data_dir: str,
+    data_dir: str | Sequence[str],
     split: str,
     stats: NormalizationStats,
     samples_per_episode: int,
@@ -147,6 +151,7 @@ def build_loader(
     num_workers: int,
     seed: int,
     shuffle: bool,
+    language_catalog: LanguageAugmentationCatalog | None = None,
 ) -> tuple[ActionChunkDatasetV2, InterleavedTaskBatchSampler, DataLoader]:
     episodes = V2EpisodeStore(
         data_dir,
@@ -159,6 +164,7 @@ def build_loader(
         chunk_size=CHUNK_SIZE,
         history_length=HISTORY_LENGTH,
         samples_per_episode=samples_per_episode,
+        language_catalog=language_catalog,
     )
     sampler = InterleavedTaskBatchSampler(
         dataset,
@@ -181,11 +187,12 @@ def build_loader(
 
 
 def build_initial_loader(
-    data_dir: str,
+    data_dir: str | Sequence[str],
     split: str,
     stats: NormalizationStats,
     batch_size: int,
     num_workers: int,
+    language_catalog: LanguageAugmentationCatalog | None = None,
 ) -> tuple[ActionChunkDatasetV2, DataLoader]:
     episodes = V2EpisodeStore(
         data_dir,
@@ -202,6 +209,7 @@ def build_initial_loader(
         initial_repeats=1,
         history_dropout_probability=0.0,
         state_noise_std=0.0,
+        language_catalog=language_catalog,
     )
     loader_kwargs = {
         "dataset": dataset,
@@ -239,6 +247,7 @@ def move_batch(batch: dict, device: torch.device) -> dict:
         "bucket_index",
         "timestep",
         "is_initial",
+        "task_is_pick",
     )
     moved = {key: batch[key].to(device) for key in tensor_keys}
     moved["instruction"] = list(batch["instruction"])
@@ -258,6 +267,7 @@ def compute_objective(
     output: dict[str, torch.Tensor],
     batch: dict,
     stats: NormalizationStats,
+    phase_family_weight: float = 0.0,
 ) -> dict[str, torch.Tensor]:
     mask = batch["action_mask"]
     policy_sample_weight = 1.0 + batch["is_initial"]
@@ -328,6 +338,27 @@ def compute_objective(
         reduction="none",
     )
     phase_loss = (phase_error * weighted_mask).sum() / denominator
+    phase_log_probability = F.log_softmax(
+        output["phase_logits"],
+        dim=-1,
+    )
+    pick_family_log_probability = torch.logsumexp(
+        phase_log_probability[:, :, :5],
+        dim=-1,
+    )
+    push_family_log_probability = torch.logsumexp(
+        phase_log_probability[:, :, 5:],
+        dim=-1,
+    )
+    task_is_pick = batch["task_is_pick"].bool().unsqueeze(1)
+    correct_family_log_probability = torch.where(
+        task_is_pick,
+        pick_family_log_probability,
+        push_family_log_probability,
+    )
+    phase_family_loss = (
+        -correct_family_log_probability * weighted_mask
+    ).sum() / denominator
     interaction_target = torch.stack(
         [batch["target_contact"], batch["target_grasp"]],
         dim=-1,
@@ -389,6 +420,7 @@ def compute_objective(
         + LIFT_TRANSITION_WEIGHT * lift_transition_loss
         + GROUNDING_WEIGHT * grounding_loss
         + TARGET_CLASS_WEIGHT * target_class_loss
+        + phase_family_weight * phase_family_loss
     )
 
     gripper_prediction = output["gripper_logits"].gt(0.0)
@@ -398,6 +430,10 @@ def compute_objective(
     phase_prediction = output["phase_logits"].argmax(dim=-1)
     phase_accuracy = (
         phase_prediction.eq(batch["phase_target"]).float() * mask
+    ).sum() / mask.sum().clamp_min(1.0)
+    phase_family_prediction = phase_prediction.lt(5)
+    phase_family_accuracy = (
+        phase_family_prediction.eq(task_is_pick).float() * mask
     ).sum() / mask.sum().clamp_min(1.0)
 
     interaction_prediction = output["interaction_logits"].gt(0.0)
@@ -458,12 +494,14 @@ def compute_objective(
         "gripper_bce": gripper_loss,
         "smoothness": smoothness_loss,
         "phase": phase_loss,
+        "phase_family": phase_family_loss,
         "interaction_bce": interaction_bce,
         "lift_transition": lift_transition_loss,
         "grounding": grounding_loss,
         "target_class": target_class_loss,
         "gripper_accuracy": gripper_accuracy,
         "phase_accuracy": phase_accuracy,
+        "phase_family_accuracy": phase_family_accuracy,
         "contact_accuracy": contact_accuracy,
         "grasp_accuracy": grasp_accuracy,
         "xyz_mae": xyz_mae,
@@ -482,12 +520,14 @@ METRIC_NAMES = (
     "gripper_bce",
     "smoothness",
     "phase",
+    "phase_family",
     "interaction_bce",
     "lift_transition",
     "grounding",
     "target_class",
     "gripper_accuracy",
     "phase_accuracy",
+    "phase_family_accuracy",
     "contact_accuracy",
     "grasp_accuracy",
     "xyz_mae",
@@ -504,6 +544,7 @@ def validate(
     device: torch.device,
     stats: NormalizationStats,
     max_batches: int | None = None,
+    phase_family_weight: float = 0.0,
 ) -> tuple[dict[str, float], dict[str, dict[str, float]]]:
     model.eval()
     totals = defaultdict(float)
@@ -529,7 +570,12 @@ def validate(
         for raw_batch in loader:
             batch = move_batch(raw_batch, device)
             output = forward_batch(model, batch)
-            metrics = compute_objective(output, batch, stats)
+            metrics = compute_objective(
+                output,
+                batch,
+                stats,
+                phase_family_weight=phase_family_weight,
+            )
             batch_size = int(batch["state_history"].shape[0])
             for name in METRIC_NAMES:
                 totals[name] += metrics[name].item() * batch_size

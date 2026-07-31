@@ -58,7 +58,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", default=DEFAULT_REPORT)
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--num-workers", type=int, default=4)
-    parser.add_argument("--device", choices=("auto", "cpu", "mps"), default="auto")
+    parser.add_argument(
+        "--device",
+        choices=("auto", "cpu", "mps", "cuda"),
+        default="auto",
+    )
     parser.add_argument("--code-only", action="store_true")
     parser.add_argument("--skip-model", action="store_true")
     parser.add_argument("--allow-download", action="store_true")
@@ -68,11 +72,19 @@ def parse_args() -> argparse.Namespace:
 def get_device(requested: str) -> torch.device:
     if requested == "cpu":
         return torch.device("cpu")
+    if requested == "cuda":
+        if not torch.cuda.is_available():
+            raise RuntimeError("CUDA was requested but is unavailable")
+        return torch.device("cuda")
     if requested == "mps":
         if not torch.backends.mps.is_available():
             raise RuntimeError("MPS was requested but is unavailable")
         return torch.device("mps")
-    return torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+    if torch.cuda.is_available():
+        return torch.device("cuda")
+    if torch.backends.mps.is_available():
+        return torch.device("mps")
+    return torch.device("cpu")
 
 
 class GateReport:

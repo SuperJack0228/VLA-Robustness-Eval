@@ -7,8 +7,23 @@ from typing import Any
 
 import numpy as np
 
+from scripts.collect_data import distance_to_segment
+from scripts.collect_data_v2 import (
+    BALL_PUSH_DISTANCE,
+    PICK_TARGET_CLEARANCE,
+    PUSH_DISTANCE,
+    PUSH_PATH_CLEARANCE,
+)
 
-GROUNDING_REACQUISITION_THRESHOLD_CM = 2.0
+
+GROUNDING_REACQUISITION_THRESHOLDS_CM = (0.5, 1.0, 2.0)
+PLACEMENT_MARGIN_M = 0.015
+PUSH_APPROACH_OFFSET_M = 0.065
+PUSH_WORKSPACE_MARGIN_M = 0.015
+
+
+class PerturbationSceneRejected(RuntimeError):
+    """Raised when a scene cannot support a matched perturbation protocol."""
 
 
 @dataclass
@@ -71,11 +86,18 @@ class DynamicTargetDisplacement(Perturbation):
 
     distance_m: float
     base_seed: int
-    grounding_threshold_cm: float = GROUNDING_REACQUISITION_THRESHOLD_CM
+    validation_distances_m: tuple[float, ...] | None = None
+    grounding_thresholds_cm: tuple[float, ...] = (
+        GROUNDING_REACQUISITION_THRESHOLDS_CM
+    )
     name: str = field(init=False, default="target_displacement")
 
     _rng: np.random.Generator | None = field(init=False, default=None)
     _fired: bool = field(init=False, default=False)
+    _selected_direction: np.ndarray = field(
+        init=False,
+        default_factory=lambda: np.zeros(2, dtype=np.float64),
+    )
     _injection_step: int = field(init=False, default=0)
     _injection_phase: int = field(init=False, default=-1)
     _actual_delta: np.ndarray = field(
@@ -85,12 +107,36 @@ class DynamicTargetDisplacement(Perturbation):
     _grounding_before_cm: float = field(init=False, default=float("nan"))
     _grounding_after_cm: float = field(init=False, default=float("nan"))
     _max_grounding_after_cm: float = field(init=False, default=float("nan"))
-    _reacquisition_latency: int = field(init=False, default=-1)
+    _reacquisition_latencies: dict[float, int] = field(
+        init=False,
+        default_factory=dict,
+    )
     _contact_latency: int = field(init=False, default=-1)
+    _collision_integrity_passed: bool = field(init=False, default=False)
 
     def __post_init__(self) -> None:
         if self.distance_m < 0.0:
             raise ValueError("distance_m must be non-negative")
+        distances = (
+            (self.distance_m,)
+            if self.validation_distances_m is None
+            else tuple(float(value) for value in self.validation_distances_m)
+        )
+        if any(not np.isfinite(value) or value < 0.0 for value in distances):
+            raise ValueError(
+                "validation_distances_m must contain finite non-negative values"
+            )
+        self.validation_distances_m = tuple(sorted(set((*distances, self.distance_m))))
+        thresholds = tuple(
+            sorted(set(float(value) for value in self.grounding_thresholds_cm))
+        )
+        if not thresholds or any(
+            not np.isfinite(value) or value <= 0.0 for value in thresholds
+        ):
+            raise ValueError(
+                "grounding_thresholds_cm must contain positive finite values"
+            )
+        self.grounding_thresholds_cm = thresholds
 
     def on_episode_start(self, context: PerturbationContext) -> None:
         seed_sequence = np.random.SeedSequence(
@@ -98,14 +144,34 @@ class DynamicTargetDisplacement(Perturbation):
         )
         self._rng = np.random.default_rng(seed_sequence)
         self._fired = False
+        self._selected_direction = np.zeros(2, dtype=np.float64)
         self._injection_step = 0
         self._injection_phase = -1
         self._actual_delta = np.zeros(3, dtype=np.float32)
         self._grounding_before_cm = float("nan")
         self._grounding_after_cm = float("nan")
         self._max_grounding_after_cm = float("nan")
-        self._reacquisition_latency = -1
+        self._reacquisition_latencies = {
+            threshold: -1 for threshold in self.grounding_thresholds_cm
+        }
         self._contact_latency = -1
+        self._collision_integrity_passed = False
+
+        target = context.env.get_object_position(context.task.target_id).copy()
+        for direction in self._candidate_directions(context):
+            direction = np.asarray(direction, dtype=np.float64)
+            direction /= max(float(np.linalg.norm(direction)), 1e-8)
+            if self._direction_supports_protocol(context, target, direction):
+                self._selected_direction = direction
+                self._collision_integrity_passed = True
+                return
+        levels = ", ".join(
+            f"{distance:.3f}" for distance in self.validation_distances_m or ()
+        )
+        raise PerturbationSceneRejected(
+            "No single collision-safe displacement ray supports all requested "
+            f"levels [{levels}] for {context.task.task_type}_{context.task.target_id}"
+        )
 
     def _candidate_directions(self, context: PerturbationContext) -> list[np.ndarray]:
         if self._rng is None:
@@ -134,43 +200,159 @@ class DynamicTargetDisplacement(Perturbation):
             for angle in angles
         ]
 
-    def _collision_safe_target_xy(
+    def _inside_table(
         self,
         context: PerturbationContext,
-        target: np.ndarray,
-    ) -> np.ndarray:
+        xy: np.ndarray,
+        margin: float,
+    ) -> bool:
+        env = context.env
+        table_xy = np.asarray(env.table_offset[:2], dtype=np.float64)
+        half_table = np.asarray(env.table_full_size[:2], dtype=np.float64) / 2.0
+        return bool(np.all(np.abs(xy - table_xy) <= half_table - margin))
+
+    @staticmethod
+    def _gripper_models(env: Any) -> tuple[Any, ...]:
+        gripper = env.robots[0].gripper
+        if isinstance(gripper, dict):
+            return tuple(gripper.values())
+        return (gripper,)
+
+    def _has_forbidden_physical_contact(
+        self,
+        context: PerturbationContext,
+    ) -> bool:
+        env = context.env
+        target_id = context.task.target_id
+        target_model = env.objects_by_id[target_id]
+        if env.check_contact(target_model, env.robots[0].robot_model):
+            return True
+        if any(
+            env.check_contact(target_model, gripper_model)
+            for gripper_model in self._gripper_models(env)
+        ):
+            return True
+        return any(
+            env.check_contact(target_model, env.objects_by_id[other_id])
+            for other_id in ("A", "B", "C")
+            if other_id != target_id
+        )
+
+    def _temporary_contact_check(
+        self,
+        context: PerturbationContext,
+        candidate_xy: np.ndarray,
+    ) -> bool:
+        env = context.env
+        joint_name = env.objects_by_id[context.task.target_id].joints[0]
+        original_qpos = env.sim.data.get_joint_qpos(joint_name).copy()
+        original_qvel = env.sim.data.get_joint_qvel(joint_name).copy()
+        candidate_qpos = original_qpos.copy()
+        candidate_qpos[:2] = candidate_xy
+        try:
+            env.sim.data.set_joint_qpos(joint_name, candidate_qpos)
+            env.sim.data.set_joint_qvel(
+                joint_name,
+                np.zeros_like(original_qvel),
+            )
+            env.sim.forward()
+            return not self._has_forbidden_physical_contact(context)
+        finally:
+            env.sim.data.set_joint_qpos(joint_name, original_qpos)
+            env.sim.data.set_joint_qvel(joint_name, original_qvel)
+            env.sim.forward()
+
+    def _placement_clear(
+        self,
+        context: PerturbationContext,
+        candidate_xy: np.ndarray,
+    ) -> bool:
         env = context.env
         target_id = context.task.target_id
         target_radius = float(env.objects_by_id[target_id].horizontal_radius)
-        table_xy = np.asarray(env.table_offset[:2], dtype=np.float64)
-        half_table = np.asarray(env.table_full_size[:2], dtype=np.float64) / 2.0
-
-        for direction in self._candidate_directions(context):
-            direction /= max(float(np.linalg.norm(direction)), 1e-8)
-            candidate = target[:2] + direction * self.distance_m
-            if np.any(
-                np.abs(candidate - table_xy)
-                > half_table - target_radius - 0.015
-            ):
-                continue
-            collision_free = True
-            for other_id in ("A", "B", "C"):
-                if other_id == target_id:
-                    continue
-                other_position = env.get_object_position(other_id)[:2]
-                clearance = (
-                    target_radius
-                    + float(env.objects_by_id[other_id].horizontal_radius)
-                    + 0.015
-                )
-                if np.linalg.norm(candidate - other_position) < clearance:
-                    collision_free = False
-                    break
-            if collision_free:
-                return candidate
-        raise RuntimeError(
-            f"No collision-safe {self.distance_m:.3f}m target displacement"
+        task_clearance = (
+            PICK_TARGET_CLEARANCE
+            if context.task.task_type == "pick"
+            else PLACEMENT_MARGIN_M
         )
+        if not self._inside_table(
+            context,
+            candidate_xy,
+            target_radius + PLACEMENT_MARGIN_M,
+        ):
+            return False
+        for other_id in ("A", "B", "C"):
+            if other_id == target_id:
+                continue
+            other_position = env.get_object_position(other_id)[:2]
+            clearance = (
+                target_radius
+                + float(env.objects_by_id[other_id].horizontal_radius)
+                + task_clearance
+            )
+            if np.linalg.norm(candidate_xy - other_position) < clearance:
+                return False
+        return True
+
+    def _push_corridor_clear(
+        self,
+        context: PerturbationContext,
+        candidate_xy: np.ndarray,
+    ) -> bool:
+        env = context.env
+        target_id = context.task.target_id
+        direction = np.asarray(context.task.push_direction, dtype=np.float64)
+        direction /= max(float(np.linalg.norm(direction)), 1e-8)
+        target_radius = float(env.objects_by_id[target_id].horizontal_radius)
+        start = candidate_xy - direction * (
+            target_radius + PUSH_APPROACH_OFFSET_M
+        )
+        push_distance = BALL_PUSH_DISTANCE if target_id == "B" else PUSH_DISTANCE
+        end = candidate_xy + direction * push_distance
+        if not self._inside_table(
+            context,
+            start,
+            target_radius + PUSH_WORKSPACE_MARGIN_M,
+        ) or not self._inside_table(
+            context,
+            end,
+            target_radius + PUSH_WORKSPACE_MARGIN_M,
+        ):
+            return False
+        for other_id in ("A", "B", "C"):
+            if other_id == target_id:
+                continue
+            other_xy = env.get_object_position(other_id)[:2]
+            clearance = (
+                target_radius
+                + float(env.objects_by_id[other_id].horizontal_radius)
+                + PUSH_PATH_CLEARANCE[target_id]
+            )
+            if distance_to_segment(other_xy, start, end) < clearance:
+                return False
+        return True
+
+    def _direction_supports_protocol(
+        self,
+        context: PerturbationContext,
+        target: np.ndarray,
+        direction: np.ndarray,
+    ) -> bool:
+        for distance in self.validation_distances_m or (self.distance_m,):
+            candidate_xy = target[:2] + direction * distance
+            if not self._placement_clear(context, candidate_xy):
+                return False
+            if (
+                context.task.task_type == "push"
+                and not self._push_corridor_clear(context, candidate_xy)
+            ):
+                return False
+            if distance > 0.0 and not self._temporary_contact_check(
+                context,
+                candidate_xy,
+            ):
+                return False
+        return True
 
     def before_step(self, context: PerturbationContext) -> dict | None:
         trigger_phase = 1 if context.task.task_type == "pick" else 6
@@ -184,13 +366,35 @@ class DynamicTargetDisplacement(Perturbation):
         env = context.env
         target_id = context.task.target_id
         target = env.get_object_position(target_id).copy()
-        selected_xy = self._collision_safe_target_xy(context, target)
+        selected_xy = target[:2] + self._selected_direction * self.distance_m
+        if not self._placement_clear(context, selected_xy):
+            raise RuntimeError(
+                "Target moved before injection and invalidated the preflighted "
+                "displacement placement"
+            )
+        if (
+            context.task.task_type == "push"
+            and not self._push_corridor_clear(context, selected_xy)
+        ):
+            raise RuntimeError(
+                "Target moved before injection and invalidated the preflighted "
+                "push corridor"
+            )
         joint_name = env.objects_by_id[target_id].joints[0]
-        qpos = env.sim.data.get_joint_qpos(joint_name).copy()
+        original_qpos = env.sim.data.get_joint_qpos(joint_name).copy()
+        original_qvel = env.sim.data.get_joint_qvel(joint_name).copy()
+        qpos = original_qpos.copy()
         qpos[:2] = selected_xy
         env.sim.data.set_joint_qpos(joint_name, qpos)
-        env.sim.data.set_joint_qvel(joint_name, np.zeros(6, dtype=np.float64))
+        env.sim.data.set_joint_qvel(joint_name, np.zeros_like(original_qvel))
         env.sim.forward()
+        if self._has_forbidden_physical_contact(context):
+            env.sim.data.set_joint_qpos(joint_name, original_qpos)
+            env.sim.data.set_joint_qvel(joint_name, original_qvel)
+            env.sim.forward()
+            raise RuntimeError(
+                "Dynamic displacement created a forbidden physical contact"
+            )
 
         self._actual_delta[:2] = selected_xy - target[:2]
         self._injection_step = context.step
@@ -206,6 +410,7 @@ class DynamicTargetDisplacement(Perturbation):
             "step": self._injection_step,
             "phase": self._injection_phase,
             "actual_delta": self._actual_delta.copy(),
+            "direction": self._selected_direction.copy(),
         }
 
     def after_prediction(self, context: PerturbationContext) -> None:
@@ -222,8 +427,14 @@ class DynamicTargetDisplacement(Perturbation):
             self._max_grounding_after_cm = error
         else:
             self._max_grounding_after_cm = max(self._max_grounding_after_cm, error)
-        if self._reacquisition_latency < 0 and error <= self.grounding_threshold_cm:
-            self._reacquisition_latency = context.step - self._injection_step
+        for threshold in self.grounding_thresholds_cm:
+            if (
+                self._reacquisition_latencies[threshold] < 0
+                and error <= threshold
+            ):
+                self._reacquisition_latencies[threshold] = (
+                    context.step - self._injection_step
+                )
 
     def after_step(self, context: PerturbationContext) -> None:
         if not self._fired or context.step < self._injection_step:
@@ -239,13 +450,19 @@ class DynamicTargetDisplacement(Perturbation):
         def optional_number(value: float) -> float | None:
             return float(value) if np.isfinite(value) else None
 
-        return {
+        metrics = {
             "perturbation_type": self.name,
+            "perturbation_protocol_version": "target-displacement.v2",
             "perturbation_level": float(self.distance_m),
+            "protocol_collision_integrity_passed": int(
+                self._collision_integrity_passed
+            ),
             "injected": int(self._fired),
             "injection_step": self._injection_step,
             "injection_phase": self._injection_phase,
             "requested_delta_m": float(self.distance_m),
+            "selected_direction_x": float(self._selected_direction[0]),
+            "selected_direction_y": float(self._selected_direction[1]),
             "actual_delta_x_m": float(self._actual_delta[0]),
             "actual_delta_y_m": float(self._actual_delta[1]),
             "actual_delta_z_m": float(self._actual_delta[2]),
@@ -259,9 +476,18 @@ class DynamicTargetDisplacement(Perturbation):
             "max_grounding_error_after_injection_cm": optional_number(
                 self._max_grounding_after_cm
             ),
-            "reacquisition_latency": self._reacquisition_latency,
             "post_injection_contact_latency": self._contact_latency,
         }
+        for threshold, latency in self._reacquisition_latencies.items():
+            slug = str(threshold).replace(".", "_")
+            metrics[f"reacquired_within_{slug}cm"] = int(latency >= 0)
+            metrics[f"reacquisition_latency_{slug}cm"] = latency
+        # Keep the old 2 cm field for compatibility with existing analysis.
+        metrics["reacquisition_latency"] = self._reacquisition_latencies.get(
+            2.0,
+            -1,
+        )
+        return metrics
 
 
 class PerturbationManager:

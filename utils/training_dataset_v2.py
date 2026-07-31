@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 import random
 from collections import OrderedDict, deque
+from collections.abc import Sequence
 from dataclasses import dataclass
 
 import numpy as np
@@ -12,6 +13,7 @@ import torch
 from torch.utils.data import Dataset, Sampler
 from torchvision import transforms
 
+from utils.language_augmentation_v3 import LanguageAugmentationCatalog
 from utils.v2_schema import (
     ACTION_DIM,
     EPISODE_STEPS,
@@ -108,14 +110,25 @@ class RunningMoments:
         return mean.astype(np.float32), std.astype(np.float32)
 
 
-def episode_paths(data_dir: str, split: str) -> list[str]:
+def _data_directories(data_dir: str | Sequence[str]) -> tuple[str, ...]:
+    if isinstance(data_dir, str):
+        directories = (data_dir,)
+    else:
+        directories = tuple(data_dir)
+    if not directories:
+        raise ValueError("At least one data directory is required")
+    return directories
+
+
+def episode_paths(data_dir: str | Sequence[str], split: str) -> list[str]:
     paths = []
-    for filename in sorted(os.listdir(data_dir)):
-        if not filename.startswith("ep_") or not filename.endswith(".npz"):
-            continue
-        path = os.path.join(data_dir, filename)
-        if read_metadata(path)["split"] == split:
-            paths.append(path)
+    for directory in _data_directories(data_dir):
+        for filename in sorted(os.listdir(directory)):
+            if not filename.startswith("ep_") or not filename.endswith(".npz"):
+                continue
+            path = os.path.join(directory, filename)
+            if read_metadata(path)["split"] == split:
+                paths.append(path)
     if not paths:
         raise FileNotFoundError(f"No {split!r} V2 episodes found in {data_dir}")
     return paths
@@ -164,7 +177,7 @@ def successful_suffix_bounds(
 
 
 def compute_normalization_stats(
-    data_dir: str,
+    data_dir: str | Sequence[str],
     split: str = "train",
 ) -> NormalizationStats:
     state_moments = RunningMoments(STATE_DIM)
@@ -206,7 +219,7 @@ class V2EpisodeStore:
 
     def __init__(
         self,
-        data_dir: str,
+        data_dir: str | Sequence[str],
         split: str,
         cache_size: int = 32,
     ) -> None:
@@ -422,6 +435,7 @@ class ActionChunkDatasetV2(Dataset):
         initial_repeats: int | None = None,
         history_dropout_probability: float = 0.10,
         state_noise_std: float = 0.005,
+        language_catalog: LanguageAugmentationCatalog | None = None,
     ) -> None:
         self.episodes = episodes
         self.stats = stats
@@ -434,6 +448,7 @@ class ActionChunkDatasetV2(Dataset):
         ) if initial_repeats is None else int(initial_repeats)
         self.history_dropout_probability = float(history_dropout_probability)
         self.state_noise_std = float(state_noise_std)
+        self.language_catalog = language_catalog
         self.image_augment = transforms.Compose(
             [
                 transforms.ColorJitter(
@@ -572,6 +587,27 @@ class ActionChunkDatasetV2(Dataset):
             if timestep == metadata["training_start"]
             else episode["previous_action"][timestep, 6]
         )
+        instruction = metadata["instruction"]
+        language_variant_id = "canonical"
+        language_split = "canonical"
+        if self.language_catalog is not None:
+            language_rng = (
+                np.random.default_rng(
+                    int(np.random.randint(0, np.iinfo(np.uint32).max))
+                )
+                if self.training
+                else None
+            )
+            variant = self.language_catalog.sample(
+                metadata["task_type"],
+                metadata["target_id"],
+                training=self.training,
+                rng=language_rng,
+                deterministic_index=episode_index * 257 + timestep,
+            )
+            instruction = variant.text
+            language_variant_id = variant.variant_id
+            language_split = variant.split
         return {
             "image_agentview": agentview,
             "image_wrist": wrist,
@@ -605,9 +641,16 @@ class ActionChunkDatasetV2(Dataset):
                 (previous_gripper + 1.0) / 2.0,
                 dtype=torch.float32,
             ),
-            "instruction": metadata["instruction"],
+            "instruction": instruction,
+            "canonical_instruction": metadata["instruction"],
+            "language_variant_id": language_variant_id,
+            "language_split": language_split,
             "task_type": metadata["task_type"],
             "target_id": metadata["target_id"],
+            "task_is_pick": torch.tensor(
+                metadata["task_type"] == "pick",
+                dtype=torch.float32,
+            ),
             "bucket_index": torch.tensor(TASK_BUCKETS.index(self.sample_buckets[index])),
             "episode_index": torch.tensor(episode_index),
             "timestep": torch.tensor(timestep),
