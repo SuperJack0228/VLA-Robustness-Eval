@@ -29,6 +29,7 @@ from scripts.train_v3 import (
     CHUNK_SIZE,
     DATASET_VERSION,
     PHASE_FAMILY_WEIGHT,
+    SUPPORTED_CHUNK_SIZES,
     build_model_from_checkpoint,
 )
 from utils.language_augmentation_v3 import (
@@ -44,24 +45,24 @@ from utils.training_dataset_v2 import (
 from utils.v2_schema import TASK_BUCKETS
 
 
-DEFAULT_REPORT = "results/v3/preflight_report_v3.json"
+DEFAULT_REPORT = "results/training/v3/preflight_report_v3.json"
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--base-data-dir",
-        default="results/dataset_v2_clean",
+        default="data/dataset_v2_clean",
     )
     parser.add_argument(
         "--recovery-data-dir",
-        default="results/dataset_v3_recovery",
+        default="data/dataset_v3_recovery",
     )
     parser.add_argument("--expected-base-episodes", type=int, default=1200)
     parser.add_argument("--expected-recovery-episodes", type=int, default=600)
     parser.add_argument(
         "--init-policy",
-        default="results/v2_clean/mini_vla_v2_clean_policy.pth",
+        default="artifacts/v2-clean-rc1/mini_vla_v2_clean_policy.pth",
     )
     parser.add_argument(
         "--language-catalog",
@@ -70,6 +71,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", default=DEFAULT_REPORT)
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--num-workers", type=int, default=4)
+    parser.add_argument(
+        "--chunk-size",
+        type=int,
+        choices=SUPPORTED_CHUNK_SIZES,
+        default=CHUNK_SIZE,
+    )
+    parser.add_argument("--reinitialize-action-queries", action="store_true")
     parser.add_argument(
         "--device",
         choices=("auto", "cpu", "mps", "cuda"),
@@ -128,6 +136,7 @@ def mixed_loader_audit(
     catalog: LanguageAugmentationCatalog,
     batch_size: int,
     num_workers: int,
+    chunk_size: int,
 ) -> tuple[dict, dict]:
     require(
         batch_size % EPISODES_PER_BATCH == 0,
@@ -137,7 +146,7 @@ def mixed_loader_audit(
     train_dataset = ActionChunkDatasetV2(
         train_store,
         stats,
-        chunk_size=CHUNK_SIZE,
+        chunk_size=chunk_size,
         samples_per_episode=64,
         language_catalog=catalog,
     )
@@ -194,7 +203,7 @@ def mixed_loader_audit(
     val_dataset = ActionChunkDatasetV2(
         val_store,
         stats,
-        chunk_size=CHUNK_SIZE,
+        chunk_size=chunk_size,
         samples_per_episode=1,
         initial_only=True,
         history_dropout_probability=0.0,
@@ -223,6 +232,8 @@ def mixed_loader_audit(
         "first_batch_unique_instructions": len(
             set(train_batch["instruction"])
         ),
+        "chunk_size": chunk_size,
+        "pose_target_shape": list(train_batch["pose_target"].shape),
     }, train_batch
 
 
@@ -231,6 +242,8 @@ def model_audit(
     raw_batch: dict,
     device: torch.device,
     local_files_only: bool,
+    chunk_size: int,
+    reinitialize_action_queries: bool,
 ) -> dict:
     require(
         checkpoint.get("format_version") == 7,
@@ -244,6 +257,8 @@ def model_audit(
     model = build_model_from_checkpoint(
         checkpoint,
         local_files_only=local_files_only,
+        chunk_size=chunk_size,
+        reinitialize_action_queries=reinitialize_action_queries,
     ).to(device)
     batch_size = min(2, int(raw_batch["state_history"].shape[0]))
     compact = {}
@@ -264,6 +279,10 @@ def model_audit(
         phase_family_weight=PHASE_FAMILY_WEIGHT,
     )
     require(torch.isfinite(metrics["total"]), "V3 objective is not finite")
+    require(
+        tuple(output["pose"].shape[1:]) == (chunk_size, 6),
+        "Model pose output does not match the requested chunk size",
+    )
     metrics["total"].backward()
     finite_gradients = all(
         parameter.grad is None or torch.isfinite(parameter.grad).all()
@@ -275,6 +294,8 @@ def model_audit(
         "input_batch_size": batch_size,
         "pose_shape": list(output["pose"].shape),
         "phase_shape": list(output["phase_logits"].shape),
+        "chunk_size": chunk_size,
+        "reinitialized_action_queries": reinitialize_action_queries,
         "loss": float(metrics["total"].detach().cpu()),
         "phase_family_accuracy": float(
             metrics["phase_family_accuracy"].detach().cpu()
@@ -286,6 +307,10 @@ def model_audit(
 
 def main() -> None:
     args = parse_args()
+    if args.chunk_size != CHUNK_SIZE and not args.reinitialize_action_queries:
+        raise ValueError(
+            "Non-default chunk sizes require --reinitialize-action-queries"
+        )
     os.makedirs(os.path.dirname(args.output) or ".", exist_ok=True)
     report = GateReport()
     details = {}
@@ -337,6 +362,7 @@ def main() -> None:
                 catalog,
                 args.batch_size,
                 args.num_workers,
+                args.chunk_size,
             )
             report.pass_check(
                 "interleaved_multitask_language_loader",
@@ -346,16 +372,23 @@ def main() -> None:
             report.fail_check("interleaved_multitask_language_loader", error)
 
     if not args.skip_model and checkpoint is not None and raw_batch is not None:
+        check_name = (
+            "v3_chunk_ablation_warmstart"
+            if args.reinitialize_action_queries
+            else "v2_to_v3_full_warmstart"
+        )
         try:
             details["model"] = model_audit(
                 checkpoint,
                 raw_batch,
                 get_device(args.device),
                 args.local_files_only,
+                args.chunk_size,
+                args.reinitialize_action_queries,
             )
-            report.pass_check("v2_to_v3_full_warmstart", details["model"])
+            report.pass_check(check_name, details["model"])
         except Exception as error:
-            report.fail_check("v2_to_v3_full_warmstart", error)
+            report.fail_check(check_name, error)
 
     payload = report.payload()
     payload["details"] = details

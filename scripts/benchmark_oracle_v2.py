@@ -170,7 +170,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--seed", type=int, default=DEFAULT_SEED)
     parser.add_argument(
         "--output",
-        default="results/v2_clean/oracle_benchmark_v2_clean.json",
+        default="results/benchmarks/oracle/oracle_benchmark_v2_clean.json",
     )
     parser.add_argument(
         "--no-enforce",

@@ -27,13 +27,17 @@ env/
 
 # Local presentation build artifacts
 *.pptx
-!docs/2026-07-28-LiuYining-MiniVLA-V3-Update.pptx
+!docs/presentations/2026-07-28-LiuYining-MiniVLA-V3-Update.pptx
 *.inspect.ndjson
 ~$*
 
 # Local Slurm output
 slurm-*.out
 
-# Generated datasets, checkpoints, reports, videos, and logs
+# Large local demonstration datasets
+data/*
+!data/README.md
+
+# Generated benchmark runs and temporary training outputs
 results/*
-!results/.gitkeep
+!results/README.md

@@ -1,0 +1,390 @@
+{
+  "schema_version": 5,
+  "dataset_version": "v3.robust-language",
+  "last_completed_epoch": 30,
+  "best_selection_score": 0.3100761777338743,
+  "epochs_without_improvement": 6,
+  "model_config": {
+    "state_dim": 17,
+    "hidden_dim": 512,
+    "chunk_size": 1,
+    "history_length": 5,
+    "language_model_name": "distilbert-base-uncased",
+    "language_max_length": 32,
+    "encoder_layers": 2,
+    "decoder_layers": 3,
+    "nhead": 8,
+    "dropout": 0.15,
+    "architecture_version": 4
+  },
+  "ablation": {
+    "chunk_size": 1,
+    "reinitialized_action_queries": true,
+    "training_seed": 20261201
+  },
+  "language_catalog": {
+    "catalog_version": "v3.language.1",
+    "sha256": "6df56508a130611f5447627379b6b0e757dcaec4bf981cbbb40367b76f87a91d",
+    "tasks": {
+      "pick_A": {
+        "train": 60,
+        "eval": 30,
+        "total": 90
+      },
+      "pick_B": {
+        "train": 60,
+        "eval": 30,
+        "total": 90
+      },
+      "pick_C": {
+        "train": 60,
+        "eval": 30,
+        "total": 90
+      },
+      "push_A": {
+        "train": 60,
+        "eval": 30,
+        "total": 90
+      },
+      "push_B": {
+        "train": 60,
+        "eval": 30,
+        "total": 90
+      },
+      "push_C": {
+        "train": 60,
+        "eval": 30,
+        "total": 90
+      }
+    }
+  },
+  "training_data_dirs": [
+    "/tmp/users/3153782y/1526873_0/dataset_v2_clean",
+    "/tmp/users/3153782y/1526873_0/dataset_v3_recovery"
+  ],
+  "init_policy": "/tmp/users/3153782y/1526873_0/mini_vla_v2_clean_policy.pth",
+  "latest_metrics": {
+    "ablation": {
+      "chunk_size": 1,
+      "reinitialized_action_queries": true,
+      "training_seed": 20261201
+    },
+    "train": {
+      "total": 0.15924027008004488,
+      "pose": 0.13491329598861437,
+      "gripper_bce": 0.005536853030860003,
+      "smoothness": 0.0,
+      "phase": 0.04111056877219299,
+      "phase_family": 0.0001390869630048049,
+      "interaction_bce": 0.023620122140941252,
+      "lift_transition": 0.00019679367412943626,
+      "grounding": 0.003978802372754823,
+      "target_class": 9.537956105992111e-06,
+      "gripper_accuracy": 0.9966145833333333,
+      "phase_accuracy": 0.9811848958333333,
+      "phase_family_accuracy": 1.0,
+      "contact_accuracy": 0.9897677951388889,
+      "grasp_accuracy": 0.9969292534722223,
+      "xyz_mae": 0.01669157119047466,
+      "rpy_mae": 0.0067701275222740755,
+      "grounding_cm": 0.7942575097704927,
+      "target_selection_accuracy": 1.0,
+      "target_class_accuracy": 1.0
+    },
+    "combined_val": {
+      "total": 0.24010032150480481,
+      "pose": 0.16060204674248343,
+      "gripper_bce": 0.020543983689897148,
+      "smoothness": 0.0,
+      "phase": 0.14962821428791223,
+      "phase_family": 0.01923870091636167,
+      "interaction_bce": 0.04979826813211027,
+      "lift_transition": 3.51403249859922e-07,
+      "grounding": 0.005328810200121047,
+      "target_class": 7.042088857797977e-07,
+      "gripper_accuracy": 0.9923611111111111,
+      "phase_accuracy": 0.9581018518518518,
+      "phase_family_accuracy": 0.9969907407407408,
+      "contact_accuracy": 0.9863425925925926,
+      "grasp_accuracy": 0.9945601851851852,
+      "xyz_mae": 0.02271324788323707,
+      "rpy_mae": 0.008431294564744113,
+      "grounding_cm": 0.8363246300706157,
+      "target_selection_accuracy": 1.0,
+      "target_class_accuracy": 1.0,
+      "lift_transition_joint_accuracy": 1.0,
+      "lift_transition_samples": 90
+    },
+    "combined_val_by_task": {
+      "pick_A": {
+        "first_action_mae": 0.013940182721449269,
+        "first_xyz_mae": 0.017886817153905415,
+        "first_rpy_mae": 0.009993548306778798,
+        "first_gripper_accuracy": 0.9791666666666666,
+        "grounding_cm": 0.867036255945762,
+        "target_selection_accuracy": 1.0,
+        "target_class_accuracy": 1.0,
+        "lift_transition_joint_accuracy": 1.0,
+        "lift_transition_samples": 30,
+        "samples": 1440
+      },
+      "pick_B": {
+        "first_action_mae": 0.011176566677426713,
+        "first_xyz_mae": 0.015011545731168655,
+        "first_rpy_mae": 0.007341587650201594,
+        "first_gripper_accuracy": 0.9895833333333334,
+        "grounding_cm": 0.7933958437293768,
+        "target_selection_accuracy": 1.0,
+        "target_class_accuracy": 1.0,
+        "lift_transition_joint_accuracy": 1.0,
+        "lift_transition_samples": 30,
+        "samples": 1440
+      },
+      "pick_C": {
+        "first_action_mae": 0.011392093213119854,
+        "first_xyz_mae": 0.01544518807851192,
+        "first_rpy_mae": 0.007338998310539561,
+        "first_gripper_accuracy": 0.9854166666666667,
+        "grounding_cm": 0.8636617183685302,
+        "target_selection_accuracy": 1.0,
+        "target_class_accuracy": 1.0,
+        "lift_transition_joint_accuracy": 1.0,
+        "lift_transition_samples": 30,
+        "samples": 1440
+      },
+      "push_A": {
+        "first_action_mae": 0.016133400462826505,
+        "first_xyz_mae": 0.023256363961586937,
+        "first_rpy_mae": 0.009010436998343923,
+        "first_gripper_accuracy": 1.0,
+        "grounding_cm": 0.874756879442268,
+        "target_selection_accuracy": 1.0,
+        "target_class_accuracy": 1.0,
+        "lift_transition_joint_accuracy": 0.0,
+        "lift_transition_samples": 0,
+        "samples": 1440
+      },
+      "push_B": {
+        "first_action_mae": 0.020745049484281075,
+        "first_xyz_mae": 0.03334030756959692,
+        "first_rpy_mae": 0.008149791239864297,
+        "first_gripper_accuracy": 1.0,
+        "grounding_cm": 0.695495118242171,
+        "target_selection_accuracy": 1.0,
+        "target_class_accuracy": 1.0,
+        "lift_transition_joint_accuracy": 0.0,
+        "lift_transition_samples": 0,
+        "samples": 1440
+      },
+      "push_C": {
+        "first_action_mae": 0.020046335802827445,
+        "first_xyz_mae": 0.03133926605805755,
+        "first_rpy_mae": 0.008753404948705187,
+        "first_gripper_accuracy": 1.0,
+        "grounding_cm": 0.9236019829081165,
+        "target_selection_accuracy": 1.0,
+        "target_class_accuracy": 1.0,
+        "lift_transition_joint_accuracy": 0.0,
+        "lift_transition_samples": 0,
+        "samples": 1440
+      }
+    },
+    "clean_val": {
+      "total": 0.21124269428352516,
+      "pose": 0.15282553103235033,
+      "gripper_bce": 0.02298107171606034,
+      "smoothness": 0.0,
+      "phase": 0.09580154739669525,
+      "phase_family": 0.024561105727793298,
+      "interaction_bce": 0.026336919760120737,
+      "lift_transition": 1.5826043282787496e-07,
+      "grounding": 0.0033767428139172906,
+      "target_class": 8.250238702434131e-07,
+      "gripper_accuracy": 0.9921875,
+      "phase_accuracy": 0.9675347222222223,
+      "phase_family_accuracy": 0.9963541666666667,
+      "contact_accuracy": 0.9927083333333333,
+      "grasp_accuracy": 0.9947916666666666,
+      "xyz_mae": 0.01927804659224219,
+      "rpy_mae": 0.008588475530915376,
+      "grounding_cm": 0.7853778031137254,
+      "target_selection_accuracy": 1.0,
+      "target_class_accuracy": 1.0,
+      "lift_transition_joint_accuracy": 1.0,
+      "lift_transition_samples": 60
+    },
+    "clean_val_by_task": {
+      "pick_A": {
+        "first_action_mae": 0.013753906779068832,
+        "first_xyz_mae": 0.016630301182158292,
+        "first_rpy_mae": 0.010877512541386143,
+        "first_gripper_accuracy": 0.978125,
+        "grounding_cm": 0.8484701454639435,
+        "target_selection_accuracy": 1.0,
+        "target_class_accuracy": 1.0,
+        "lift_transition_joint_accuracy": 1.0,
+        "lift_transition_samples": 20,
+        "samples": 960
+      },
+      "pick_B": {
+        "first_action_mae": 0.010281901695998385,
+        "first_xyz_mae": 0.012929846084443853,
+        "first_rpy_mae": 0.007633957249830322,
+        "first_gripper_accuracy": 0.9875,
+        "grounding_cm": 0.7191559889664253,
+        "target_selection_accuracy": 1.0,
+        "target_class_accuracy": 1.0,
+        "lift_transition_joint_accuracy": 1.0,
+        "lift_transition_samples": 20,
+        "samples": 960
+      },
+      "pick_C": {
+        "first_action_mae": 0.011085828704138597,
+        "first_xyz_mae": 0.014687053170443201,
+        "first_rpy_mae": 0.007484604335816888,
+        "first_gripper_accuracy": 0.9875,
+        "grounding_cm": 0.7984757588555416,
+        "target_selection_accuracy": 1.0,
+        "target_class_accuracy": 1.0,
+        "lift_transition_joint_accuracy": 1.0,
+        "lift_transition_samples": 20,
+        "samples": 960
+      },
+      "push_A": {
+        "first_action_mae": 0.014955355902202427,
+        "first_xyz_mae": 0.02123013445137379,
+        "first_rpy_mae": 0.008680577287547446,
+        "first_gripper_accuracy": 1.0,
+        "grounding_cm": 0.8116367553671201,
+        "target_selection_accuracy": 1.0,
+        "target_class_accuracy": 1.0,
+        "lift_transition_joint_accuracy": 0.0,
+        "lift_transition_samples": 0,
+        "samples": 960
+      },
+      "push_B": {
+        "first_action_mae": 0.019066142830221604,
+        "first_xyz_mae": 0.02996690562382961,
+        "first_rpy_mae": 0.008165379852289333,
+        "first_gripper_accuracy": 1.0,
+        "grounding_cm": 0.6505327296753725,
+        "target_selection_accuracy": 1.0,
+        "target_class_accuracy": 1.0,
+        "lift_transition_joint_accuracy": 0.0,
+        "lift_transition_samples": 0,
+        "samples": 960
+      },
+      "push_C": {
+        "first_action_mae": 0.014456430997233838,
+        "first_xyz_mae": 0.020224039603878433,
+        "first_rpy_mae": 0.00868882206705166,
+        "first_gripper_accuracy": 1.0,
+        "grounding_cm": 0.88399546717604,
+        "target_selection_accuracy": 1.0,
+        "target_class_accuracy": 1.0,
+        "lift_transition_joint_accuracy": 0.0,
+        "lift_transition_samples": 0,
+        "samples": 960
+      }
+    },
+    "initial_clean_val": {
+      "total": 0.6755557913432079,
+      "pose": 0.2393806021561665,
+      "gripper_bce": 0.32600538987322275,
+      "smoothness": 0.0,
+      "phase": 0.42721972389268253,
+      "phase_family": 0.41231513457255337,
+      "interaction_bce": 5.063757495125463e-08,
+      "lift_transition": 0.0,
+      "grounding": 0.0013908274539754586,
+      "target_class": 2.8197856867723e-06,
+      "gripper_accuracy": 0.9557522123893806,
+      "phase_accuracy": 0.9557522123893806,
+      "phase_family_accuracy": 0.9557522123893806,
+      "contact_accuracy": 1.0,
+      "grasp_accuracy": 1.0,
+      "xyz_mae": 0.030828015779895065,
+      "rpy_mae": 0.03606607077593824,
+      "grounding_cm": 0.6876034130037358,
+      "target_selection_accuracy": 1.0,
+      "target_class_accuracy": 1.0,
+      "lift_transition_joint_accuracy": 0.0,
+      "lift_transition_samples": 0
+    },
+    "initial_clean_val_by_task": {
+      "pick_A": {
+        "first_action_mae": 0.05456572342664003,
+        "first_xyz_mae": 0.036037690076045695,
+        "first_rpy_mae": 0.07309375219047069,
+        "first_gripper_accuracy": 0.9,
+        "grounding_cm": 0.6066110655665398,
+        "target_selection_accuracy": 1.0,
+        "target_class_accuracy": 1.0,
+        "lift_transition_joint_accuracy": 0.0,
+        "lift_transition_samples": 0,
+        "samples": 20
+      },
+      "pick_B": {
+        "first_action_mae": 0.04094181507825852,
+        "first_xyz_mae": 0.04299479275941849,
+        "first_rpy_mae": 0.03888883255422115,
+        "first_gripper_accuracy": 0.9,
+        "grounding_cm": 0.5968045830726624,
+        "target_selection_accuracy": 1.0,
+        "target_class_accuracy": 1.0,
+        "lift_transition_joint_accuracy": 0.0,
+        "lift_transition_samples": 0,
+        "samples": 20
+      },
+      "pick_C": {
+        "first_action_mae": 0.026935908198356628,
+        "first_xyz_mae": 0.036716729402542114,
+        "first_rpy_mae": 0.017155084758996964,
+        "first_gripper_accuracy": 0.95,
+        "grounding_cm": 0.7443342685699463,
+        "target_selection_accuracy": 1.0,
+        "target_class_accuracy": 1.0,
+        "lift_transition_joint_accuracy": 0.0,
+        "lift_transition_samples": 0,
+        "samples": 20
+      },
+      "push_A": {
+        "first_action_mae": 0.01833550725132227,
+        "first_xyz_mae": 0.018385927099734543,
+        "first_rpy_mae": 0.018285087123513222,
+        "first_gripper_accuracy": 1.0,
+        "grounding_cm": 0.779688736051321,
+        "target_selection_accuracy": 1.0,
+        "target_class_accuracy": 1.0,
+        "lift_transition_joint_accuracy": 0.0,
+        "lift_transition_samples": 0,
+        "samples": 20
+      },
+      "push_B": {
+        "first_action_mae": 0.016772189392493322,
+        "first_xyz_mae": 0.018905364550077,
+        "first_rpy_mae": 0.014639016527395982,
+        "first_gripper_accuracy": 1.0,
+        "grounding_cm": 0.5230492628537692,
+        "target_selection_accuracy": 1.0,
+        "target_class_accuracy": 1.0,
+        "lift_transition_joint_accuracy": 0.0,
+        "lift_transition_samples": 0,
+        "samples": 13
+      },
+      "push_C": {
+        "first_action_mae": 0.037294913362711665,
+        "first_xyz_mae": 0.027754657808691262,
+        "first_rpy_mae": 0.046835171058773994,
+        "first_gripper_accuracy": 1.0,
+        "grounding_cm": 0.8175386786460876,
+        "target_selection_accuracy": 1.0,
+        "target_class_accuracy": 1.0,
+        "lift_transition_joint_accuracy": 0.0,
+        "lift_transition_samples": 0,
+        "samples": 20
+      }
+    },
+    "selection_score": 0.31276260186184557
+  }
+}

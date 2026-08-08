@@ -29,8 +29,8 @@ from utils.training_dataset_v2 import (
 from utils.v2_schema import DATASET_VERSION
 
 
-DEFAULT_POLICY = "results/v2_clean/mini_vla_v2_clean_policy.pth"
-DEFAULT_OUTPUT = "results/v2_clean/postflight_v2_clean.json"
+DEFAULT_POLICY = "artifacts/v2-clean-rc1/mini_vla_v2_clean_policy.pth"
+DEFAULT_OUTPUT = "results/training/v2_clean/postflight_v2_clean.json"
 TARGET_CLASS_ACCURACY_MIN = 0.85
 TARGET_SELECTION_ACCURACY_MIN = 0.80
 GROUNDING_CM_MAX = 4.0
@@ -50,7 +50,7 @@ BUCKET_LIFT_TRANSITION_JOINT_ACCURACY_MIN = 0.90
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--policy", default=DEFAULT_POLICY)
-    parser.add_argument("--data-dir", default="results/dataset_v2_clean")
+    parser.add_argument("--data-dir", default="data/dataset_v2_clean")
     parser.add_argument("--output", default=DEFAULT_OUTPUT)
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--num-workers", type=int, default=2)

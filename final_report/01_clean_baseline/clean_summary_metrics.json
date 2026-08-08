@@ -1,0 +1,45 @@
+{
+  "clean": {
+    "aggregate": {
+      "v2": {
+        "successes": 222,
+        "episodes": 240,
+        "rate": 0.925,
+        "ci95_lower": 0.8845739334081344,
+        "ci95_upper": 0.9520352346415408
+      },
+      "v3": {
+        "successes": 235,
+        "episodes": 240,
+        "rate": 0.9791666666666666,
+        "ci95_lower": 0.9521666228373029,
+        "ci95_upper": 0.9910692038853699
+      }
+    },
+    "task_success_rates": {
+      "v2": {
+        "pick_A": 0.9,
+        "pick_B": 1.0,
+        "pick_C": 0.975,
+        "push_A": 0.825,
+        "push_B": 0.95,
+        "push_C": 0.9
+      },
+      "v3": {
+        "pick_A": 1.0,
+        "pick_B": 1.0,
+        "pick_C": 1.0,
+        "push_A": 1.0,
+        "push_B": 0.925,
+        "push_C": 0.95
+      }
+    },
+    "v3_only_successes": 17,
+    "v2_only_successes": 4,
+    "exact_mcnemar_p": 0.007197380065917969
+  },
+  "training": {
+    "epochs": 30,
+    "best_selection_epoch": 22
+  }
+}

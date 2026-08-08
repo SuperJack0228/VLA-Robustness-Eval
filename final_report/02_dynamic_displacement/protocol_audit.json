@@ -1,0 +1,28 @@
+{
+  "cross_model_paired_rows": 2160,
+  "primary_mode": "temporal",
+  "primary_nonzero_injection_rate": 1,
+  "injection_compliance": {
+    "v2_temporal": {
+      "injected": 960,
+      "assigned": 960,
+      "rate": 1
+    },
+    "v2_latest-only": {
+      "injected": 952,
+      "assigned": 960,
+      "rate": 0.9916666666666667
+    },
+    "v3_temporal": {
+      "injected": 960,
+      "assigned": 960,
+      "rate": 1
+    },
+    "v3_latest-only": {
+      "injected": 960,
+      "assigned": 960,
+      "rate": 1
+    }
+  },
+  "latest_only_boundary": "Latest-only is reported as intent-to-treat because V2 failed to reach the injection phase in a small number of assigned episodes."
+}

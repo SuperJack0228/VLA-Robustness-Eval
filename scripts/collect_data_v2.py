@@ -54,7 +54,7 @@ from utils.v2_schema import (
 
 DEFAULT_NUM_EPISODES = 1200
 CONTROL_FREQ = 20
-DATASET_DIR = "results/dataset_v2_clean"
+DATASET_DIR = "data/dataset_v2_clean"
 COLLECTION_SEED = 20260817
 TRAIN_RATIO = 0.80
 VAL_RATIO = 0.10

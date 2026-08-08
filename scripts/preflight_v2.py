@@ -43,8 +43,8 @@ from utils.v2_schema import (
 )
 
 
-DEFAULT_DATA_DIR = "results/dataset_v2_clean"
-DEFAULT_REPORT = "results/v2_clean/preflight_report_v2_clean.json"
+DEFAULT_DATA_DIR = "data/dataset_v2_clean"
+DEFAULT_REPORT = "results/training/v2_clean/preflight_report_v2_clean.json"
 EXPECTED_PHASES = {
     "pick": {0, 1, 2, 3},
     "push": {5, 6, 7, 8, 9},

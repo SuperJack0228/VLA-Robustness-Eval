@@ -49,6 +49,8 @@ ssh "${SSH_OPTIONS[@]}" "${HPC_LOGIN}" \
 
 if [[ "${MODE}" == "--code" || "${MODE}" == "--all" ]]; then
   "${RSYNC[@]}" \
+    --exclude='data/' \
+    --exclude='artifacts/' \
     --exclude='results/' \
     --exclude='outputs/' \
     --exclude='__pycache__/' \
@@ -60,26 +62,26 @@ fi
 
 if [[ "${MODE}" == "--dataset" || "${MODE}" == "--all" ]]; then
   "${RSYNC[@]}" \
-    "${PROJECT_ROOT}/results/dataset_v2_clean/" \
+    "${PROJECT_ROOT}/data/dataset_v2_clean/" \
     "${HPC_LOGIN}:${REMOTE_SHARED}/datasets/dataset_v2_clean/"
 fi
 
 if [[ "${MODE}" == "--dataset-v3" || "${MODE}" == "--all" ]]; then
-  if [[ ! -d "${PROJECT_ROOT}/results/dataset_v3_recovery" ]]; then
-    echo "Missing local V3 recovery dataset: results/dataset_v3_recovery" >&2
+  if [[ ! -d "${PROJECT_ROOT}/data/dataset_v3_recovery" ]]; then
+    echo "Missing local V3 recovery dataset: data/dataset_v3_recovery" >&2
     exit 1
   fi
   "${RSYNC[@]}" \
-    "${PROJECT_ROOT}/results/dataset_v3_recovery/" \
+    "${PROJECT_ROOT}/data/dataset_v3_recovery/" \
     "${HPC_LOGIN}:${REMOTE_SHARED}/datasets/dataset_v3_recovery/"
 fi
 
 if [[ "${MODE}" == "--policy" || "${MODE}" == "--all" ]]; then
   policy_files=(
-    "${PROJECT_ROOT}/results/v2_clean/mini_vla_v2_clean_policy.pth"
-    "${PROJECT_ROOT}/results/v2_clean/training_metadata_v2_clean.json"
-    "${PROJECT_ROOT}/results/v2_clean/preflight_report_v2_clean.json"
-    "${PROJECT_ROOT}/results/v2_clean/postflight_v2_clean.json"
+    "${PROJECT_ROOT}/artifacts/v2-clean-rc1/mini_vla_v2_clean_policy.pth"
+    "${PROJECT_ROOT}/artifacts/v2-clean-rc1/training_metadata_v2_clean.json"
+    "${PROJECT_ROOT}/artifacts/v2-clean-rc1/preflight_report_v2_clean.json"
+    "${PROJECT_ROOT}/artifacts/v2-clean-rc1/postflight_v2_clean.json"
   )
   "${RSYNC[@]}" \
     "${policy_files[@]}" \

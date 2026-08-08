@@ -1,0 +1,229 @@
+{
+  "status": "complete",
+  "protocol_audit": {
+    "cross_model_paired_rows": 2160,
+    "primary_mode": "temporal",
+    "primary_nonzero_injection_rate": 1,
+    "injection_compliance": {
+      "v2_temporal": {
+        "injected": 960,
+        "assigned": 960,
+        "rate": 1
+      },
+      "v2_latest-only": {
+        "injected": 952,
+        "assigned": 960,
+        "rate": 0.9916666666666667
+      },
+      "v3_temporal": {
+        "injected": 960,
+        "assigned": 960,
+        "rate": 1
+      },
+      "v3_latest-only": {
+        "injected": 960,
+        "assigned": 960,
+        "rate": 1
+      }
+    },
+    "latest_only_boundary": "Latest-only is reported as intent-to-treat because V2 failed to reach the injection phase in a small number of assigned episodes."
+  },
+  "input_runs": [
+    {
+      "model": "v2",
+      "source_run": "v2_seed_1",
+      "input_dir": "results/benchmarks/dynamic_displacement/v2_seed_20260801",
+      "policy": "artifacts/v2-clean-rc1/mini_vla_v2_clean_policy.pth",
+      "benchmark_seed": 20260801,
+      "perturbation_seed": 20260802,
+      "episodes": 1080
+    },
+    {
+      "model": "v2",
+      "source_run": "v2_seed_2",
+      "input_dir": "results/benchmarks/dynamic_displacement/v2_seed_20260811",
+      "policy": "artifacts/v2-clean-rc1/mini_vla_v2_clean_policy.pth",
+      "benchmark_seed": 20260811,
+      "perturbation_seed": 20260812,
+      "episodes": 1080
+    },
+    {
+      "model": "v3",
+      "source_run": "v3_seed_1",
+      "input_dir": "results/benchmarks/dynamic_displacement/v3_seed_20260801",
+      "policy": "artifacts/v3-clean-rc1/mini_vla_v3_policy.pth",
+      "benchmark_seed": 20260801,
+      "perturbation_seed": 20260802,
+      "episodes": 1080
+    },
+    {
+      "model": "v3",
+      "source_run": "v3_seed_2",
+      "input_dir": "results/benchmarks/dynamic_displacement/v3_seed_20260811",
+      "policy": "artifacts/v3-clean-rc1/mini_vla_v3_policy.pth",
+      "benchmark_seed": 20260811,
+      "perturbation_seed": 20260812,
+      "episodes": 1080
+    }
+  ],
+  "total_episode_rows": 4320,
+  "paired_model_outcomes": 2160,
+  "primary_temporal_results": [
+    {
+      "ensemble_mode": "temporal",
+      "level_cm": 0,
+      "paired_episodes": 120,
+      "v2_success_rate": 0.9083333333333333,
+      "v3_success_rate": 0.975,
+      "v3_gain_percentage_points": 6.666666666666665,
+      "gain_ci95_lower_percentage_points": 2.500000000000002,
+      "gain_ci95_upper_percentage_points": 11.666666666666659,
+      "v3_only_successes": 8,
+      "v2_only_successes": 0,
+      "both_success": 109,
+      "both_fail": 3,
+      "exact_mcnemar_p": 0.0078125,
+      "holm_adjusted_p_across_levels": 0.0078125
+    },
+    {
+      "ensemble_mode": "temporal",
+      "level_cm": 1,
+      "paired_episodes": 120,
+      "v2_success_rate": 0.9083333333333333,
+      "v3_success_rate": 0.9833333333333333,
+      "v3_gain_percentage_points": 7.499999999999996,
+      "gain_ci95_lower_percentage_points": 3.3333333333333326,
+      "gain_ci95_upper_percentage_points": 12.5,
+      "v3_only_successes": 9,
+      "v2_only_successes": 0,
+      "both_success": 109,
+      "both_fail": 2,
+      "exact_mcnemar_p": 0.00390625,
+      "holm_adjusted_p_across_levels": 0.0078125
+    },
+    {
+      "ensemble_mode": "temporal",
+      "level_cm": 2,
+      "paired_episodes": 120,
+      "v2_success_rate": 0.8666666666666667,
+      "v3_success_rate": 0.975,
+      "v3_gain_percentage_points": 10.833333333333329,
+      "gain_ci95_lower_percentage_points": 5.000000000000004,
+      "gain_ci95_upper_percentage_points": 16.666666666666675,
+      "v3_only_successes": 14,
+      "v2_only_successes": 1,
+      "both_success": 103,
+      "both_fail": 2,
+      "exact_mcnemar_p": 0.0009765625,
+      "holm_adjusted_p_across_levels": 0.0029296875
+    },
+    {
+      "ensemble_mode": "temporal",
+      "level_cm": 3,
+      "paired_episodes": 120,
+      "v2_success_rate": 0.575,
+      "v3_success_rate": 0.9416666666666667,
+      "v3_gain_percentage_points": 36.66666666666667,
+      "gain_ci95_lower_percentage_points": 27.500000000000004,
+      "gain_ci95_upper_percentage_points": 45.83333333333333,
+      "v3_only_successes": 46,
+      "v2_only_successes": 2,
+      "both_success": 67,
+      "both_fail": 5,
+      "exact_mcnemar_p": 8.363087999896379e-12,
+      "holm_adjusted_p_across_levels": 3.3452351999585517e-11
+    },
+    {
+      "ensemble_mode": "temporal",
+      "level_cm": 4,
+      "paired_episodes": 120,
+      "v2_success_rate": 0.4,
+      "v3_success_rate": 0.9083333333333333,
+      "v3_gain_percentage_points": 50.83333333333333,
+      "gain_ci95_lower_percentage_points": 40.833333333333336,
+      "gain_ci95_upper_percentage_points": 60.83333333333333,
+      "v3_only_successes": 64,
+      "v2_only_successes": 3,
+      "both_success": 45,
+      "both_fail": 8,
+      "exact_mcnemar_p": 6.801200228001569e-16,
+      "holm_adjusted_p_across_levels": 3.4006001140007847e-15
+    },
+    {
+      "ensemble_mode": "temporal",
+      "level_cm": 5,
+      "paired_episodes": 120,
+      "v2_success_rate": 0.275,
+      "v3_success_rate": 0.875,
+      "v3_gain_percentage_points": 60.0,
+      "gain_ci95_lower_percentage_points": 50.83333333333333,
+      "gain_ci95_upper_percentage_points": 69.16666666666667,
+      "v3_only_successes": 74,
+      "v2_only_successes": 2,
+      "both_success": 31,
+      "both_fail": 13,
+      "exact_mcnemar_p": 7.747704489416678e-20,
+      "holm_adjusted_p_across_levels": 6.198163591533343e-19
+    },
+    {
+      "ensemble_mode": "temporal",
+      "level_cm": 6,
+      "paired_episodes": 120,
+      "v2_success_rate": 0.21666666666666667,
+      "v3_success_rate": 0.8333333333333334,
+      "v3_gain_percentage_points": 61.66666666666667,
+      "gain_ci95_lower_percentage_points": 52.49999999999999,
+      "gain_ci95_upper_percentage_points": 70.83333333333334,
+      "v3_only_successes": 76,
+      "v2_only_successes": 2,
+      "both_success": 24,
+      "both_fail": 18,
+      "exact_mcnemar_p": 2.039496518310745e-20,
+      "holm_adjusted_p_across_levels": 1.8355468664796705e-19
+    },
+    {
+      "ensemble_mode": "temporal",
+      "level_cm": 7,
+      "paired_episodes": 120,
+      "v2_success_rate": 0.2,
+      "v3_success_rate": 0.8,
+      "v3_gain_percentage_points": 60.00000000000001,
+      "gain_ci95_lower_percentage_points": 50.0,
+      "gain_ci95_upper_percentage_points": 69.16666666666667,
+      "v3_only_successes": 75,
+      "v2_only_successes": 3,
+      "both_success": 21,
+      "both_fail": 21,
+      "exact_mcnemar_p": 5.238237034277805e-19,
+      "holm_adjusted_p_across_levels": 3.666765923994464e-18
+    },
+    {
+      "ensemble_mode": "temporal",
+      "level_cm": 8,
+      "paired_episodes": 120,
+      "v2_success_rate": 0.16666666666666666,
+      "v3_success_rate": 0.75,
+      "v3_gain_percentage_points": 58.333333333333336,
+      "gain_ci95_lower_percentage_points": 48.33333333333333,
+      "gain_ci95_upper_percentage_points": 68.33333333333333,
+      "v3_only_successes": 75,
+      "v2_only_successes": 5,
+      "both_success": 15,
+      "both_fail": 25,
+      "exact_mcnemar_p": 4.252865905071769e-17,
+      "holm_adjusted_p_across_levels": 2.5517195430430614e-16
+    }
+  ],
+  "normalized_robustness_auc": {
+    "v2": 0.4973958333333333,
+    "v3": 0.8973958333333334
+  },
+  "point_estimate_80_percent_boundary_cm": {
+    "v2": 2,
+    "v3": 7
+  },
+  "lower_ci_80_percent_boundary_cm": {
+    "v2": 1,
+    "v3": 5
+  }
+}

@@ -8,6 +8,7 @@ import os
 import tempfile
 from collections import Counter, defaultdict, deque
 from dataclasses import dataclass, replace
+from typing import Callable
 
 import cv2
 import numpy as np
@@ -52,8 +53,8 @@ from utils.v2_schema import (
 )
 
 
-DEFAULT_POLICY_PATH = "results/v2_clean/mini_vla_v2_clean_policy.pth"
-DEFAULT_OUTPUT_PREFIX = "results/v2_clean/evaluation_v2_clean"
+DEFAULT_POLICY_PATH = "artifacts/v2-clean-rc1/mini_vla_v2_clean_policy.pth"
+DEFAULT_OUTPUT_PREFIX = "results/benchmarks/clean/v2_clean_evaluation"
 DEFAULT_NUM_EPISODES = 120
 MAX_STEPS = 200
 REPLAN_INTERVAL = 1
@@ -824,6 +825,8 @@ class EvaluationCore:
         device: torch.device,
         config: EvaluationConfig,
         perturbation_manager: PerturbationManager | None = None,
+        step_callback: Callable[[dict], None] | None = None,
+        stop_requested: Callable[[], bool] | None = None,
     ) -> None:
         config.validate()
         self.model = model
@@ -832,6 +835,8 @@ class EvaluationCore:
         self.device = device
         self.config = config
         self.perturbation_manager = perturbation_manager
+        self.step_callback = step_callback
+        self.stop_requested = stop_requested
 
     @classmethod
     def from_policy(
@@ -1081,6 +1086,14 @@ class EvaluationCore:
         stop_requested = False
 
         for zero_based_step in range(config.max_steps):
+            if (
+                zero_based_step > 0
+                and self.stop_requested is not None
+                and self.stop_requested()
+            ):
+                termination = "user_stop"
+                stop_requested = True
+                break
             step = zero_based_step + 1
             if (
                 zero_based_step % config.replan_interval == 0
@@ -1493,6 +1506,45 @@ class EvaluationCore:
             if new_clean_success:
                 clean_success = True
                 clean_success_step = step
+
+            if self.step_callback is not None:
+                frontview = None
+                if "frontview_image" in obs:
+                    frontview = np.ascontiguousarray(
+                        np.flipud(obs["frontview_image"])
+                    )
+                self.step_callback(
+                    {
+                        "step": step,
+                        "max_steps": config.max_steps,
+                        "instruction": task.instruction,
+                        "task_type": task.task_type,
+                        "target_id": task.target_id,
+                        "frontview": frontview,
+                        "agentview": agent_frame.copy(),
+                        "wrist": wrist_frame.copy(),
+                        "predicted_target_id": predicted_target_id,
+                        "predicted_phase": int(predicted_phase),
+                        "executed_phase": int(executed_phase),
+                        "gripper_probability": float(gripper_probability),
+                        "gripper_command": float(action[6]),
+                        "target_contact": bool(current_target_contact),
+                        "target_grasp": bool(current_target_grasp),
+                        "task_success": bool(task_success),
+                        "clean_success": bool(clean_success),
+                        "safety_interventions": safety_intervention_steps,
+                        "temporal_contributors": (
+                            ensembler.last_prediction_count
+                        ),
+                        "oldest_prediction_age": (
+                            ensembler.last_oldest_prediction_age
+                        ),
+                        "grounding_error_cm": float(grounding_errors[-1]),
+                        "perturbation_event_count": (
+                            len(manager.events) if manager is not None else 0
+                        ),
+                    }
+                )
 
             if config.log_every and (
                 step == 1

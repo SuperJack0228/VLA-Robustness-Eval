@@ -30,7 +30,7 @@ from utils.v2_schema import TASK_BUCKETS, read_metadata
 
 
 DEFAULT_NUM_EPISODES = 600
-DEFAULT_DATA_DIR = "results/dataset_v3_recovery"
+DEFAULT_DATA_DIR = "data/dataset_v3_recovery"
 DEFAULT_SEED = 20261201
 RECOVERY_VERSION = "v3.recovery.1"
 DYNAMIC_MIN_DISTANCE = 0.02
@@ -183,7 +183,7 @@ def _write_summary(
         "accepted_total": len(rows),
         "attempts": attempts,
         "collection_seed": collection_seed,
-        "base_dataset": "results/dataset_v2_clean",
+        "base_dataset": "data/dataset_v2_clean",
         "buckets": dict(sorted(bucket_counts.items())),
         "recovery_types": dict(sorted(recovery_counts.items())),
     }

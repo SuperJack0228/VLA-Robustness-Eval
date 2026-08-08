@@ -48,6 +48,7 @@ from utils.v2_schema import SCHEMA_VERSION
 DATASET_VERSION = "v3.robust-language"
 CHECKPOINT_FORMAT_VERSION = 8
 CHUNK_SIZE = 20
+SUPPORTED_CHUNK_SIZES = (1, 5, 10, 20)
 LEARNING_RATE = 2e-5
 VISION_LEARNING_RATE = 5e-7
 MIN_LEARNING_RATE = 5e-7
@@ -67,18 +68,33 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--base-data-dir",
-        default="results/dataset_v2_clean",
+        default="data/dataset_v2_clean",
         help="Frozen V2 Clean demonstrations. This directory is never modified.",
     )
     parser.add_argument(
         "--recovery-data-dir",
-        default="results/dataset_v3_recovery",
+        default="data/dataset_v3_recovery",
         help="Additive V3 recovery demonstrations.",
     )
-    parser.add_argument("--output-dir", default="results/v3")
+    parser.add_argument("--output-dir", default="results/training/v3")
+    parser.add_argument(
+        "--chunk-size",
+        type=int,
+        choices=SUPPORTED_CHUNK_SIZES,
+        default=CHUNK_SIZE,
+        help="ACT prediction horizon. Non-default values are for ablation only.",
+    )
+    parser.add_argument(
+        "--reinitialize-action-queries",
+        action="store_true",
+        help=(
+            "Do not import the V2 action-query tensor. Use this for every "
+            "member of a fair chunk-size ablation, including chunk_size=20."
+        ),
+    )
     parser.add_argument(
         "--init-policy",
-        default="results/v2_clean/mini_vla_v2_clean_policy.pth",
+        default="artifacts/v2-clean-rc1/mini_vla_v2_clean_policy.pth",
         help="Frozen V2 Clean policy used for full-weight warm-start.",
     )
     parser.add_argument(
@@ -216,19 +232,41 @@ def write_log_row(path: str, row: dict) -> None:
 def build_model_from_checkpoint(
     checkpoint: dict,
     local_files_only: bool,
+    chunk_size: int = CHUNK_SIZE,
+    reinitialize_action_queries: bool = False,
 ) -> MiniVLAV2:
     config = dict(checkpoint["model_config"])
-    if int(config.get("chunk_size", -1)) != CHUNK_SIZE:
+    source_chunk_size = int(config.get("chunk_size", -1))
+    if source_chunk_size not in SUPPORTED_CHUNK_SIZES:
         raise RuntimeError(
-            f"V3 requires the frozen {CHUNK_SIZE}-step V2 Clean architecture"
+            f"Unsupported source chunk size: {source_chunk_size}"
         )
+    config["chunk_size"] = int(chunk_size)
     config["language_max_length"] = max(
         int(config.get("language_max_length", 16)),
         V3_LANGUAGE_MAX_LENGTH,
     )
     config["local_files_only"] = local_files_only
     model = MiniVLAV2(**config)
-    model.load_trainable_state_dict(checkpoint["model_state_dict"])
+    if reinitialize_action_queries or int(chunk_size) != source_chunk_size:
+        compatible_state = {
+            key: value
+            for key, value in checkpoint["model_state_dict"].items()
+            if key != "action_queries"
+        }
+        missing, unexpected = model.load_state_dict(compatible_state, strict=False)
+        invalid_missing = [
+            key
+            for key in missing
+            if key != "action_queries" and not key.startswith("language_model.")
+        ]
+        if invalid_missing or unexpected:
+            raise RuntimeError(
+                "Chunk-ablation warm-start mismatch. "
+                f"Missing={invalid_missing}, unexpected={unexpected}"
+            )
+    else:
+        model.load_trainable_state_dict(checkpoint["model_state_dict"])
     return model
 
 
@@ -236,6 +274,16 @@ def main() -> None:
     args = parse_args()
     if args.batch_size % EPISODES_PER_BATCH:
         raise ValueError("batch-size must be divisible by 16")
+    if args.resume and args.reinitialize_action_queries:
+        raise ValueError("Do not reinitialize action queries when resuming")
+    if (
+        not args.resume
+        and args.chunk_size != CHUNK_SIZE
+        and not args.reinitialize_action_queries
+    ):
+        raise ValueError(
+            "Non-default chunk sizes require --reinitialize-action-queries"
+        )
     if args.resume and not os.path.isfile(args.resume):
         raise FileNotFoundError(args.resume)
     if not args.resume and not os.path.isfile(args.init_policy):
@@ -246,6 +294,13 @@ def main() -> None:
     np.random.seed(args.seed)
     device = get_device()
     print(f"Using device: {device}", flush=True)
+    print(
+        "ACT configuration: "
+        f"chunk_size={args.chunk_size} | "
+        f"reinitialize_action_queries={args.reinitialize_action_queries} | "
+        f"seed={args.seed}",
+        flush=True,
+    )
 
     catalog = LanguageAugmentationCatalog(args.language_catalog)
     print(
@@ -267,6 +322,14 @@ def main() -> None:
             raise RuntimeError("Resume checkpoint is not a V3 checkpoint")
         if resume_checkpoint.get("dataset_version") != DATASET_VERSION:
             raise RuntimeError("Resume checkpoint has the wrong dataset version")
+        resumed_chunk_size = int(
+            resume_checkpoint.get("model_config", {}).get("chunk_size", -1)
+        )
+        if resumed_chunk_size != args.chunk_size:
+            raise RuntimeError(
+                f"Resume checkpoint uses chunk_size={resumed_chunk_size}, "
+                f"not {args.chunk_size}"
+            )
         source_checkpoint = resume_checkpoint
     else:
         source_checkpoint = torch.load(args.init_policy, map_location="cpu")
@@ -274,6 +337,8 @@ def main() -> None:
             raise RuntimeError("V3 must warm-start from a final V2 Clean policy")
         if source_checkpoint.get("dataset_version") != "v2.clean":
             raise RuntimeError("init-policy is not the frozen V2 Clean policy")
+        if int(source_checkpoint["model_config"].get("chunk_size", -1)) != CHUNK_SIZE:
+            raise RuntimeError("V2 Clean warm-start must use chunk_size=20")
 
     stats = NormalizationStats.from_checkpoint(
         source_checkpoint["normalization"]
@@ -296,6 +361,7 @@ def main() -> None:
         args.seed,
         True,
         language_catalog=catalog,
+        chunk_size=args.chunk_size,
     )
     combined_val_dataset, combined_val_sampler, combined_val_loader = build_loader(
         data_dirs,
@@ -307,6 +373,7 @@ def main() -> None:
         args.seed + 1,
         False,
         language_catalog=catalog,
+        chunk_size=args.chunk_size,
     )
     clean_val_dataset, clean_val_sampler, clean_val_loader = build_loader(
         args.base_data_dir,
@@ -318,6 +385,7 @@ def main() -> None:
         args.seed + 2,
         False,
         language_catalog=catalog,
+        chunk_size=args.chunk_size,
     )
     initial_dataset, initial_loader = build_initial_loader(
         args.base_data_dir,
@@ -326,6 +394,7 @@ def main() -> None:
         args.batch_size,
         min(args.num_workers, 2),
         language_catalog=catalog,
+        chunk_size=args.chunk_size,
     )
     print(
         f"Train: {len(train_dataset)} windows from "
@@ -339,6 +408,10 @@ def main() -> None:
     model = build_model_from_checkpoint(
         source_checkpoint,
         local_files_only=args.local_files_only,
+        chunk_size=args.chunk_size,
+        reinitialize_action_queries=(
+            args.reinitialize_action_queries and resume_checkpoint is None
+        ),
     ).to(device)
     optimizer = optimizer_for(model)
     scheduler = scheduler_for(optimizer, args.epochs)
@@ -357,10 +430,17 @@ def main() -> None:
         )
         print(f"Resumed V3 from epoch {start_epoch - 1}", flush=True)
     else:
-        print(
-            f"Warm-started all V2 Clean policy weights from {args.init_policy}.",
-            flush=True,
-        )
+        if args.reinitialize_action_queries:
+            print(
+                "Warm-started all compatible V2 Clean weights and "
+                f"reinitialized {args.chunk_size} action queries.",
+                flush=True,
+            )
+        else:
+            print(
+                f"Warm-started all V2 Clean policy weights from {args.init_policy}.",
+                flush=True,
+            )
 
     best_path = os.path.join(args.output_dir, "mini_vla_v3_best.pth")
     policy_path = os.path.join(args.output_dir, "mini_vla_v3_policy.pth")
@@ -478,6 +558,13 @@ def main() -> None:
             scheduler.step()
 
             epoch_metrics = {
+                "ablation": {
+                    "chunk_size": args.chunk_size,
+                    "reinitialized_action_queries": (
+                        args.reinitialize_action_queries
+                    ),
+                    "training_seed": args.seed,
+                },
                 "train": train_metrics,
                 "combined_val": combined_val_metrics,
                 "combined_val_by_task": combined_val_by_task,
@@ -518,6 +605,8 @@ def main() -> None:
 
             log_row = {
                 "epoch": epoch,
+                "chunk_size": args.chunk_size,
+                "training_seed": args.seed,
                 "train_total": train_metrics["total"],
                 "train_phase_family_accuracy": train_metrics[
                     "phase_family_accuracy"
@@ -586,6 +675,13 @@ def main() -> None:
                     "best_selection_score": best_selection_score,
                     "epochs_without_improvement": epochs_without_improvement,
                     "model_config": model.model_config(),
+                    "ablation": {
+                        "chunk_size": args.chunk_size,
+                        "reinitialized_action_queries": (
+                            args.reinitialize_action_queries
+                        ),
+                        "training_seed": args.seed,
+                    },
                     "language_catalog": catalog.summary(),
                     "training_data_dirs": data_dirs,
                     "init_policy": args.init_policy,

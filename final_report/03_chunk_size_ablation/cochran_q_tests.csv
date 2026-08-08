@@ -1,0 +1,5 @@
+ensemble_mode,level_cm,paired_episodes,cochran_q,degrees_of_freedom,p_value
+temporal,0,120,3.75,3,0.28975578119338274
+temporal,4,120,11.1,3,0.011197246715144028
+latest-only,0,120,5.0,3,0.17179714429673323
+latest-only,4,120,13.058823529411764,3,0.0045111077019013715
