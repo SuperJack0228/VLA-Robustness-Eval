@@ -88,8 +88,8 @@ def get_device() -> torch.device:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data-dir", default="results/dataset_v2_clean")
-    parser.add_argument("--output-dir", default="results/v2_clean")
+    parser.add_argument("--data-dir", default="data/dataset_v2_clean")
+    parser.add_argument("--output-dir", default="results/training/v2_clean")
     parser.add_argument("--epochs", type=int, default=NUM_EPOCHS)
     parser.add_argument("--batch-size", type=int, default=BATCH_SIZE)
     parser.add_argument("--num-workers", type=int, default=NUM_WORKERS)
@@ -152,6 +152,7 @@ def build_loader(
     seed: int,
     shuffle: bool,
     language_catalog: LanguageAugmentationCatalog | None = None,
+    chunk_size: int = CHUNK_SIZE,
 ) -> tuple[ActionChunkDatasetV2, InterleavedTaskBatchSampler, DataLoader]:
     episodes = V2EpisodeStore(
         data_dir,
@@ -161,7 +162,7 @@ def build_loader(
     dataset = ActionChunkDatasetV2(
         episodes,
         stats,
-        chunk_size=CHUNK_SIZE,
+        chunk_size=chunk_size,
         history_length=HISTORY_LENGTH,
         samples_per_episode=samples_per_episode,
         language_catalog=language_catalog,
@@ -193,6 +194,7 @@ def build_initial_loader(
     batch_size: int,
     num_workers: int,
     language_catalog: LanguageAugmentationCatalog | None = None,
+    chunk_size: int = CHUNK_SIZE,
 ) -> tuple[ActionChunkDatasetV2, DataLoader]:
     episodes = V2EpisodeStore(
         data_dir,
@@ -202,7 +204,7 @@ def build_initial_loader(
     dataset = ActionChunkDatasetV2(
         episodes,
         stats,
-        chunk_size=CHUNK_SIZE,
+        chunk_size=chunk_size,
         history_length=HISTORY_LENGTH,
         samples_per_episode=1,
         initial_only=True,

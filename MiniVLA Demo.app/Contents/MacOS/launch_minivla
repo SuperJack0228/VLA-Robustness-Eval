@@ -1,0 +1,52 @@
+#!/bin/bash
+
+set -u
+
+PROJECT_ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
+LOG_FILE="${TMPDIR:-/tmp}/minivla_demo_launch.log"
+
+PYTHON_CANDIDATES=(
+    "/opt/anaconda3/envs/mujoco310/bin/python"
+    "$HOME/anaconda3/envs/mujoco310/bin/python"
+    "$HOME/miniforge3/envs/mujoco310/bin/python"
+    "$HOME/mambaforge/envs/mujoco310/bin/python"
+    "/opt/homebrew/Caskroom/miniforge/base/envs/mujoco310/bin/python"
+)
+
+PYTHON_BIN=""
+for candidate in "${PYTHON_CANDIDATES[@]}"; do
+    if [[ -x "$candidate" ]]; then
+        PYTHON_BIN="$candidate"
+        break
+    fi
+done
+
+show_error() {
+    local message="$1"
+    /usr/bin/osascript -e "display alert \"MiniVLA Control Deck\" message \"${message}\" as critical" >/dev/null 2>&1 || true
+}
+
+if [[ -z "$PYTHON_BIN" ]]; then
+    show_error "The mujoco310 Python environment could not be found. Recreate it or update the Python path in the app launcher."
+    exit 1
+fi
+
+if [[ ! -f "$PROJECT_ROOT/scripts/launch_demo_v3.py" ]]; then
+    show_error "The MiniVLA project files could not be found next to this app. Keep MiniVLA Demo.app in the project root."
+    exit 1
+fi
+
+export PYTHONUNBUFFERED=1
+export NUMBA_CACHE_DIR="${TMPDIR:-/tmp}/minivla_numba_cache"
+mkdir -p "$NUMBA_CACHE_DIR"
+
+cd "$PROJECT_ROOT" || exit 1
+: >"$LOG_FILE"
+"$PYTHON_BIN" "$PROJECT_ROOT/scripts/launch_demo_v3.py" "$@" >>"$LOG_FILE" 2>&1
+status=$?
+
+if [[ $status -ne 0 ]]; then
+    show_error "The demo did not start successfully. Diagnostic log: $LOG_FILE"
+fi
+
+exit "$status"

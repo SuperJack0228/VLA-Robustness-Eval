@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "catalog_version": "v3.language.1",
+  "description": "LLM-curated, semantically constrained paraphrase templates. Train and evaluation templates are disjoint.",
+  "object_aliases": {
+    "A": [
+      "red cube",
+      "red block",
+      "crimson cube"
+    ],
+    "B": [
+      "blue ball",
+      "blue sphere",
+      "blue round object"
+    ],
+    "C": [
+      "green cylinder",
+      "green cylindrical object",
+      "emerald cylinder"
+    ]
+  },
+  "train_templates": {
+    "pick": [
+      "Pick up the {object}",
+      "Lift the {object}",
+      "Grasp the {object} and lift it",
+      "Take hold of the {object} and raise it",
+      "Raise the {object} from the table",
+      "Grab the {object} and lift it up",
+      "Secure the {object} in the gripper and lift",
+      "Lift up the {object} with the gripper",
+      "Grasp and raise the {object}",
+      "Carefully pick the {object} up",
+      "Take the {object} off the table",
+      "Close the gripper on the {object} and lift it",
+      "Reach for the {object}, grasp it, and raise it",
+      "Collect the {object} by lifting it",
+      "Elevate the {object} after grasping it",
+      "Use the gripper to lift the {object}",
+      "Pick the {object} up from the tabletop",
+      "Grip the {object} firmly and raise it",
+      "Acquire the {object} and lift it clear of the table",
+      "Hold the {object} with the gripper and move it upward"
+    ],
+    "push": [
+      "Push the {object} away from the robot",
+      "Move the {object} farther from the robot by pushing it",
+      "Shove the {object} away from the robot",
+      "Push the {object} forward across the table",
+      "Slide the {object} away from the robot",
+      "Use the gripper to push the {object} outward",
+      "Drive the {object} away from the robot along the table",
+      "Nudge the {object} forward and away",
+      "Move the {object} outward with a pushing motion",
+      "Push the {object} farther across the tabletop",
+      "Make the {object} move away by pushing it",
+      "Press against the {object} and move it away",
+      "Guide the {object} away from the robot with a push",
+      "Push the {object} directly away along the surface",
+      "Slide the {object} farther from the robot",
+      "Advance the {object} across the table by pushing",
+      "Contact the {object} and push it outward",
+      "Send the {object} away from the robot with a controlled push",
+      "Move the {object} away without lifting it",
+      "Keep the {object} on the table and push it away"
+    ]
+  },
+  "eval_templates": {
+    "pick": [
+      "Please lift the {object} clear of the surface",
+      "Raise the {object} by grasping it securely",
+      "Remove the {object} from the tabletop with the gripper",
+      "Get hold of the {object} and move it upward",
+      "Bring the {object} up off the table",
+      "Use a firm grasp to elevate the {object}",
+      "Take the {object} in the gripper and raise it",
+      "Perform a pick-and-lift on the {object}",
+      "Grip and elevate the {object} from its current position",
+      "Lift the specified {object} without pushing it away"
+    ],
+    "push": [
+      "Please propel the {object} away across the surface",
+      "Move the {object} outward while keeping it on the table",
+      "Apply a forward push to send the {object} away",
+      "Displace the {object} farther from the arm by pushing",
+      "Use surface contact to move the {object} away",
+      "Perform a controlled outward push on the {object}",
+      "Push the specified {object} away without lifting it",
+      "Translate the {object} across the tabletop with a push",
+      "Make the {object} travel away from the robot along the table",
+      "Press and slide the {object} in the direction away from the arm"
+    ]
+  }
+}

@@ -105,7 +105,7 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=20260817)
     parser.add_argument(
         "--output",
-        default="results/v2_clean/blue_push_height_benchmark_v2_clean.json",
+        default="results/benchmarks/diagnostics/blue_push_height_v2_clean.json",
     )
     parser.add_argument("--no-enforce", action="store_true")
     args = parser.parse_args()

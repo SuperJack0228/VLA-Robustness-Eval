@@ -1,0 +1,101 @@
+{
+  "status": "pass",
+  "seed_runs": [
+    "seed_20262001",
+    "seed_20262011"
+  ],
+  "chunks": [
+    1,
+    5,
+    10,
+    20
+  ],
+  "modes": [
+    "temporal",
+    "latest-only"
+  ],
+  "levels_m": [
+    0.0,
+    0.04
+  ],
+  "raw_episode_rows": 1920,
+  "paired_scene_conditions": 480,
+  "episodes_per_chunk_mode_level": 120,
+  "nonzero_injection_rate": 1.0,
+  "uses_privileged_execution_assistance": false,
+  "chunk_20_initialization_boundary": "Chunk 20 is the frozen V3 full-warm-start reference; chunks 1/5/10 use reinitialized action queries.",
+  "runs": [
+    {
+      "seed_run": "seed_20262001",
+      "chunk_size": 1,
+      "policy": "artifacts/chunk-ablation-v3/chunk_1/mini_vla_v3_policy.pth",
+      "episodes": 240,
+      "status": "complete",
+      "log_checked": false,
+      "log_errors": []
+    },
+    {
+      "seed_run": "seed_20262001",
+      "chunk_size": 5,
+      "policy": "artifacts/chunk-ablation-v3/chunk_5/mini_vla_v3_policy.pth",
+      "episodes": 240,
+      "status": "complete",
+      "log_checked": false,
+      "log_errors": []
+    },
+    {
+      "seed_run": "seed_20262001",
+      "chunk_size": 10,
+      "policy": "artifacts/chunk-ablation-v3/chunk_10/mini_vla_v3_policy.pth",
+      "episodes": 240,
+      "status": "complete",
+      "log_checked": false,
+      "log_errors": []
+    },
+    {
+      "seed_run": "seed_20262001",
+      "chunk_size": 20,
+      "policy": "artifacts/v3-clean-rc1/mini_vla_v3_policy.pth",
+      "episodes": 240,
+      "status": "complete",
+      "log_checked": false,
+      "log_errors": []
+    },
+    {
+      "seed_run": "seed_20262011",
+      "chunk_size": 1,
+      "policy": "artifacts/chunk-ablation-v3/chunk_1/mini_vla_v3_policy.pth",
+      "episodes": 240,
+      "status": "complete",
+      "log_checked": false,
+      "log_errors": []
+    },
+    {
+      "seed_run": "seed_20262011",
+      "chunk_size": 5,
+      "policy": "artifacts/chunk-ablation-v3/chunk_5/mini_vla_v3_policy.pth",
+      "episodes": 240,
+      "status": "complete",
+      "log_checked": false,
+      "log_errors": []
+    },
+    {
+      "seed_run": "seed_20262011",
+      "chunk_size": 10,
+      "policy": "artifacts/chunk-ablation-v3/chunk_10/mini_vla_v3_policy.pth",
+      "episodes": 240,
+      "status": "complete",
+      "log_checked": false,
+      "log_errors": []
+    },
+    {
+      "seed_run": "seed_20262011",
+      "chunk_size": 20,
+      "policy": "artifacts/v3-clean-rc1/mini_vla_v3_policy.pth",
+      "episodes": 240,
+      "status": "complete",
+      "log_checked": false,
+      "log_errors": []
+    }
+  ]
+}

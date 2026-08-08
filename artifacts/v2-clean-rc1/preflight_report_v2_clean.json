@@ -1,0 +1,261 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "archive_schema_balance_and_signal",
+      "passed": true,
+      "details": {
+        "episodes": 1200,
+        "task_counts": {
+          "pick_A": 200,
+          "pick_B": 200,
+          "pick_C": 200,
+          "push_A": 200,
+          "push_B": 200,
+          "push_C": 200
+        },
+        "split_counts": {
+          "pick_A": {
+            "train": 160,
+            "val": 20,
+            "test": 20
+          },
+          "pick_B": {
+            "train": 160,
+            "val": 20,
+            "test": 20
+          },
+          "pick_C": {
+            "train": 160,
+            "val": 20,
+            "test": 20
+          },
+          "push_A": {
+            "train": 160,
+            "val": 20,
+            "test": 20
+          },
+          "push_B": {
+            "train": 160,
+            "val": 20,
+            "test": 20
+          },
+          "push_C": {
+            "train": 160,
+            "val": 20,
+            "test": 20
+          }
+        },
+        "mean_lengths": {
+          "push_C": 83.845,
+          "pick_A": 91.81,
+          "push_A": 85.49,
+          "pick_C": 88.06,
+          "pick_B": 88.455,
+          "push_B": 102.36
+        },
+        "phase_sets": {
+          "push": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "pick": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        "gripper_values": {
+          "push": [
+            1.0
+          ],
+          "pick": [
+            -1.0,
+            1.0
+          ]
+        },
+        "action_saturation_rate": 0.0,
+        "minimum_image_std": 55.92692565917969,
+        "minimum_view_difference": 60.66796875,
+        "maximum_quaternion_error": 3.5762786865234375e-07,
+        "minimum_stable_success_steps": {
+          "push": 5,
+          "pick": 10
+        },
+        "pick_open_while_grasped_steps": 0,
+        "maximum_push_recovery_forward_m": 0.00841998215764761,
+        "minimum_final_push_forward_m": 0.06689276546239853,
+        "blue_push_relative_height_p90_m": 0.005387890338897705,
+        "maximum_grasp_to_lift_delay_steps": 2,
+        "minimum_lift_transition_z_action": 0.701719343662262,
+        "blue_recovery_episodes": 42,
+        "dataset_version": "v2.clean",
+        "unique_scene_seeds": 1200,
+        "retry_histograms": {
+          "push_C": {
+            "0": 200
+          },
+          "pick_A": {
+            "0": 200
+          },
+          "push_A": {
+            "0": 200
+          },
+          "pick_C": {
+            "0": 200
+          },
+          "pick_B": {
+            "0": 200
+          },
+          "push_B": {
+            "0": 139,
+            "1": 61
+          }
+        }
+      }
+    },
+    {
+      "name": "train_only_normalization",
+      "passed": true,
+      "details": {
+        "state_mean": [
+          -0.02537350170314312,
+          -0.0010686831083148718,
+          0.8913275599479675,
+          0.6672952771186829,
+          0.6543378233909607,
+          0.0424390472471714,
+          0.04356185346841812,
+          0.018999511376023293,
+          -0.01899336278438568,
+          -0.001262360019609332,
+          0.0012682764790952206,
+          0.025807496160268784,
+          -0.0009891570080071688,
+          -0.030730705708265305,
+          7.460183405783027e-05,
+          -3.300179014331661e-05,
+          0.0011595238465815783
+        ],
+        "state_std": [
+          0.07673623412847519,
+          0.06983228027820587,
+          0.06080358847975731,
+          0.22170554101467133,
+          0.2699643075466156,
+          0.021289896219968796,
+          0.0193133857101202,
+          0.017558712512254715,
+          0.017560338601469994,
+          0.01526427362114191,
+          0.015309524722397327,
+          0.05024505406618118,
+          0.053228821605443954,
+          0.06654656678438187,
+          0.0191268902271986,
+          0.0341300442814827,
+          0.3209851384162903
+        ],
+        "previous_action_mean": [
+          0.1272200644016266,
+          -0.004808538127690554,
+          -0.11827514320611954,
+          0.00011030875612050295,
+          0.0026461021043360233,
+          0.0009146817028522491,
+          0.2515312135219574
+        ],
+        "previous_action_std": [
+          0.23129010200500488,
+          0.22212998569011688,
+          0.28884074091911316,
+          0.019999999552965164,
+          0.019999999552965164,
+          0.22356338798999786,
+          0.9621292948722839
+        ],
+        "action_pose_mean": [
+          0.12675879895687103,
+          -0.004765098448842764,
+          -0.11642009764909744,
+          0.00010487827967153862,
+          0.0025671995244920254,
+          0.0009162340429611504
+        ],
+        "action_pose_std": [
+          0.23113663494586945,
+          0.22172591090202332,
+          0.2906578481197357,
+          0.019999999552965164,
+          0.019999999552965164,
+          0.2235637754201889
+        ],
+        "target_position_mean": [
+          0.008457902818918228,
+          -0.002680892590433359,
+          0.8288428783416748
+        ],
+        "target_position_std": [
+          0.08561477810144424,
+          0.0940382108092308,
+          0.019213955849409103
+        ]
+      }
+    },
+    {
+      "name": "interleaved_dataloader",
+      "passed": true,
+      "details": {
+        "batches": 1920,
+        "batch_size": 32,
+        "episodes_per_batch": 16,
+        "task_buckets_per_batch": 6,
+        "train_windows": 61440,
+        "initial_validation_episodes": 113,
+        "expert_action_history_in_policy_input": false
+      }
+    },
+    {
+      "name": "model_optimizer_checkpoint",
+      "passed": true,
+      "details": {
+        "device": "mps",
+        "loss": 2.406198501586914,
+        "pose_shape": [
+          2,
+          20,
+          6
+        ],
+        "gripper_shape": [
+          2,
+          20
+        ],
+        "phase_shape": [
+          2,
+          20,
+          10
+        ],
+        "interaction_shape": [
+          2,
+          2
+        ],
+        "target_position_shape": [
+          2,
+          3
+        ],
+        "target_class_shape": [
+          2,
+          3
+        ],
+        "language_frozen": true,
+        "early_vision_frozen": true,
+        "vision_layer3_trainable": true,
+        "grounding_state_invariant": true
+      }
+    }
+  ]
+}

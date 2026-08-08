@@ -170,7 +170,61 @@ and synchronizes outputs back to:
 /mnt/scratch/users/3153782y/VLA-Robustness-Eval/runs/$RUN_NAME
 ```
 
-## 7. Operational commands
+## 7. Submit the V3 ACT chunk-size ablation
+
+The ablation trains four independent policies with `chunk_size=1,5,10,20`.
+All four jobs use the same frozen V2 Clean plus V3 recovery datasets, V2 Clean
+initialization, language catalog, training seed, batch size, and 30-epoch
+budget. Every policy reinitializes its action queries, including the 20-step
+control, so the initialization is fair.
+
+Verify the shared inputs before submission:
+
+```bash
+SHARED=/mnt/scratch/users/$USER/VLA-Robustness-Eval
+find "$SHARED/datasets/dataset_v2_clean" -name 'ep_*.npz' | wc -l
+find "$SHARED/datasets/dataset_v3_recovery" -name 'ep_*.npz' | wc -l
+ls -lh "$SHARED/checkpoints/v2_clean/mini_vla_v2_clean_policy.pth"
+```
+
+The expected archive counts are 1,200 and 600. Submit one four-task array:
+
+```bash
+cd ~/VLA-Robustness-Eval
+sbatch hpc/train_v3_chunk_ablation.sbatch
+```
+
+The task mapping is fixed:
+
+```text
+array task 0 -> chunk_size=1
+array task 1 -> chunk_size=5
+array task 2 -> chunk_size=10
+array task 3 -> chunk_size=20
+```
+
+Inspect queue and logs using the array job ID returned by `sbatch`:
+
+```bash
+squeue -j <array-job-id> -o '%.18i %.12j %.10T %.10M %.20R'
+tail -f ~/slurm-logs/v3-chunk-<array-job-id>_0.out
+```
+
+Results are synchronized from node-local scratch even when a task exits:
+
+```text
+/mnt/scratch/users/3153782y/VLA-Robustness-Eval/runs/
+  v3_chunk_ablation_<array-job-id>/chunk_1/
+  v3_chunk_ablation_<array-job-id>/chunk_5/
+  v3_chunk_ablation_<array-job-id>/chunk_10/
+  v3_chunk_ablation_<array-job-id>/chunk_20/
+```
+
+Each successful directory contains `mini_vla_v3_policy.pth`,
+`training_log_v3.csv`, `training_metadata_v3.json`, a preflight report, a
+six-episode postflight report, and `SHA256SUMS`.
+
+## 8. Operational commands
 
 ```bash
 squeue -u "$USER"
