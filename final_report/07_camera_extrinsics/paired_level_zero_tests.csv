@@ -1,0 +1,5 @@
+level,translation_mm,rotation_deg,level_zero_only_successes,shifted_only_successes,success_difference_percentage_points,mcnemar_p,holm_p
+1,5.0,1.0,0,1,0.8333333333333415,1.0,1.0
+2,10.0,2.0,3,1,-1.6666666666666607,0.625,1.0
+3,15.0,3.0,10,2,-6.666666666666665,0.03857421875,0.11572265625
+4,20.0,4.0,25,1,-19.999999999999996,8.046627044677734e-07,3.2186508178710938e-06

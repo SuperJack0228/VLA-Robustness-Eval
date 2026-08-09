@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
+import cv2
 import numpy as np
 
 from scripts.collect_data import distance_to_segment
@@ -40,6 +41,7 @@ class PerturbationContext:
     executed_phase: int = -1
     action: np.ndarray | None = None
     grounding_error_cm: float | None = None
+    predicted_target_position: np.ndarray | None = None
     target_contact: bool = False
     current_target_position: np.ndarray | None = None
 
@@ -78,6 +80,656 @@ class Perturbation:
 
     def episode_metrics(self) -> dict:
         return {}
+
+
+VISUAL_DEGRADATIONS = (
+    "clean",
+    "gaussian-noise",
+    "gaussian-blur",
+    "brightness",
+)
+VISUAL_LEVEL_UNITS = {
+    "clean": "identity",
+    "gaussian-noise": "pixel_std_0_255",
+    "gaussian-blur": "sigma_pixels",
+    "brightness": "rgb_gain",
+}
+
+
+@dataclass
+class VisualDegradation(Perturbation):
+    """Apply a deterministic, paired corruption to both policy cameras."""
+
+    degradation: str
+    level: float
+    base_seed: int
+    camera_names: tuple[str, ...] = (
+        "agentview",
+        "robot0_eye_in_hand",
+    )
+    name: str = field(init=False, default="visual_degradation")
+
+    _scene_seed: int = field(init=False, default=0)
+    _frame_indices: dict[str, int] = field(init=False, default_factory=dict)
+    _frames_seen: int = field(init=False, default=0)
+    _changed_frames: int = field(init=False, default=0)
+    _absolute_error_sum: float = field(init=False, default=0.0)
+    _squared_error_sum: float = field(init=False, default=0.0)
+    _pixel_value_count: int = field(init=False, default=0)
+
+    def __post_init__(self) -> None:
+        if self.degradation not in VISUAL_DEGRADATIONS:
+            raise ValueError(
+                f"Unsupported visual degradation: {self.degradation}"
+            )
+        if not np.isfinite(self.level):
+            raise ValueError("Visual degradation level must be finite")
+        if self.degradation in {"clean", "gaussian-noise", "gaussian-blur"}:
+            if self.level < 0.0:
+                raise ValueError(
+                    f"{self.degradation} level must be non-negative"
+                )
+        elif self.level <= 0.0:
+            raise ValueError("Brightness gain must be positive")
+        if not self.camera_names or len(set(self.camera_names)) != len(
+            self.camera_names
+        ):
+            raise ValueError("camera_names must be non-empty and unique")
+
+    @property
+    def active(self) -> bool:
+        if self.degradation == "clean":
+            return False
+        if self.degradation in {"gaussian-noise", "gaussian-blur"}:
+            return self.level > 0.0
+        return not np.isclose(self.level, 1.0)
+
+    def on_episode_start(self, context: PerturbationContext) -> None:
+        self._scene_seed = int(context.scene_seed)
+        self._frame_indices = {camera: 0 for camera in self.camera_names}
+        self._frames_seen = 0
+        self._changed_frames = 0
+        self._absolute_error_sum = 0.0
+        self._squared_error_sum = 0.0
+        self._pixel_value_count = 0
+
+    @staticmethod
+    def _camera_code(camera_name: str) -> int:
+        return sum(
+            (index + 1) * byte
+            for index, byte in enumerate(camera_name.encode("utf-8"))
+        )
+
+    def _noise_rng(
+        self,
+        camera_name: str,
+        frame_index: int,
+    ) -> np.random.Generator:
+        sequence = np.random.SeedSequence(
+            [
+                int(self.base_seed),
+                self._scene_seed,
+                self._camera_code(camera_name),
+                int(frame_index),
+            ]
+        )
+        return np.random.default_rng(sequence)
+
+    def transform_image(
+        self,
+        context: PerturbationContext,
+        camera_name: str,
+        image: np.ndarray,
+    ) -> np.ndarray:
+        del context
+        if camera_name not in self.camera_names:
+            return np.ascontiguousarray(image)
+
+        frame_index = self._frame_indices[camera_name]
+        self._frame_indices[camera_name] = frame_index + 1
+        self._frames_seen += 1
+        original = np.asarray(image, dtype=np.uint8)
+
+        if not self.active:
+            transformed = original.copy()
+        elif self.degradation == "gaussian-noise":
+            noise = self._noise_rng(camera_name, frame_index).normal(
+                0.0,
+                self.level,
+                size=original.shape,
+            )
+            transformed = np.clip(
+                original.astype(np.float32) + noise,
+                0.0,
+                255.0,
+            ).astype(np.uint8)
+        elif self.degradation == "gaussian-blur":
+            transformed = cv2.GaussianBlur(
+                original,
+                (0, 0),
+                sigmaX=self.level,
+                sigmaY=self.level,
+                borderType=cv2.BORDER_REFLECT_101,
+            )
+        elif self.degradation == "brightness":
+            transformed = np.clip(
+                original.astype(np.float32) * self.level,
+                0.0,
+                255.0,
+            ).astype(np.uint8)
+        else:
+            raise RuntimeError(
+                f"Unhandled visual degradation: {self.degradation}"
+            )
+
+        difference = transformed.astype(np.float32) - original.astype(np.float32)
+        self._absolute_error_sum += float(np.abs(difference).sum())
+        self._squared_error_sum += float(np.square(difference).sum())
+        self._pixel_value_count += int(difference.size)
+        self._changed_frames += int(np.any(difference != 0.0))
+        return np.ascontiguousarray(transformed)
+
+    def episode_metrics(self) -> dict:
+        mean_absolute_error = (
+            self._absolute_error_sum / self._pixel_value_count
+            if self._pixel_value_count
+            else 0.0
+        )
+        mean_squared_error = (
+            self._squared_error_sum / self._pixel_value_count
+            if self._pixel_value_count
+            else 0.0
+        )
+        psnr_db = (
+            None
+            if mean_squared_error <= 0.0
+            else float(10.0 * np.log10((255.0**2) / mean_squared_error))
+        )
+        return {
+            "perturbation_type": self.name,
+            "perturbation_protocol_version": "visual-degradation.v1",
+            "visual_corruption": self.degradation,
+            "visual_level": float(self.level),
+            "visual_level_unit": VISUAL_LEVEL_UNITS[self.degradation],
+            "affected_cameras": "|".join(self.camera_names),
+            "injected": int(self.active and self._changed_frames > 0),
+            "frames_transformed": self._frames_seen,
+            "frames_changed": self._changed_frames,
+            "mean_absolute_pixel_delta": float(mean_absolute_error),
+            "mean_squared_pixel_delta": float(mean_squared_error),
+            "input_psnr_db": psnr_db,
+        }
+
+
+@dataclass
+class CameraExtrinsicShift(Perturbation):
+    """Apply a deterministic scene-paired pose shift to a MuJoCo camera."""
+
+    level: int
+    translation_m: float
+    rotation_deg: float
+    base_seed: int
+    camera_name: str = "agentview"
+    name: str = field(init=False, default="camera_extrinsic_shift")
+
+    _camera_id: int = field(init=False, default=-1)
+    _original_position: np.ndarray = field(
+        init=False,
+        default_factory=lambda: np.zeros(3, dtype=np.float64),
+    )
+    _applied_position: np.ndarray = field(
+        init=False,
+        default_factory=lambda: np.zeros(3, dtype=np.float64),
+    )
+    _original_quaternion: np.ndarray = field(
+        init=False,
+        default_factory=lambda: np.asarray(
+            [1.0, 0.0, 0.0, 0.0],
+            dtype=np.float64,
+        ),
+    )
+    _applied_quaternion: np.ndarray = field(
+        init=False,
+        default_factory=lambda: np.asarray(
+            [1.0, 0.0, 0.0, 0.0],
+            dtype=np.float64,
+        ),
+    )
+    _translation_direction: np.ndarray = field(
+        init=False,
+        default_factory=lambda: np.zeros(3, dtype=np.float64),
+    )
+    _rotation_axis: np.ndarray = field(
+        init=False,
+        default_factory=lambda: np.zeros(3, dtype=np.float64),
+    )
+    _initial_frame_mae: float = field(init=False, default=0.0)
+    _initial_frame_mse: float = field(init=False, default=0.0)
+    _application_verified: bool = field(init=False, default=False)
+    _restoration_verified: bool = field(init=False, default=False)
+    _env: Any = field(init=False, default=None)
+
+    def __post_init__(self) -> None:
+        if self.level < 0:
+            raise ValueError("Camera extrinsic level must be non-negative")
+        if not np.isfinite(self.translation_m) or self.translation_m < 0.0:
+            raise ValueError("Camera translation must be finite and non-negative")
+        if not np.isfinite(self.rotation_deg) or self.rotation_deg < 0.0:
+            raise ValueError("Camera rotation must be finite and non-negative")
+        if not self.camera_name:
+            raise ValueError("camera_name must be non-empty")
+        if self.level == 0 and (
+            not np.isclose(self.translation_m, 0.0)
+            or not np.isclose(self.rotation_deg, 0.0)
+        ):
+            raise ValueError("Camera extrinsic level 0 must be an identity pose")
+
+    @property
+    def active(self) -> bool:
+        return not (
+            np.isclose(self.translation_m, 0.0)
+            and np.isclose(self.rotation_deg, 0.0)
+        )
+
+    @staticmethod
+    def _camera_code(camera_name: str) -> int:
+        return sum(
+            (index + 1) * byte
+            for index, byte in enumerate(camera_name.encode("utf-8"))
+        )
+
+    @staticmethod
+    def _unit_vector(rng: np.random.Generator) -> np.ndarray:
+        while True:
+            vector = rng.normal(size=3).astype(np.float64)
+            norm = float(np.linalg.norm(vector))
+            if norm > 1e-12:
+                return vector / norm
+
+    @staticmethod
+    def _quaternion_multiply(left: np.ndarray, right: np.ndarray) -> np.ndarray:
+        lw, lx, ly, lz = left
+        rw, rx, ry, rz = right
+        product = np.asarray(
+            [
+                lw * rw - lx * rx - ly * ry - lz * rz,
+                lw * rx + lx * rw + ly * rz - lz * ry,
+                lw * ry - lx * rz + ly * rw + lz * rx,
+                lw * rz + lx * ry - ly * rx + lz * rw,
+            ],
+            dtype=np.float64,
+        )
+        return product / np.linalg.norm(product)
+
+    @staticmethod
+    def _rotation_delta(axis: np.ndarray, angle_deg: float) -> np.ndarray:
+        half_angle = 0.5 * np.deg2rad(angle_deg)
+        return np.concatenate(
+            [
+                np.asarray([np.cos(half_angle)], dtype=np.float64),
+                axis * np.sin(half_angle),
+            ]
+        )
+
+    @staticmethod
+    def _quaternion_distance_deg(left: np.ndarray, right: np.ndarray) -> float:
+        normalized_left = left / np.linalg.norm(left)
+        normalized_right = right / np.linalg.norm(right)
+        cosine = float(np.clip(abs(np.dot(normalized_left, normalized_right)), 0, 1))
+        return float(np.rad2deg(2.0 * np.arccos(cosine)))
+
+    def _paired_directions(self, scene_seed: int) -> tuple[np.ndarray, np.ndarray]:
+        sequence = np.random.SeedSequence(
+            [
+                int(self.base_seed),
+                int(scene_seed),
+                self._camera_code(self.camera_name),
+            ]
+        )
+        rng = np.random.default_rng(sequence)
+        return self._unit_vector(rng), self._unit_vector(rng)
+
+    def on_episode_start(self, context: PerturbationContext) -> None:
+        self._env = context.env
+        model = context.env.sim.model
+        self._camera_id = int(model.camera_name2id(self.camera_name))
+        self._original_position = np.asarray(
+            model.cam_pos[self._camera_id],
+            dtype=np.float64,
+        ).copy()
+        self._original_quaternion = np.asarray(
+            model.cam_quat[self._camera_id],
+            dtype=np.float64,
+        ).copy()
+        (
+            self._translation_direction,
+            self._rotation_axis,
+        ) = self._paired_directions(context.scene_seed)
+        self._applied_position = (
+            self._original_position
+            + self.translation_m * self._translation_direction
+        )
+        rotation_delta = self._rotation_delta(
+            self._rotation_axis,
+            self.rotation_deg,
+        )
+        self._applied_quaternion = self._quaternion_multiply(
+            rotation_delta,
+            self._original_quaternion,
+        )
+        self._initial_frame_mae = 0.0
+        self._initial_frame_mse = 0.0
+        self._restoration_verified = False
+
+        original_frame = np.asarray(
+            context.obs[f"{self.camera_name}_image"],
+            dtype=np.uint8,
+        ).copy()
+        model.cam_pos[self._camera_id] = self._applied_position
+        model.cam_quat[self._camera_id] = self._applied_quaternion
+        context.env.sim.forward()
+        self._application_verified = bool(
+            np.allclose(
+                model.cam_pos[self._camera_id],
+                self._applied_position,
+                rtol=0.0,
+                atol=1e-12,
+            )
+            and np.allclose(
+                model.cam_quat[self._camera_id],
+                self._applied_quaternion,
+                rtol=0.0,
+                atol=1e-12,
+            )
+        )
+        if not self._application_verified:
+            raise RuntimeError(
+                f"Failed to apply camera extrinsic level {self.level}"
+            )
+
+        refreshed = context.env._get_observations(force_update=True)
+        context.obs.clear()
+        context.obs.update(refreshed)
+        applied_frame = np.asarray(
+            context.obs[f"{self.camera_name}_image"],
+            dtype=np.uint8,
+        )
+        difference = (
+            applied_frame.astype(np.float32) - original_frame.astype(np.float32)
+        )
+        self._initial_frame_mae = float(np.mean(np.abs(difference)))
+        self._initial_frame_mse = float(np.mean(np.square(difference)))
+        if self.active and self._initial_frame_mae <= 0.0:
+            self.on_episode_end(context)
+            raise RuntimeError(
+                f"Camera level {self.level} did not alter the initial frame"
+            )
+
+    def on_episode_end(self, context: PerturbationContext) -> None:
+        del context
+        if self._env is None or self._camera_id < 0:
+            return
+        model = self._env.sim.model
+        model.cam_pos[self._camera_id] = self._original_position
+        model.cam_quat[self._camera_id] = self._original_quaternion
+        self._env.sim.forward()
+        self._restoration_verified = bool(
+            np.allclose(
+                model.cam_pos[self._camera_id],
+                self._original_position,
+                rtol=0.0,
+                atol=1e-12,
+            )
+            and np.allclose(
+                model.cam_quat[self._camera_id],
+                self._original_quaternion,
+                rtol=0.0,
+                atol=1e-12,
+            )
+        )
+        if not self._restoration_verified:
+            raise RuntimeError(
+                f"Failed to restore camera {self.camera_name} extrinsics"
+            )
+
+    @staticmethod
+    def _vector_string(values: np.ndarray) -> str:
+        return "|".join(f"{float(value):.10g}" for value in values)
+
+    def episode_metrics(self) -> dict:
+        actual_translation_mm = 1000.0 * float(
+            np.linalg.norm(self._applied_position - self._original_position)
+        )
+        actual_rotation_deg = self._quaternion_distance_deg(
+            self._original_quaternion,
+            self._applied_quaternion,
+        )
+        psnr_db = (
+            None
+            if self._initial_frame_mse <= 0.0
+            else float(
+                10.0 * np.log10((255.0**2) / self._initial_frame_mse)
+            )
+        )
+        return {
+            "perturbation_type": self.name,
+            "perturbation_protocol_version": "camera-extrinsic.v1",
+            "camera_name": self.camera_name,
+            "camera_extrinsic_level": int(self.level),
+            "nominal_translation_mm": 1000.0 * float(self.translation_m),
+            "nominal_rotation_deg": float(self.rotation_deg),
+            "actual_translation_mm": actual_translation_mm,
+            "actual_rotation_deg": actual_rotation_deg,
+            "translation_direction_x": float(self._translation_direction[0]),
+            "translation_direction_y": float(self._translation_direction[1]),
+            "translation_direction_z": float(self._translation_direction[2]),
+            "rotation_axis_x": float(self._rotation_axis[0]),
+            "rotation_axis_y": float(self._rotation_axis[1]),
+            "rotation_axis_z": float(self._rotation_axis[2]),
+            "original_camera_position": self._vector_string(
+                self._original_position
+            ),
+            "applied_camera_position": self._vector_string(
+                self._applied_position
+            ),
+            "original_camera_quaternion": self._vector_string(
+                self._original_quaternion
+            ),
+            "applied_camera_quaternion": self._vector_string(
+                self._applied_quaternion
+            ),
+            "initial_frame_mean_absolute_pixel_delta": self._initial_frame_mae,
+            "initial_frame_psnr_db": psnr_db,
+            "injected": int(self.active),
+            "camera_application_verified": int(self._application_verified),
+            "camera_restoration_verified": int(self._restoration_verified),
+        }
+
+
+PHYSICS_DRIFTS = ("clean", "target-mass", "target-friction")
+
+
+@dataclass
+class PhysicsParameterDrift(Perturbation):
+    """Scale only the active target's mass/inertia or contact friction."""
+
+    parameter: str
+    multiplier: float
+    name: str = field(init=False, default="physics_parameter_drift")
+
+    _env: Any = field(init=False, default=None)
+    _target_id: str = field(init=False, default="")
+    _body_id: int = field(init=False, default=-1)
+    _geom_ids: list[int] = field(init=False, default_factory=list)
+    _original_mass: float = field(init=False, default=float("nan"))
+    _applied_mass: float = field(init=False, default=float("nan"))
+    _original_inertia: np.ndarray = field(
+        init=False,
+        default_factory=lambda: np.zeros(3, dtype=np.float64),
+    )
+    _applied_inertia: np.ndarray = field(
+        init=False,
+        default_factory=lambda: np.zeros(3, dtype=np.float64),
+    )
+    _original_frictions: np.ndarray = field(
+        init=False,
+        default_factory=lambda: np.empty((0, 3), dtype=np.float64),
+    )
+    _applied_frictions: np.ndarray = field(
+        init=False,
+        default_factory=lambda: np.empty((0, 3), dtype=np.float64),
+    )
+    _application_verified: bool = field(init=False, default=False)
+    _restoration_verified: bool = field(init=False, default=False)
+
+    def __post_init__(self) -> None:
+        if self.parameter not in PHYSICS_DRIFTS:
+            raise ValueError(f"Unsupported physics drift: {self.parameter}")
+        if not np.isfinite(self.multiplier) or self.multiplier <= 0.0:
+            raise ValueError("Physics multiplier must be finite and positive")
+        if self.parameter == "clean" and not np.isclose(self.multiplier, 1.0):
+            raise ValueError("Clean physics condition requires multiplier 1.0")
+
+    @property
+    def active(self) -> bool:
+        return self.parameter != "clean" and not np.isclose(
+            self.multiplier,
+            1.0,
+        )
+
+    def on_episode_start(self, context: PerturbationContext) -> None:
+        self._env = context.env
+        self._target_id = str(context.task.target_id)
+        model = context.env.sim.model
+        self._body_id = int(context.env.object_body_ids[self._target_id])
+        object_model = context.env.objects_by_id[self._target_id]
+        self._geom_ids = [
+            int(model.geom_name2id(name))
+            for name in object_model.contact_geoms
+        ]
+        if not self._geom_ids:
+            raise RuntimeError(
+                f"Target {self._target_id} has no collision geoms"
+            )
+
+        self._original_mass = float(model.body_mass[self._body_id])
+        self._original_inertia = np.asarray(
+            model.body_inertia[self._body_id],
+            dtype=np.float64,
+        ).copy()
+        self._original_frictions = np.asarray(
+            model.geom_friction[self._geom_ids],
+            dtype=np.float64,
+        ).copy()
+        self._applied_mass = self._original_mass
+        self._applied_inertia = self._original_inertia.copy()
+        self._applied_frictions = self._original_frictions.copy()
+        self._application_verified = False
+        self._restoration_verified = False
+
+        if self.parameter == "target-mass":
+            self._applied_mass = self._original_mass * self.multiplier
+            self._applied_inertia = self._original_inertia * self.multiplier
+            model.body_mass[self._body_id] = self._applied_mass
+            model.body_inertia[self._body_id] = self._applied_inertia
+        elif self.parameter == "target-friction":
+            self._applied_frictions = (
+                self._original_frictions * self.multiplier
+            )
+            model.geom_friction[self._geom_ids] = self._applied_frictions
+
+        context.env.sim.forward()
+        if self.parameter in {"clean", "target-mass"}:
+            mass_matches = np.isclose(
+                model.body_mass[self._body_id],
+                self._applied_mass,
+            ) and np.allclose(
+                model.body_inertia[self._body_id],
+                self._applied_inertia,
+            )
+        else:
+            mass_matches = True
+        if self.parameter in {"clean", "target-friction"}:
+            friction_matches = np.allclose(
+                model.geom_friction[self._geom_ids],
+                self._applied_frictions,
+            )
+        else:
+            friction_matches = True
+        self._application_verified = bool(mass_matches and friction_matches)
+        if not self._application_verified:
+            raise RuntimeError(
+                f"Failed to apply {self.parameter} multiplier {self.multiplier}"
+            )
+
+    def on_episode_end(self, context: PerturbationContext) -> None:
+        if self._env is None:
+            return
+        model = self._env.sim.model
+        model.body_mass[self._body_id] = self._original_mass
+        model.body_inertia[self._body_id] = self._original_inertia
+        model.geom_friction[self._geom_ids] = self._original_frictions
+        self._env.sim.forward()
+        self._restoration_verified = bool(
+            np.isclose(model.body_mass[self._body_id], self._original_mass)
+            and np.allclose(
+                model.body_inertia[self._body_id],
+                self._original_inertia,
+            )
+            and np.allclose(
+                model.geom_friction[self._geom_ids],
+                self._original_frictions,
+            )
+        )
+        if not self._restoration_verified:
+            raise RuntimeError(
+                f"Failed to restore physics for target {self._target_id}"
+            )
+
+    @staticmethod
+    def _vector_string(values: np.ndarray) -> str:
+        return "|".join(f"{float(value):.10g}" for value in values.ravel())
+
+    def episode_metrics(self) -> dict:
+        original_sliding = (
+            float(np.mean(self._original_frictions[:, 0]))
+            if self._original_frictions.size
+            else None
+        )
+        applied_sliding = (
+            float(np.mean(self._applied_frictions[:, 0]))
+            if self._applied_frictions.size
+            else None
+        )
+        return {
+            "perturbation_type": self.name,
+            "perturbation_protocol_version": "physics-drift.v1",
+            "physics_parameter": self.parameter,
+            "physics_multiplier": float(self.multiplier),
+            "physics_level_unit": "baseline_multiplier",
+            "physics_target_id": self._target_id,
+            "physics_body_id": self._body_id,
+            "physics_geom_count": len(self._geom_ids),
+            "injected": int(self.active),
+            "physics_application_verified": int(self._application_verified),
+            "physics_restoration_verified": int(self._restoration_verified),
+            "original_body_mass": float(self._original_mass),
+            "applied_body_mass": float(self._applied_mass),
+            "original_body_inertia": self._vector_string(
+                self._original_inertia
+            ),
+            "applied_body_inertia": self._vector_string(
+                self._applied_inertia
+            ),
+            "original_mean_sliding_friction": original_sliding,
+            "applied_mean_sliding_friction": applied_sliding,
+            "original_geom_frictions": self._vector_string(
+                self._original_frictions
+            ),
+            "applied_geom_frictions": self._vector_string(
+                self._applied_frictions
+            ),
+        }
 
 
 @dataclass
@@ -538,11 +1190,17 @@ class PerturbationManager:
         step: int,
         predicted_phase: int,
         grounding_error_cm: float,
+        predicted_target_position: np.ndarray | None = None,
     ) -> None:
         context = self._require_context()
         context.step = step
         context.predicted_phase = predicted_phase
         context.grounding_error_cm = grounding_error_cm
+        context.predicted_target_position = (
+            None
+            if predicted_target_position is None
+            else np.asarray(predicted_target_position, dtype=np.float32).copy()
+        )
         for perturbation in self.perturbations:
             perturbation.after_prediction(context)
 

@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "protocol_version": "camera-extrinsic.v1",
+  "policy": "artifacts/v3-clean-rc1/mini_vla_v3_policy.pth",
+  "seeds": 2,
+  "episode_rows": 600,
+  "paired_scene_validation_passed": true,
+  "paired_direction_validation_passed": true,
+  "application_verification_rate": 1.0,
+  "restoration_verification_rate": 1.0,
+  "level_zero_image_identity_passed": true,
+  "nonzero_first_frame_injection_rate": 1.0,
+  "affected_camera": "agentview",
+  "unaffected_camera": "robot0_eye_in_hand",
+  "levels": [
+    {
+      "level": 0,
+      "translation_mm": 0.0,
+      "rotation_deg": 0.0
+    },
+    {
+      "level": 1,
+      "translation_mm": 5.0,
+      "rotation_deg": 1.0
+    },
+    {
+      "level": 2,
+      "translation_mm": 10.0,
+      "rotation_deg": 2.0
+    },
+    {
+      "level": 3,
+      "translation_mm": 15.0,
+      "rotation_deg": 3.0
+    },
+    {
+      "level": 4,
+      "translation_mm": 20.0,
+      "rotation_deg": 4.0
+    }
+  ]
+}

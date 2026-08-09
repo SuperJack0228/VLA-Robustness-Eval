@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "protocol_version": "language-generalization.v1",
+  "episode_rows": 360,
+  "paired_scenes": 180,
+  "held_out_expressions": 180,
+  "canonical_control_episodes": 180,
+  "balanced_tasks": true,
+  "paired_scene_validation_passed": true,
+  "raw_instruction_passthrough_validated": true,
+  "instruction_resolver_absent": true,
+  "ground_truth_task_restricted_to_scene_and_scoring": true,
+  "policy_execution_uses_model_predictions": true
+}

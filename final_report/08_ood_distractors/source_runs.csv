@@ -1,0 +1,3 @@
+source_run,input_dir,scene_seed,perturbation_seed,episode_rows
+seed_20262101,results/benchmarks/ood_distractors/seed_20262101,20262101,26262112,240
+seed_20262111,results/benchmarks/ood_distractors/seed_20262111,20262111,26262122,240

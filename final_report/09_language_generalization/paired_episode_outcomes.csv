@@ -1,0 +1,181 @@
+pair_id,task_bucket,scene_seed,variant_id,held_out_instruction,canonical_success,held_out_success,paired_outcome
+1,pick_C,926292906,pick_C:eval:001,Please lift the green cylindrical object clear of the surface,1,1,both_success
+2,pick_B,707994696,pick_B:eval:002,Please lift the blue round object clear of the surface,1,1,both_success
+3,push_B,959217500,push_B:eval:010,Displace the blue sphere farther from the arm by pushing,1,1,both_success
+4,pick_A,1618694228,pick_A:eval:014,Bring the crimson cube up off the table,1,1,both_success
+5,push_A,555057107,push_A:eval:023,Translate the crimson cube across the tabletop with a push,1,1,both_success
+6,push_C,2078820455,push_C:eval:023,Translate the emerald cylinder across the tabletop with a push,1,1,both_success
+7,push_A,1374794222,push_A:eval:024,Make the red cube travel away from the robot along the table,1,1,both_success
+8,push_B,975232245,push_B:eval:003,Move the blue ball outward while keeping it on the table,1,1,both_success
+9,pick_B,1637306984,pick_B:eval:024,Grip and elevate the blue ball from its current position,1,1,both_success
+10,pick_A,419236506,pick_A:eval:007,Remove the red block from the tabletop with the gripper,1,1,both_success
+11,push_B,1457948689,push_B:eval:008,Apply a forward push to send the blue round object away,1,1,both_success
+12,pick_A,585783140,pick_A:eval:019,Take the red block in the gripper and raise it,1,1,both_success
+13,pick_C,913228934,pick_C:eval:007,Remove the green cylindrical object from the tabletop with the gripper,1,1,both_success
+14,push_C,478203436,push_C:eval:006,Apply a forward push to send the green cylinder away,1,1,both_success
+15,push_C,1441459522,push_C:eval:008,Apply a forward push to send the emerald cylinder away,1,1,both_success
+16,push_C,1517634042,push_C:eval:022,Translate the green cylindrical object across the tabletop with a push,1,1,both_success
+17,push_A,203593294,push_A:eval:021,Translate the red cube across the tabletop with a push,1,1,both_success
+18,push_B,1762934495,push_B:eval:001,Please propel the blue sphere away across the surface,1,1,both_success
+19,pick_B,1789341303,pick_B:eval:009,Get hold of the blue ball and move it upward,1,1,both_success
+20,pick_B,506139098,pick_B:eval:008,Remove the blue round object from the tabletop with the gripper,1,1,both_success
+21,pick_B,227903496,pick_B:eval:022,Perform a pick-and-lift on the blue sphere,1,1,both_success
+22,push_B,1528251841,push_B:eval:014,Use surface contact to move the blue round object away,1,1,both_success
+23,push_C,1688605667,push_C:eval:017,Perform a controlled outward push on the emerald cylinder,1,1,both_success
+24,push_C,986062742,push_C:eval:005,Move the emerald cylinder outward while keeping it on the table,1,1,both_success
+25,pick_C,801680912,pick_C:eval:017,Use a firm grasp to elevate the emerald cylinder,1,1,both_success
+26,push_B,1340645664,push_B:eval:025,Make the blue sphere travel away from the robot along the table,1,1,both_success
+27,pick_A,347121498,pick_A:eval:021,Perform a pick-and-lift on the red cube,1,1,both_success
+28,push_C,560580873,push_C:eval:015,Perform a controlled outward push on the green cylinder,1,1,both_success
+29,pick_A,621833085,pick_A:eval:022,Perform a pick-and-lift on the red block,1,1,both_success
+30,push_A,27218878,push_A:eval:016,Perform a controlled outward push on the red block,1,1,both_success
+31,push_B,1229556830,push_B:eval:016,Perform a controlled outward push on the blue sphere,1,1,both_success
+32,pick_A,1642418731,pick_A:eval:025,Grip and elevate the red block from its current position,1,1,both_success
+33,pick_C,910299306,pick_C:eval:011,Get hold of the emerald cylinder and move it upward,1,1,both_success
+34,push_A,1867110221,push_A:eval:000,Please propel the red cube away across the surface,1,1,both_success
+35,pick_B,1617627810,pick_B:eval:027,Lift the specified blue ball without pushing it away,1,0,canonical_only_success
+36,push_A,1475661032,push_A:eval:014,Use surface contact to move the crimson cube away,1,1,both_success
+37,pick_A,1423437320,pick_A:eval:015,Use a firm grasp to elevate the red cube,1,1,both_success
+38,pick_B,1419426669,pick_B:eval:026,Grip and elevate the blue round object from its current position,1,1,both_success
+39,pick_B,2094560207,pick_B:eval:005,Raise the blue round object by grasping it securely,1,1,both_success
+40,push_B,1652135167,push_B:eval:007,Apply a forward push to send the blue sphere away,1,1,both_success
+41,push_A,1523393860,push_A:eval:003,Move the red cube outward while keeping it on the table,1,1,both_success
+42,pick_B,991699438,pick_B:eval:012,Bring the blue ball up off the table,1,1,both_success
+43,pick_A,1162716347,pick_A:eval:016,Use a firm grasp to elevate the red block,1,1,both_success
+44,push_A,629860600,push_A:eval:009,Displace the red cube farther from the arm by pushing,1,1,both_success
+45,pick_A,2015450883,pick_A:eval:013,Bring the red block up off the table,1,1,both_success
+46,pick_B,1821569852,pick_B:eval:029,Lift the specified blue round object without pushing it away,1,0,canonical_only_success
+47,pick_B,775413700,pick_B:eval:025,Grip and elevate the blue sphere from its current position,1,1,both_success
+48,pick_A,1342372402,pick_A:eval:029,Lift the specified crimson cube without pushing it away,1,0,canonical_only_success
+49,push_B,1394264622,push_B:eval:026,Make the blue round object travel away from the robot along the table,0,0,neither_success
+50,push_B,1035113107,push_B:eval:027,Press and slide the blue ball in the direction away from the arm,1,1,both_success
+51,push_C,949553819,push_C:eval:021,Translate the green cylinder across the tabletop with a push,1,1,both_success
+52,pick_A,1883823099,pick_A:eval:018,Take the red cube in the gripper and raise it,1,1,both_success
+53,pick_B,1259496896,pick_B:eval:015,Use a firm grasp to elevate the blue ball,1,1,both_success
+54,push_B,1953690777,push_B:eval:009,Displace the blue ball farther from the arm by pushing,1,1,both_success
+55,push_C,1938320366,push_C:eval:019,Push the specified green cylindrical object away without lifting it,1,1,both_success
+56,push_B,2024897531,push_B:eval:015,Perform a controlled outward push on the blue ball,1,1,both_success
+57,push_B,1168638123,push_B:eval:022,Translate the blue sphere across the tabletop with a push,1,1,both_success
+58,pick_C,1713631876,pick_C:eval:003,Raise the green cylinder by grasping it securely,1,1,both_success
+59,pick_A,2063146212,pick_A:eval:008,Remove the crimson cube from the tabletop with the gripper,1,1,both_success
+60,pick_A,1793364077,pick_A:eval:026,Grip and elevate the crimson cube from its current position,1,1,both_success
+61,push_A,1242010719,push_A:eval:012,Use surface contact to move the red cube away,1,1,both_success
+62,push_C,1944965797,push_C:eval:014,Use surface contact to move the emerald cylinder away,1,1,both_success
+63,push_C,938819449,push_C:eval:000,Please propel the green cylinder away across the surface,1,1,both_success
+64,push_C,1748463964,push_C:eval:026,Make the emerald cylinder travel away from the robot along the table,1,1,both_success
+65,push_C,205657296,push_C:eval:024,Make the green cylinder travel away from the robot along the table,1,1,both_success
+66,push_B,1040261037,push_B:eval:023,Translate the blue round object across the tabletop with a push,1,1,both_success
+67,push_A,578148666,push_A:eval:028,Press and slide the red block in the direction away from the arm,1,1,both_success
+68,pick_C,933371685,pick_C:eval:025,Grip and elevate the green cylindrical object from its current position,1,1,both_success
+69,push_B,2024039550,push_B:eval:028,Press and slide the blue sphere in the direction away from the arm,1,1,both_success
+70,pick_B,1155836010,pick_B:eval:013,Bring the blue sphere up off the table,1,1,both_success
+71,push_C,2131491497,push_C:eval:004,Move the green cylindrical object outward while keeping it on the table,1,1,both_success
+72,push_B,552515091,push_B:eval:002,Please propel the blue round object away across the surface,1,1,both_success
+73,push_C,384081082,push_C:eval:020,Push the specified emerald cylinder away without lifting it,1,1,both_success
+74,pick_C,600572944,pick_C:eval:021,Perform a pick-and-lift on the green cylinder,1,1,both_success
+75,pick_B,499321791,pick_B:eval:003,Raise the blue ball by grasping it securely,1,1,both_success
+76,pick_B,982385126,pick_B:eval:006,Remove the blue ball from the tabletop with the gripper,1,1,both_success
+77,push_A,1772464856,push_A:eval:007,Apply a forward push to send the red block away,1,1,both_success
+78,pick_B,819012922,pick_B:eval:000,Please lift the blue ball clear of the surface,1,1,both_success
+79,push_C,1407427749,push_C:eval:027,Press and slide the green cylinder in the direction away from the arm,1,1,both_success
+80,pick_B,364901705,pick_B:eval:010,Get hold of the blue sphere and move it upward,1,1,both_success
+81,push_C,554226517,push_C:eval:028,Press and slide the green cylindrical object in the direction away from the arm,1,1,both_success
+82,pick_C,1826956851,pick_C:eval:015,Use a firm grasp to elevate the green cylinder,1,1,both_success
+83,pick_C,800718572,pick_C:eval:005,Raise the emerald cylinder by grasping it securely,1,1,both_success
+84,pick_C,901536151,pick_C:eval:022,Perform a pick-and-lift on the green cylindrical object,1,1,both_success
+85,pick_C,1185531525,pick_C:eval:024,Grip and elevate the green cylinder from its current position,1,1,both_success
+86,pick_A,1571395780,pick_A:eval:000,Please lift the red cube clear of the surface,1,1,both_success
+87,push_C,1666935946,push_C:eval:009,Displace the green cylinder farther from the arm by pushing,1,1,both_success
+88,pick_B,508436220,pick_B:eval:021,Perform a pick-and-lift on the blue ball,1,1,both_success
+89,pick_B,738244873,pick_B:eval:004,Raise the blue sphere by grasping it securely,1,1,both_success
+90,pick_A,1564953635,pick_A:eval:002,Please lift the crimson cube clear of the surface,1,1,both_success
+91,pick_B,1499329676,pick_B:eval:014,Bring the blue round object up off the table,1,1,both_success
+92,push_A,980360346,push_A:eval:022,Translate the red block across the tabletop with a push,1,1,both_success
+93,push_B,2098312828,push_B:eval:018,Push the specified blue ball away without lifting it,1,1,both_success
+94,pick_A,1598502225,pick_A:eval:028,Lift the specified red block without pushing it away,1,0,canonical_only_success
+95,pick_C,26578669,pick_C:eval:018,Take the green cylinder in the gripper and raise it,1,1,both_success
+96,push_A,1462674982,push_A:eval:026,Make the crimson cube travel away from the robot along the table,1,1,both_success
+97,pick_B,274998028,pick_B:eval:018,Take the blue ball in the gripper and raise it,1,1,both_success
+98,push_A,1530075586,push_A:eval:008,Apply a forward push to send the crimson cube away,1,1,both_success
+99,pick_A,1789407719,pick_A:eval:027,Lift the specified red cube without pushing it away,1,0,canonical_only_success
+100,push_B,1410585609,push_B:eval:005,Move the blue round object outward while keeping it on the table,1,1,both_success
+101,pick_A,1663356733,pick_A:eval:006,Remove the red cube from the tabletop with the gripper,1,1,both_success
+102,pick_A,784379056,pick_A:eval:004,Raise the red block by grasping it securely,1,1,both_success
+103,push_A,281990751,push_A:eval:001,Please propel the red block away across the surface,1,1,both_success
+104,pick_B,1042745938,pick_B:eval:023,Perform a pick-and-lift on the blue round object,1,1,both_success
+105,push_B,1741325428,push_B:eval:019,Push the specified blue sphere away without lifting it,1,1,both_success
+106,push_A,1673195369,push_A:eval:015,Perform a controlled outward push on the red cube,1,1,both_success
+107,push_C,579749497,push_C:eval:012,Use surface contact to move the green cylinder away,1,1,both_success
+108,push_A,1576708660,push_A:eval:027,Press and slide the red cube in the direction away from the arm,1,1,both_success
+109,push_B,1072576690,push_B:eval:024,Make the blue ball travel away from the robot along the table,1,1,both_success
+110,push_C,1470030531,push_C:eval:018,Push the specified green cylinder away without lifting it,1,1,both_success
+111,pick_A,615166816,pick_A:eval:012,Bring the red cube up off the table,1,1,both_success
+112,push_B,1962694828,push_B:eval:006,Apply a forward push to send the blue ball away,1,1,both_success
+113,push_B,771649368,push_B:eval:011,Displace the blue round object farther from the arm by pushing,1,1,both_success
+114,pick_A,842007527,pick_A:eval:009,Get hold of the red cube and move it upward,1,1,both_success
+115,pick_B,1929160863,pick_B:eval:007,Remove the blue sphere from the tabletop with the gripper,1,1,both_success
+116,pick_C,1735917322,pick_C:eval:029,Lift the specified emerald cylinder without pushing it away,1,0,canonical_only_success
+117,pick_B,1631876537,pick_B:eval:016,Use a firm grasp to elevate the blue sphere,1,1,both_success
+118,push_C,2040705760,push_C:eval:001,Please propel the green cylindrical object away across the surface,1,1,both_success
+119,pick_B,387979155,pick_B:eval:011,Get hold of the blue round object and move it upward,1,1,both_success
+120,pick_B,342562122,pick_B:eval:020,Take the blue round object in the gripper and raise it,1,1,both_success
+121,push_A,1651459958,push_A:eval:002,Please propel the crimson cube away across the surface,1,1,both_success
+122,push_C,1451481332,push_C:eval:002,Please propel the emerald cylinder away across the surface,1,1,both_success
+123,push_A,978759237,push_A:eval:010,Displace the red block farther from the arm by pushing,1,1,both_success
+124,push_C,692621310,push_C:eval:025,Make the green cylindrical object travel away from the robot along the table,1,1,both_success
+125,push_A,265683409,push_A:eval:017,Perform a controlled outward push on the crimson cube,1,1,both_success
+126,pick_C,1978392062,pick_C:eval:019,Take the green cylindrical object in the gripper and raise it,1,1,both_success
+127,pick_A,873344245,pick_A:eval:011,Get hold of the crimson cube and move it upward,1,1,both_success
+128,pick_C,1185154738,pick_C:eval:009,Get hold of the green cylinder and move it upward,1,1,both_success
+129,pick_A,1245170224,pick_A:eval:023,Perform a pick-and-lift on the crimson cube,1,1,both_success
+130,pick_C,1639382206,pick_C:eval:002,Please lift the emerald cylinder clear of the surface,1,1,both_success
+131,pick_B,1424970356,pick_B:eval:019,Take the blue sphere in the gripper and raise it,1,1,both_success
+132,pick_C,1740661241,pick_C:eval:008,Remove the emerald cylinder from the tabletop with the gripper,1,1,both_success
+133,push_B,677274061,push_B:eval:012,Use surface contact to move the blue ball away,1,1,both_success
+134,pick_C,421644912,pick_C:eval:000,Please lift the green cylinder clear of the surface,1,1,both_success
+135,pick_A,526112520,pick_A:eval:017,Use a firm grasp to elevate the crimson cube,1,1,both_success
+136,push_C,1935135253,push_C:eval:007,Apply a forward push to send the green cylindrical object away,1,1,both_success
+137,pick_C,521789147,pick_C:eval:027,Lift the specified green cylinder without pushing it away,1,0,canonical_only_success
+138,pick_A,169830834,pick_A:eval:020,Take the crimson cube in the gripper and raise it,1,1,both_success
+139,pick_B,644747473,pick_B:eval:028,Lift the specified blue sphere without pushing it away,1,0,canonical_only_success
+140,pick_C,1288376547,pick_C:eval:020,Take the emerald cylinder in the gripper and raise it,1,1,both_success
+141,pick_C,56196085,pick_C:eval:023,Perform a pick-and-lift on the emerald cylinder,1,1,both_success
+142,pick_C,18892514,pick_C:eval:016,Use a firm grasp to elevate the green cylindrical object,1,1,both_success
+143,pick_C,298169308,pick_C:eval:012,Bring the green cylinder up off the table,1,1,both_success
+144,push_A,1879543405,push_A:eval:011,Displace the crimson cube farther from the arm by pushing,1,1,both_success
+145,push_B,166217144,push_B:eval:029,Press and slide the blue round object in the direction away from the arm,1,1,both_success
+146,push_A,1862532957,push_A:eval:018,Push the specified red cube away without lifting it,1,1,both_success
+147,pick_C,125873748,pick_C:eval:026,Grip and elevate the emerald cylinder from its current position,1,1,both_success
+148,push_A,1288874543,push_A:eval:025,Make the red block travel away from the robot along the table,1,1,both_success
+149,pick_A,338840996,pick_A:eval:003,Raise the red cube by grasping it securely,1,1,both_success
+150,push_C,2012414641,push_C:eval:013,Use surface contact to move the green cylindrical object away,1,1,both_success
+151,push_C,916204525,push_C:eval:011,Displace the emerald cylinder farther from the arm by pushing,1,1,both_success
+152,push_B,1818156807,push_B:eval:021,Translate the blue ball across the tabletop with a push,1,1,both_success
+153,pick_B,1805135737,pick_B:eval:001,Please lift the blue sphere clear of the surface,1,1,both_success
+154,pick_A,4435662,pick_A:eval:010,Get hold of the red block and move it upward,1,1,both_success
+155,push_C,1792144630,push_C:eval:029,Press and slide the emerald cylinder in the direction away from the arm,1,1,both_success
+156,push_A,1973328637,push_A:eval:013,Use surface contact to move the red block away,1,1,both_success
+157,pick_B,84900549,pick_B:eval:017,Use a firm grasp to elevate the blue round object,1,1,both_success
+158,pick_C,1501781179,pick_C:eval:028,Lift the specified green cylindrical object without pushing it away,1,0,canonical_only_success
+159,push_A,1367495958,push_A:eval:006,Apply a forward push to send the red cube away,1,1,both_success
+160,push_C,772999531,push_C:eval:016,Perform a controlled outward push on the green cylindrical object,1,1,both_success
+161,push_A,1820651905,push_A:eval:019,Push the specified red block away without lifting it,1,1,both_success
+162,push_A,1673008269,push_A:eval:005,Move the crimson cube outward while keeping it on the table,1,1,both_success
+163,push_A,625444486,push_A:eval:029,Press and slide the crimson cube in the direction away from the arm,1,1,both_success
+164,pick_A,1748131832,pick_A:eval:001,Please lift the red block clear of the surface,1,1,both_success
+165,push_C,1263187458,push_C:eval:010,Displace the green cylindrical object farther from the arm by pushing,1,1,both_success
+166,push_B,349717004,push_B:eval:000,Please propel the blue ball away across the surface,1,1,both_success
+167,push_B,937187692,push_B:eval:004,Move the blue sphere outward while keeping it on the table,1,1,both_success
+168,push_A,1503157035,push_A:eval:020,Push the specified crimson cube away without lifting it,1,1,both_success
+169,push_B,648126264,push_B:eval:013,Use surface contact to move the blue sphere away,0,1,held_out_only_success
+170,pick_A,1660465169,pick_A:eval:024,Grip and elevate the red cube from its current position,1,1,both_success
+171,pick_A,731338653,pick_A:eval:005,Raise the crimson cube by grasping it securely,1,1,both_success
+172,pick_C,1167020079,pick_C:eval:014,Bring the emerald cylinder up off the table,1,1,both_success
+173,pick_C,793175308,pick_C:eval:006,Remove the green cylinder from the tabletop with the gripper,1,1,both_success
+174,push_C,1924755898,push_C:eval:003,Move the green cylinder outward while keeping it on the table,1,1,both_success
+175,push_A,1658966562,push_A:eval:004,Move the red block outward while keeping it on the table,1,1,both_success
+176,pick_C,472750793,pick_C:eval:004,Raise the green cylindrical object by grasping it securely,1,1,both_success
+177,push_B,2017839541,push_B:eval:020,Push the specified blue round object away without lifting it,1,1,both_success
+178,push_B,833187023,push_B:eval:017,Perform a controlled outward push on the blue round object,1,1,both_success
+179,pick_C,285070960,pick_C:eval:013,Bring the green cylindrical object up off the table,1,1,both_success
+180,pick_C,283934588,pick_C:eval:010,Get hold of the green cylindrical object and move it upward,1,1,both_success

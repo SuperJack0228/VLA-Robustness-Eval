@@ -1,0 +1,9 @@
+physics_parameter,level_index,multiplier,clean_only_successes,drift_only_successes,success_difference_percentage_points,mcnemar_p,holm_p_within_curve
+target-mass,0,0.25,0,3,2.500000000000002,0.25,0.75
+target-mass,1,0.5,0,2,1.6666666666666607,0.5,1.0
+target-mass,3,2.0,1,1,0.0,1.0,1.0
+target-mass,4,4.0,38,1,-30.833333333333336,1.4551915228366852e-10,5.820766091346741e-10
+target-friction,0,0.25,0,0,0.0,1.0,1.0
+target-friction,1,0.5,0,0,0.0,1.0,1.0
+target-friction,3,2.0,38,1,-30.833333333333336,1.4551915228366852e-10,4.3655745685100555e-10
+target-friction,4,4.0,40,1,-32.49999999999999,3.8198777474462986e-11,1.5279510989785194e-10
