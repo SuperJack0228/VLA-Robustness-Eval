@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "protocol_version": "ood-distractor.v1",
+  "policy": "artifacts/v3-clean-rc1/mini_vla_v3_policy.pth",
+  "seeds": 2,
+  "episode_rows": 480,
+  "paired_scene_validation_passed": true,
+  "paired_layout_validation_passed": true,
+  "prefix_activation_validation_passed": true,
+  "initial_visibility_validation_passed": true,
+  "robot_path_validation_passed": true,
+  "initial_collision_integrity_passed": true,
+  "render_visibility_validation_passed": true,
+  "application_verification_rate": 1.0,
+  "restoration_verification_rate": 1.0,
+  "count_zero_identity_passed": true,
+  "counts": [
+    0,
+    1,
+    2,
+    3
+  ]
+}

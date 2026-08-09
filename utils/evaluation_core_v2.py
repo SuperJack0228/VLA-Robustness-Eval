@@ -98,6 +98,8 @@ VISUAL_PERTURBATIONS = (
 )
 ENSEMBLE_MODES = ("temporal", "latest-only")
 TEMPORAL_PROFILES = ("robust", "legacy")
+EXECUTION_TASK_SOURCES = ("ground-truth", "model-prediction")
+ALL_REACTIVE_PHASES = PICK_REACTIVE_PHASES | PUSH_REACTIVE_PHASES
 
 
 @dataclass(frozen=True)
@@ -126,6 +128,7 @@ class EvaluationConfig:
     uses_privileged_perturbation_oracle: bool = False
     diagnostic_trace: bool = False
     write_outputs: bool = True
+    execution_task_source: str = "ground-truth"
 
     def validate(self) -> None:
         if self.num_episodes <= 0:
@@ -155,6 +158,11 @@ class EvaluationConfig:
         if self.temporal_profile not in TEMPORAL_PROFILES:
             raise ValueError(
                 f"Unsupported temporal profile: {self.temporal_profile}"
+            )
+        if self.execution_task_source not in EXECUTION_TASK_SOURCES:
+            raise ValueError(
+                "Unsupported execution task source: "
+                f"{self.execution_task_source}"
             )
         if not np.isfinite(self.ensemble_decay) or self.ensemble_decay < 0.0:
             raise ValueError("ensemble_decay must be finite and non-negative")
@@ -497,6 +505,8 @@ def apply_safety_shield(
     obs: dict,
     task,
     table_height: float,
+    execution_task_type: str | None = None,
+    execution_target_id: str | None = None,
 ) -> tuple[np.ndarray, bool, bool, bool, bool]:
     """Keep OSC commands inside the demonstrated Cartesian workspace."""
     corrected = action.copy()
@@ -544,8 +554,10 @@ def apply_safety_shield(
             )
             workspace_intervened = True
             workspace_xy_intervened |= axis < 2
-    if task.task_type == "push":
-        push_floor = table_height + PUSH_EEF_FLOOR_OFFSET[task.target_id]
+    task_type = execution_task_type or task.task_type
+    target_id = execution_target_id or task.target_id
+    if task_type == "push":
+        push_floor = table_height + PUSH_EEF_FLOOR_OFFSET[target_id]
         if eef_position[2] <= push_floor + 0.003 and corrected[2] < 0.0:
             corrected[2] = 0.0
     intervened = not np.allclose(corrected, action, atol=1e-7)
@@ -1029,6 +1041,11 @@ class EvaluationCore:
         grounding_errors: list[float] = []
         target_class_correctness: list[float] = []
         predicted_target_id = "?"
+        initial_predicted_phase = -1
+        initial_predicted_task_type = "unknown"
+        initial_predicted_target_id = "?"
+        predicted_task_votes: Counter[str] = Counter()
+        predicted_target_votes: Counter[str] = Counter()
         target_index = TARGET_ID_TO_INDEX[task.target_id]
         initial_target_position = env.get_object_position(task.target_id).copy()
         initial_target_height = float(initial_target_position[2])
@@ -1166,6 +1183,15 @@ class EvaluationCore:
                     output["target_class_logits"][0].argmax().item()
                 )
                 predicted_target_id = tuple(OBJECT_LABELS)[predicted_target_index]
+                predicted_task_type = (
+                    "pick" if int(phase_chunk[0]) < 5 else "push"
+                )
+                predicted_task_votes[predicted_task_type] += 1
+                predicted_target_votes[predicted_target_id] += 1
+                if initial_predicted_phase < 0:
+                    initial_predicted_phase = int(phase_chunk[0])
+                    initial_predicted_task_type = predicted_task_type
+                    initial_predicted_target_id = predicted_target_id
                 target_class_correctness.append(
                     float(predicted_target_index == target_index)
                 )
@@ -1199,9 +1225,12 @@ class EvaluationCore:
                         step,
                         int(phase_chunk[0]),
                         grounding_error,
+                        target_prediction,
                     )
 
-            if legacy_temporal:
+            if config.execution_task_source == "model-prediction":
+                reactive_phases = ALL_REACTIVE_PHASES
+            elif legacy_temporal:
                 reactive_phases = (
                     LEGACY_PICK_REACTIVE_PHASES
                     if task.task_type == "pick"
@@ -1260,13 +1289,31 @@ class EvaluationCore:
                 ]
             ).astype(np.float32)
             action = np.clip(action, low, high)
+            model_execution_task_type = (
+                "pick" if int(executed_phase) < 5 else "push"
+            )
             (
                 action,
                 safety_intervened,
                 _,
                 workspace_xy_intervened,
                 outside_workspace,
-            ) = apply_safety_shield(action, obs, task, table_height)
+            ) = apply_safety_shield(
+                action,
+                obs,
+                task,
+                table_height,
+                execution_task_type=(
+                    model_execution_task_type
+                    if config.execution_task_source == "model-prediction"
+                    else None
+                ),
+                execution_target_id=(
+                    predicted_target_id
+                    if config.execution_task_source == "model-prediction"
+                    else None
+                ),
+            )
             action = np.clip(action, low, high)
             safety_intervention_steps += int(safety_intervened)
             safety_intervention_streak = (
@@ -1275,10 +1322,14 @@ class EvaluationCore:
                 else 0
             )
             workspace_violation_steps += int(outside_workspace)
-            recovery_phase = 4 if task.task_type == "pick" else 9
+            recovery_phases = (
+                frozenset({4, 9})
+                if config.execution_task_source == "model-prediction"
+                else frozenset({4 if task.task_type == "pick" else 9})
+            )
             if (
-                executed_phase == recovery_phase
-                and previous_executed_phase != recovery_phase
+                executed_phase in recovery_phases
+                and previous_executed_phase != executed_phase
             ):
                 recovery_cycles += 1
             previous_executed_phase = executed_phase
@@ -1646,6 +1697,16 @@ class EvaluationCore:
             np.linalg.norm(displacement - push_forward * task.push_direction)
         )
         final_grasp = bool(env.is_grasping(task.target_id))
+        dominant_predicted_task_type = (
+            predicted_task_votes.most_common(1)[0][0]
+            if predicted_task_votes
+            else "unknown"
+        )
+        dominant_predicted_target_id = (
+            predicted_target_votes.most_common(1)[0][0]
+            if predicted_target_votes
+            else "?"
+        )
         failure_category = classify_failure(
             task.task_type,
             task.target_id,
@@ -1670,6 +1731,18 @@ class EvaluationCore:
             "task_type": task.task_type,
             "target_id": task.target_id,
             "instruction": task.instruction,
+            "execution_task_source": config.execution_task_source,
+            "initial_predicted_phase": initial_predicted_phase,
+            "initial_predicted_task_type": initial_predicted_task_type,
+            "initial_predicted_target_id": initial_predicted_target_id,
+            "initial_predicted_task_bucket": (
+                f"{initial_predicted_task_type}_{initial_predicted_target_id}"
+            ),
+            "dominant_predicted_task_type": dominant_predicted_task_type,
+            "dominant_predicted_target_id": dominant_predicted_target_id,
+            "dominant_predicted_task_bucket": (
+                f"{dominant_predicted_task_type}_{dominant_predicted_target_id}"
+            ),
             "visual_perturbation": config.visual_perturbation,
             "perturbation": config.perturbation_label,
             "ensemble_mode": config.ensemble_mode,

@@ -6,7 +6,11 @@ import unittest
 
 import numpy as np
 
-from utils.evaluation_core_v2 import EvaluationConfig, balanced_schedule
+from utils.evaluation_core_v2 import (
+    EvaluationConfig,
+    apply_safety_shield,
+    balanced_schedule,
+)
 from utils.language_augmentation_v3 import LanguageAugmentationCatalog
 from utils.v2_schema import TASK_BUCKETS
 
@@ -27,6 +31,7 @@ class LanguageCatalogTests(unittest.TestCase):
             self.assertGreaterEqual(len(train), 50)
             self.assertGreaterEqual(len(train | evaluation), 50)
             self.assertTrue(train.isdisjoint(evaluation))
+            self.assertEqual(len(evaluation), 30)
 
     def test_training_sampling_is_not_fixed_to_one_sentence(self) -> None:
         rng = np.random.default_rng(7)
@@ -81,6 +86,29 @@ class ExplicitTaskRoutingTests(unittest.TestCase):
                 instruction="Move the blue sphere away",
                 task_type="push",
             ).validate()
+
+    def test_language_benchmark_accepts_model_predicted_execution_task(self) -> None:
+        EvaluationConfig(
+            instruction="Please lift the red block clear of the surface",
+            task_type="pick",
+            target_id="A",
+            execution_task_source="model-prediction",
+        ).validate()
+
+    def test_safety_shield_can_use_model_predicted_push_routing(self) -> None:
+        action = np.asarray([0.0, 0.0, -0.2, 0.0, 0.0, 0.0, -1.0])
+        obs = {"robot0_eef_pos": np.asarray([0.0, 0.0, 0.819])}
+        task = type("Task", (), {"task_type": "pick", "target_id": "A"})()
+        corrected, intervened, *_ = apply_safety_shield(
+            action,
+            obs,
+            task,
+            table_height=0.80,
+            execution_task_type="push",
+            execution_target_id="B",
+        )
+        self.assertTrue(intervened)
+        self.assertEqual(float(corrected[2]), 0.0)
 
 
 if __name__ == "__main__":

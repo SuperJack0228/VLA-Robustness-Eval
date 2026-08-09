@@ -1,0 +1,8 @@
+{
+  "both_success": 169,
+  "canonical_only_success": 9,
+  "neither_success": 1,
+  "held_out_only_success": 1,
+  "discordant_pairs": 10,
+  "exact_mcnemar_p": 0.021484375
+}

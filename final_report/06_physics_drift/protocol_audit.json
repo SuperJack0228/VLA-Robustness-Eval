@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "protocol_version": "physics-drift.v1",
+  "policy": "artifacts/v3-clean-rc1/mini_vla_v3_policy.pth",
+  "seeds": 2,
+  "episode_rows": 1080,
+  "paired_scene_validation_passed": true,
+  "application_verification_rate": 1.0,
+  "restoration_verification_rate": 1.0,
+  "target_only_scope_verified": true,
+  "drifts": {
+    "target-mass": [
+      0.25,
+      0.5,
+      1.0,
+      2.0,
+      4.0
+    ],
+    "target-friction": [
+      0.25,
+      0.5,
+      1.0,
+      2.0,
+      4.0
+    ]
+  }
+}

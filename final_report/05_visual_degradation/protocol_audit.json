@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "protocol_version": "visual-degradation.v1",
+  "policy": "artifacts/v3-clean-rc1/mini_vla_v3_policy.pth",
+  "seeds": 2,
+  "episode_rows": 3000,
+  "paired_scene_validation_passed": true,
+  "clean_pixel_identity_passed": true,
+  "nonzero_injection_compliance": 1.0,
+  "affected_cameras": [
+    "agentview",
+    "robot0_eye_in_hand"
+  ],
+  "curves": {
+    "gaussian-noise": [
+      0.0,
+      10.0,
+      20.0,
+      30.0,
+      40.0,
+      60.0,
+      80.0,
+      120.0,
+      160.0
+    ],
+    "gaussian-blur": [
+      0.0,
+      0.75,
+      1.5,
+      2.25,
+      3.0,
+      4.0,
+      6.0,
+      10.0
+    ],
+    "brightness": [
+      1.0,
+      0.8,
+      0.6,
+      0.4,
+      0.3,
+      0.2,
+      0.1,
+      0.05,
+      0.02,
+      0.01
+    ]
+  }
+}

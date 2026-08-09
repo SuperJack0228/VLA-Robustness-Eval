@@ -1,0 +1,3 @@
+source_run,input_dir,scene_seed,perturbation_seed,episode_rows
+seed_20262001,results/benchmarks/visual_degradation/seed_20262001,20262001,23262008,1500
+seed_20262011,results/benchmarks/visual_degradation/seed_20262011,20262011,23262018,1500

@@ -1,0 +1,11 @@
+condition,failure_category,count,rate
+canonical,insufficient_push_distance,1,0.005555555555555556
+canonical,recovery_limit,1,0.005555555555555556
+canonical,success,177,0.9833333333333333
+canonical,task_success_only,1,0.005555555555555556
+held_out,grasp_failed_after_contact,6,0.03333333333333333
+held_out,insufficient_push_distance,1,0.005555555555555556
+held_out,object_dropped,1,0.005555555555555556
+held_out,recovery_limit,2,0.011111111111111112
+held_out,success,169,0.9388888888888889
+held_out,wrong_object_contact,1,0.005555555555555556
