@@ -25,6 +25,9 @@ env/
 /tmp/
 /JACK-CV-*.docx
 
+# Local dissertation workspace and submitted paper / poster materials
+/paper/
+
 # Local presentation build artifacts
 *.pptx
 !docs/presentations/2026-07-28-LiuYining-MiniVLA-V3-Update.pptx
