@@ -2,7 +2,7 @@
   <img src="docs/images/readme/control-deck.png" alt="MiniVLA V3 Control Deck showing the MuJoCo scene, agent camera, wrist camera, and language command interface" width="100%">
 
   <h1>MiniVLA V3</h1>
-  <p><strong>Failure-Aware Robustness Evaluation for Language-Conditioned Robot Manipulation</strong></p>
+  <p><strong>Failure-Aware Robustness Evaluation of a Compact Vision-Language-Action Policy for Simulated Robotic Manipulation</strong></p>
   <p><em>A compact vision-language-action policy, a reproducible perturbation benchmark, and a failure taxonomy for explaining how manipulation policies break.</em></p>
 
   <p>
